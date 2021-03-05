@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/fragments::head"/></div>
+<body>
+
+    <header>
+        <div th:replace="fragments/fragments::logo"/></div>
+
+</header>
+     
+ <div class="test">
+    <h2>Register your business</h2>
+    <form method="POST">
+        
+  <div class="row">
+  <div class="form-field">
+    <div class="name-section">
+        <input type="text" name="name"  required/>
+        <label id="name" class="label-name">
+            <span class="content-name">Username</span>
+        </label>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="form-field">
+          <div class="name-section">
+              <input type="text" name="name"  required/>
+              <label for="name" class="label-name">
+                  <span class="content-name">Business Name</span>
+              </label>
+          </div>
+          </div>
+          </div>
+          <div class="form-field">
+            <div class="name-section">
+                <input type="text" name="name"  required/>
+                <label for="name" class="label-name">
+                    <span class="content-name">Address</span>
+                </label>
+            </div>
+            </div>
+        
+        <div class="row">
+            <div class="form-field">
+              <div class="name-section">
+                  <input type="email" name="name"  required/>
+                  <label for="name" class="label-name">
+                      <span class="content-name">Email</span>
+                  </label>
+              </div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="form-field">
+                  <div class="name-section">
+                      <input type="password" id="password" name="password" required/>
+                      <label for="name" class="label-name">
+                          <span class="content-name">Password</span>
+                      </label>
+                  </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-field">
+                      <div class="name-section">
+                          <input type="password"  name="confirmPassword" id="confirmPassword"  required/>
+                          <label for="name" class="label-name">
+                              <span class="content-name">Confirm Password</span>
+                          </label>
+                      </div>
+                      </div>
+                      </div>
+                     
+                        <div class="form-field">
+                      <button class="button button2">Sign up</button>
+                        </div>
+    </form>
+
+ </div>
+
+<img class="blueImg2" src="/img/blueImg.png" alt="blueImg2">
+</body>
+</html>

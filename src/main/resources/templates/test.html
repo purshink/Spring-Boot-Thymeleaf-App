@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/fragments::head"/></div>
+<body class="testBody">
+
+    <header>
+        <div th:replace="fragments/fragments::logo"/></div>
+
+</header>
+     
+ <div class="test">
+     <div class="h2"><h2>Find Your Hobby</h2></div>
+ 
+    <form  method="POST">
+      <div class="row">
+        <select class="form-test" aria-label="Default select example">
+            <option selected>What is missing in your life?</option>
+            <option value="1">Entertainment</option>
+            <option value="2">Pushing my boundaries</option>
+            <option value="3">Excitement</option>
+            <option value="4">Mental stimulation</option>
+            <option value="5">Increased creativiry</option>
+            <option value="3">Other</option>
+          </select>
+          </div>
+          <div class="row">
+            <select class="form-test" aria-label="Default select example">
+                <option selected>Do you enjoy social activities?</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+                <option value="3">Sometimes</option>
+              </select>
+              </div>
+        <div class="row">
+        <select class="form-test" aria-label="Default select example">
+            <option selected>Are you an active person?</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+            <option value="3">Sometimes</option>
+          </select>
+          </div>
+          <div class="row">
+          <select class="form-test" aria-label="Default select example">
+            <option selected>How did you spend your last weekend?</option>
+            <option value="1">On the computer</option>
+            <option value="2">On the couch</option>
+            <option value="3">Outside</option>
+            <option value="3">Other</option>
+          </select>
+          </div>
+          <div class="row">
+          <select class="form-test" aria-label="Default select example">
+            <option selected>Where did you spent your last vacation?</option>
+            <option value="1">In the mountains</option>
+            <option value="2">On the beach</option>
+            <option value="3">At home</option>
+            <option value="3">Other</option>
+          </select>
+          </div>
+          <div class="row">
+          <select class="form-test" aria-label="Default select example">
+            <option selected>What is the best compliment you've ever received?</option>
+            <option value="1">You are creative</option>
+            <option value="2">You are fit</option>
+            <option value="2">You are smart</option>
+            <option value="3">You are a good person</option>
+            <option value="3">Other</option>
+          </select>
+          </div>
+          <div class="row">
+            <select class="form-test" aria-label="Default select example">
+              <option selected>Are you willing to commit?</option>
+              <option value="1">Yes, alwyas</option>
+              <option value="2">Sometimes</option>
+              <option value="3">Only if I find the perfect activity for me</option>
+            </select>
+            </div>
+            <div class="row">
+              <select class="form-test" aria-label="Default select example">
+                <option selected>Select your city</option>
+                <option value="1">Zurich</option>
+                <option value="2">Basel</option>
+                <option value="3">Lozan</option>
+                <option value="3">Other</option>
+              </select>
+              </div>
+          <div class="form-field">
+            <button class="button button2">Submit</button>
+        </div>
+    </form>
+ </div>
+
+<img class="blueImg2" src="img/blueImg.png" alt="blueImg">
+</body>
+</html>

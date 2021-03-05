@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/fragments::head"></div>
+<body>
+
+    <header>
+        <div th:replace="fragments/fragments::logo"/></div>
+
+</header>
+     
+ <div class="test">
+    <h2>Sign up</h2>
+    <form method="POST" th:object="${signUpBindingModel}" th:action="@{/users/signup}">
+        
+  <div class="row">
+  <div class="form-field">
+
+    <div class="name-section">
+        <input  th:field="*{username}"  type="text" name="name"  required/>
+        <label id="name" class="label-name">
+            <span class="content-name">Username</span>
+        </label>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="form-field">
+          <div class="name-section">
+              <input th:field="*{fullName}"  type="text" name="name"  required/>
+              <label for="name" class="label-name">
+                  <span class="content-name">Full Name</span>
+              </label>
+          </div>
+          </div>
+          </div>
+        
+    <div class="row">
+        <div class="form-field-radio">
+            <div class="name-section">
+            <label id="gender" class="label-name">
+                <span class="content-name">Gender</span>
+            </label>
+        </div>
+    </div>
+        </div>
+        <div class="row">
+        <div class="radio-choice-section">
+            <input type="checkbox" id="checkbox1" />
+            <label class="checkbox"for="checkbox1">Male</label>
+            <input type="checkbox" id="checkbox2" />
+            <label class="checkbox"for="checkbox1">Female</label> 
+            <input checked type="checkbox" id="checkbox3" />
+            <label class="checkbox"for="checkbox1">Other</label>
+        </div>
+        </div>
+        <div class="row">
+            <div class="form-field">
+              <div class="name-section">
+                  <input  th:field="*{email}"  type="email" name="name"  required/>
+                  <label for="name" class="label-name">
+                      <span class="content-name">Email</span>
+                  </label>
+              </div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="form-field">
+                  <div class="name-section">
+                      <input  th:field="*{password}" type="password" name="password" id="password"  required/>
+                      <label for="name" class="label-name">
+                          <span class="content-name">Password</span>
+                      </label>
+                  </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-field">
+                      <div class="name-section">
+                          <input  th:field="*{confirmPassword}" type="password" name="confirmPassword" id="confirmPassword"   required/>
+                          <label for="name" class="label-name">
+                              <span class="content-name">Confirm Password</span>
+                          </label>
+                      </div>
+                      </div>
+                      </div>
+                     
+                        <div class="form-field">
+                      <button class="button button2">Sign up</button>
+                        </div>
+
+                        
+                    
+    </form>
+ </div>
+    <img class="blueImg2" src="/img/blueImg.png" alt="blueImg2">
+</body>
+</html>

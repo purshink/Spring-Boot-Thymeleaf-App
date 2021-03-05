@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<h1>Hello, <span th:text="${user.getUsername()}">User name</span>!</h1>
+
+<div sec:authorize="hasRole('BUSINESS_USER')">
+    I am a business owner!
+</div>
+<form method="POST"
+      th:action="@{/logout}">
+    <div class="nav-link text-white active h5">
+        <input type="submit" class="btn btn-warning  mb-3" value="Logout">
+    </div>
+</form>
+
+</body>
+</html>
