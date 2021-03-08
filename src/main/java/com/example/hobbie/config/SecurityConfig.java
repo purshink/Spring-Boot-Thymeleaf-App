@@ -42,7 +42,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                // remove the session from the server
+                        .invalidateHttpSession(true).
+                // delete the session cookie
+                        deleteCookies("JSESSIONID");
 
     }
 

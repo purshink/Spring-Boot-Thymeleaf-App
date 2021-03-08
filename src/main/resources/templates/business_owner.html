@@ -1,19 +1,43 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:replace="fragments/fragments::head"/></div>
 <body>
-<h1>Hello, <span th:text="${user.getUsername()}">User name</span>!</h1>
+<header>
+    <div th:replace="fragments/fragments::logo"/></div>
+    <div th:replace="fragments/fragments::navbar"/></div>
+</header>
 
-<div sec:authorize="hasRole('BUSINESS_USER')">
-    I am a business owner!
-</div>
-<form method="POST"
-      th:action="@{/logout}">
-    <div class="nav-link text-white active h5">
-        <input type="submit" class="btn btn-warning  mb-3" value="Logout">
+<main>
+    <div class="menu">
+        <div class="classes" style="height: 30vh; overflow: auto">
+            <h3 class="mySticky bg-gray text-dark rounded">Clients</h3>
+            <div th:each="drink : ${drinks}" th:object="${drink}" class="tow">
+                <span th:text="|Name: *{name} Price: *{price} lv|">Name: Abo:  Entries:</span>
+                <a class="ml-3 text-danger" th:href="@{/products/buy/{id}(id = *{id})}">Details</a>
+            </div>
+        </div>
+        <div class="classes" style="height: 30vh; overflow: auto">
+            <h3 class="mySticky bg-gray text-dark rounded">Hobby offers</h3>
+            <div th:each="food : ${foods}" th:object="${food}" class="tow">
+
+                <span th:text="|Name: *{name} Price: *{price} lv|">Name: Price:  CHF</span>
+                <a class="ml-3 text-danger" th:href="@{/products/buy/{id}(id = *{id})}">Edit</a>
+            </div>
+        </div>
     </div>
-</form>
+
+</main>
+<footer class="footer bg-transparent  py-2">
+    <div class="container-fluid text-center">
+        <div class="footer-background h5 text-white">
+            Hobbie 2021. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
+<img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
+<img class="blue" src="/img/blue.jpg" alt="blue">
 
 </body>
 </html>
