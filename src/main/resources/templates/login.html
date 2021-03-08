@@ -16,9 +16,12 @@
     <form class="login"  th:action="@{/users/login}"
           method="POST">
   <div class="row">
+      <div th:if="${bad_credentials}" class="errors" >
+          This username and password combination does not exist.
+      </div>
   <div class="form-field">
     <div class="name-section">
-        <input type="text" name="username"  required/>
+        <input type="text" name="username" th:value="${username}" id="username"  required/>
         <label id="name" class="label-name">
             <span class="content-name">Username</span>
         </label>
@@ -29,7 +32,7 @@
                 <div class="form-field">
                   <div class="name-section">
                       <input type="password" id="password" name="password" required/>
-                      <label for="name" class="label-name">
+                      <label for="password" class="label-name">
                           <span class="content-name">Password</span>
                       </label>
                   </div>

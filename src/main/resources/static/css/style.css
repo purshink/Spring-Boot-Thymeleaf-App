@@ -571,3 +571,11 @@ h3{
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; */
 }
+
+
+/* errors class */
+
+.errors{
+    font-size: 14px;
+    color: #c36cbb;
+}
