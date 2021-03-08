@@ -13,6 +13,9 @@ public class DefaultController {
         if (request.isUserInRole("ROLE_BUSINESS_USER")) {
             return "redirect:/business_owner/";
         }
+        else if(request.isUserInRole("ROLE_USER")) {
+            return "redirect:/user_home/";
+        }
         return "redirect:/user/";
     }
 }

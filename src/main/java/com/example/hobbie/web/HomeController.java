@@ -17,15 +17,22 @@ public class HomeController {
     }
 
     @GetMapping("/business_owner")
-    public ModelAndView admin(@AuthenticationPrincipal UserDetails principal) {
+    public ModelAndView adminShow(@AuthenticationPrincipal UserDetails principal) {
         ModelAndView mav= new ModelAndView("business_owner");
         mav.addObject("user", principal);
         return mav;
     }
 
     @GetMapping("/user")
-    public ModelAndView user(@AuthenticationPrincipal UserDetails principal) {
+    public ModelAndView userShow(@AuthenticationPrincipal UserDetails principal) {
         ModelAndView mav= new ModelAndView("user");
+        mav.addObject("user", principal);
+        return mav;
+    }
+
+    @GetMapping("/user_home")
+    public ModelAndView userHomeShow(@AuthenticationPrincipal UserDetails principal) {
+        ModelAndView mav= new ModelAndView("user_home");
         mav.addObject("user", principal);
         return mav;
     }
