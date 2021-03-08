@@ -39,12 +39,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                 .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                 .defaultSuccessUrl("/default")
-                .loginPage("/")
-                .failureUrl("/users/login-error")
+                .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
-                .and(); //TODO LOGIN-ERROR PAGE
+                .logoutSuccessUrl("/");
 
     }
 
