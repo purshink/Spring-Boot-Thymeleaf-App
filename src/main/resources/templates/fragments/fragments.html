@@ -12,8 +12,14 @@
     <title>Hobbie</title>
 </head>
     <div th:fragment="logo" class="logo-container">
+        <th:block sec:authorize="!isAuthenticated()">
         <a href="/">  <img class="imgHeader" src="/img/logo.svg" alt="logo"></a>
         <a href="/">  <h4 class="logo">obbie</h4></a>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+            <a href="/default">  <img class="imgHeader" src="/img/logo.svg" alt="logo"></a>
+            <a href="/default">  <h4 class="logo">obbie</h4></a>
+        </th:block>
     </div>
     <nav th:fragment="navbar">
         <ul class="nav-links">
@@ -22,7 +28,7 @@
             <li><a class="nav-link" href="/users/login">Login</a></li>
             <li><a  class="nav-link"href="">Contact</a></li>
             </th:block>
-            <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/users/abos">Create new Hobby Offer</a></li>
+            <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/business/create_offer">Create new Hobby Offer</a></li>
             <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/users/account">Account</a></li>
             <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/users/abos">My Abos</a></li>
             <li sec:authorize="isAuthenticated()" class="nav-item">

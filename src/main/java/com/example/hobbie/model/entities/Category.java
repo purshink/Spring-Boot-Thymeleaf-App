@@ -9,11 +9,11 @@ import javax.persistence.*;
 @Table(name = "categories")
 public class Category extends BaseEntity{
     private CategoryNameEnum name;
-    private String description;
 
-    public Category(CategoryNameEnum categoryNameEnum, String description) {
+
+    public Category(CategoryNameEnum categoryNameEnum) {
         this.name = categoryNameEnum;
-        this.description = description;
+
     }
 
     public Category() {
@@ -31,12 +31,4 @@ public class Category extends BaseEntity{
         this.name = name;
     }
 
-    @Column(columnDefinition = "TEXT")
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

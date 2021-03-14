@@ -219,6 +219,7 @@ form {
     position: relative;
     height: 60px;
     border: none;
+    margin-top: 20px;
 
 }
 
@@ -391,21 +392,18 @@ input[type=checkbox]:checked:after {
 }
 
 .form-test{
-    padding: 10px 10px 10px 10px;
+
     content: " ";
     background-color: #fff;
     display: inline-block;
-    margin-left: 10px;
-    padding-bottom: 5px;
+    padding: 15px;
     color:   #595f6e;
     height: 60px;
     visibility: visible;
     border: 1px solid #00BFF0;
-    padding-left: 3px;
-    padding-right: 5px;
     border-radius: 5px;
     margin-top: 60px;
-    width: 90%;
+    width: 100%;
 }
 
 
@@ -543,6 +541,8 @@ h3{
         grid-gap: 20px;
     }
     .card{grid-column-end: span 12;}
+
+
 }
 
 @media only screen and (max-width: 500px) {
@@ -558,6 +558,7 @@ h3{
         grid-gap: 20px;
     }
     .card{grid-column-end: span 6;}
+
 }
 
 .greeting{
@@ -572,10 +573,105 @@ h3{
     -webkit-text-fill-color: transparent; */
 }
 
-
 /* errors class */
 
 .errors{
     font-size: 14px;
     color: #c36cbb;
 }
+
+/* add offer page */
+
+.form-field-photos{
+
+    position: relative;
+    height: 50px;
+    overflow: hidden;
+    margin-top: 50px;
+}
+
+input image{
+    justify-content: space-around;
+    list-style: none;
+}
+
+input file{
+    border: none;
+}
+
+.button3{
+    margin-left: 40px;
+
+}
+
+.create_offer{
+    width: 90%;
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    font-family: sans-serif;
+
+}
+
+#category {
+
+    margin-top: 20px;
+}
+
+
+.column {
+    float: right;
+    width: 80%;
+
+
+}
+.row_upload{
+    padding-top: 10px;
+}
+
+
+textarea {background-color: #00BFF0;
+    padding: 20px 20px 20px 20px;
+    content: " ";
+    background-color: #fff;
+    display: inline-block;
+    color: #595f6e;
+    width: 100%;
+    height: 200px;
+    visibility: visible;
+    border: 1px solid #00BFF0;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.form-field2{
+
+    margin: 20px 0 20px 0;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+
+}
+
+.form-field2 .h_n{
+    background-color: #00BFF0;
+    padding: 20px 20px 20px 20px;
+    content: " ";
+    background-color: #fff;
+    display: inline-block;
+    color: #595f6e;
+    width: 100%;
+    visibility: visible;
+    border: 1px solid #00BFF0;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.coBody{
+    font-family: 'Poppins', sans-serif;
+    height: 135vh;
+}
+
+textarea{ font-family: 'Poppins', sans-serif;}

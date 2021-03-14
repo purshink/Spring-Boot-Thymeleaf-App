@@ -1,5 +1,7 @@
 package com.example.hobbie.model.entities;
 
+import com.example.hobbie.model.entities.enums.AboTypeEnum;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,8 +12,9 @@ public class Hobby extends BaseEntity{
     private String name;
     private String description;
     private Category category;
-    private String imgUrl;
-    private List<Abo> abos;
+    private String profilePhoto;
+    private BusinessOwner businessOwner;
+
 
 
     public Hobby() {
@@ -25,7 +28,7 @@ public class Hobby extends BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
-    @Column
+    @Column(columnDefinition = "TEXT")
     public String getDescription() {
         return description;
     }
@@ -33,7 +36,7 @@ public class Hobby extends BaseEntity{
     public void setDescription(String description) {
         this.description = description;
     }
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     public Category getCategory() {
         return category;
     }
@@ -42,23 +45,32 @@ public class Hobby extends BaseEntity{
         this.category = category;
     }
 
-    @OneToMany
-    public List<Abo> getAbos() {
-        return abos;
+    public String getProfilePhoto() {
+        return profilePhoto;
     }
 
-    public void setAbos(List<Abo> abos) {
-        this.abos = abos;
-    }
-
-    @Column
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    public BusinessOwner getBusinessOwner() {
+        return businessOwner;
+    }
+
+    public void setBusinessOwner(BusinessOwner businessOwner) {
+        this.businessOwner = businessOwner;
+    }
+
+    @Transient
+    public String getProfilePhotoImagePath() {
+        if (profilePhoto == null || id == null) return null;
+
+        return "/hobby-photos/" + id + "/" + profilePhoto;
+    }
+
+    public void setPhotos(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 }

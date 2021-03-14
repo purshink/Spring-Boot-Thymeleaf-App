@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:replace="fragments/fragments::head"/></div>
 <body>
 <header>
@@ -16,24 +17,25 @@
                 <a class="ml-3 text-danger" th:href="@{/products/buy/{id}(id = *{id})}">Details</a>
             </div>
         </div>
-        <div class="classes" style="height: 30vh; overflow: auto">
+        <div class="classes" style="height: auto; overflow: hidden">
             <h3 class="mySticky bg-gray text-dark rounded">Hobby offers</h3>
-            <div th:each="food : ${foods}" th:object="${food}" class="tow">
+            <div th:each="hobby : ${hobby_offers}" th:object="${hobby}" class="tow">
+             <img hight="40px" width="40px" th:src="@{${hobby.profilePhotoImagePath}}" alt="hobby-photos" src=""/><span th:text="|*{name} - price per entry: 500 CHF|"></span>
 
-                <span th:text="|Name: *{name} Price: *{price} lv|">Name: Price:  CHF</span>
-                <a class="ml-3 text-danger" th:href="@{/products/buy/{id}(id = *{id})}">Edit</a>
-            </div>
-        </div>
+<!--                          <p class="text_medium">  <span th:text="|*{description} |"></span></p>&ndash;&gt;-->
+                <div > Edit</div>
+
     </div>
+
 
 </main>
-<footer class="footer bg-transparent  py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 text-white">
-            Hobbie 2021. All rights reserved.
-        </div>
-    </div>
-</footer>
+<!--<footer class="footer bg-transparent  py-2">-->
+<!--    <div class="container-fluid text-center">-->
+<!--        <div class="footer-background h5 text-white">-->
+<!--            Hobbie 2021. All rights reserved.-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
 
 <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
 <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">

@@ -17,7 +17,6 @@ public class Abo extends BaseEntity{
     }
 
 
-
     @Column(name = "abo_type",unique = true)
     @Enumerated(EnumType.STRING)
     public AboTypeEnum getAboType() {

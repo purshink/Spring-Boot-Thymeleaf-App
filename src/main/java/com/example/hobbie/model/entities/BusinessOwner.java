@@ -9,6 +9,7 @@ public class BusinessOwner extends UserEntity {
     private String businessName;
     private String address;
     private List<Hobby> hobby_offers;
+
     //TODO BankDetail bankDetails;
 
 
@@ -46,4 +47,6 @@ public class BusinessOwner extends UserEntity {
     public void setHobby_offers(List<Hobby> hobby_offers) {
         this.hobby_offers = hobby_offers;
     }
+
+
 }

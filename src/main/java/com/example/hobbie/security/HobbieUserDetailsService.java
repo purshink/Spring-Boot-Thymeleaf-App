@@ -2,7 +2,6 @@ package com.example.hobbie.security;
 
 import com.example.hobbie.model.entities.UserEntity;
 import com.example.hobbie.model.repostiory.UserRepository;
-import com.example.hobbie.model.repostiory.UserRoleRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -16,14 +15,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class HobbieUserDetailsService implements UserDetailsService {
-
-    private final UserRepository userRepository;
-
+        private final UserRepository userRepository;
 
     public HobbieUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
-
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,6 +28,8 @@ public class HobbieUserDetailsService implements UserDetailsService {
                 () -> new UsernameNotFoundException("User with username " + username + " was not found."));
 
         return mapToUserDetails(userEntity);
+
+
     }
 
     private UserDetails mapToUserDetails(UserEntity userEntity) {

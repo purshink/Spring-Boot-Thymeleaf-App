@@ -1,5 +1,7 @@
 package com.example.hobbie.web;
 
+import com.example.hobbie.service.HobbyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/")
 public class HomeController {
+    private final HobbyService hobbyService;
+
+    @Autowired
+    public HomeController(HobbyService hobbyService) {
+        this.hobbyService = hobbyService;
+    }
 
     public String showHome(){
 
@@ -20,9 +28,12 @@ public class HomeController {
     public ModelAndView adminShow(@AuthenticationPrincipal UserDetails principal) {
         ModelAndView mav= new ModelAndView("business_owner");
         mav.addObject("user", principal);
+        mav.addObject("hobby_offers", hobbyService.getAllHobbyOffers());
         return mav;
     }
 
+
+    //TODO: IMPLEMENT /user as Admin page
     @GetMapping("/user")
     public ModelAndView userShow(@AuthenticationPrincipal UserDetails principal) {
         ModelAndView mav= new ModelAndView("user");

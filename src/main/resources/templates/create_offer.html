@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:replace="fragments/fragments::head"/></div>
+<body class="coBody">
+
+<header>
+    <div th:replace="fragments/fragments::logo"/></div>
+    <nav class="navbar">
+    <ul class="nav-links">
+    <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/users/account">Account</a></li>
+    <li sec:authorize="isAuthenticated()" class="nav-item">
+        <a href="javascript: document.logoutForm.submit()" role="menuitem" class="nav-link"> Logout</a>
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out"/>
+        </form>
+    </li>
+        </ul>
+    </nav>
+</header>
+<main class="coBody">
+<div class="create_offer">
+    <h2>Create offer</h2>
+    <form method="POST" th:object="${hobbyBindingModel}" th:action="@{/business/create_offer}" enctype="multipart/form-data" >
+
+        <div class="row no-gutters">
+            <div class="form-field2">
+                <div class="name-section">
+                    <label for="name" class="label-name">
+                        <span class="content-name">Hobbie Name</span>
+                    </label>
+                    <input class="h_n" th:field="*{name}"   type="text" name="name"  required/>
+
+                </div>
+                 <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors">Error message</small>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+            <span class="content-name">Category</span>
+                <select class="form-test" th:field="*{category}"   id="category" name="category">
+
+                    <option value="">Select category</option>
+                    <option th:each="c : ${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).values()}"
+                            th:text="${c}"
+                            th:value="${c}"
+                            value="ACTIVE">Active</option>
+                </select>
+            <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="errors">Error message</small>
+            </div>
+        <div class="row no-gutters">
+            <div class="form-field2">
+
+                <div class="name-section">
+                    <label id="description" class="label-name">
+                        <span class="content-name">Description</span>
+                    </label>
+                    <textarea class="label-name" th:field="*{description}"  type="text" name="name"  required></textarea>
+                </div>
+
+                 <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="errors">Error message</small>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+            <div class="form-field-photos">
+                <div class="name-section">
+
+                    <div class="row_upload">
+                        <label id="name" class="label-name">
+                            <span class="content-name">Profile Photo</span>
+                        </label>
+                        <div class="column"><input class="button3" type="file"   name="image" accept="image/png, image/jpeg" /></div>
+<!--                        <div class="column"><input class="button3" type="file"  name="image1" accept="image/png, image/jpeg" /></div>-->
+<!--                        <div class="column"><input class="button3" type="file" name="image2" accept="image/png, image/jpeg" /></div>-->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-field">
+            <button class="button button2">Submit</button>
+        </div>
+    </form>
+
+</div>
+    <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
+    <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
+</main>
+
+</body>
+</html>
+
+

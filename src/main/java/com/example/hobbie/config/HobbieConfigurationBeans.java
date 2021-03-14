@@ -10,13 +10,15 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 public class HobbieConfigurationBeans {
 
     @Bean
-    public PasswordEncoder createPasswordEncoder(){
-     return  new Pbkdf2PasswordEncoder();
+    public PasswordEncoder createPasswordEncoder() {
+        return new Pbkdf2PasswordEncoder();
     }
+
     @Bean
-    public ModelMapper createModelMapper(){
+    public ModelMapper createModelMapper() {
         return new ModelMapper();
     }
+
 
 
 }
