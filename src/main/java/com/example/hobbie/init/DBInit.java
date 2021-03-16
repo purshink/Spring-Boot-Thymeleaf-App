@@ -23,7 +23,7 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.userService.seedUsers();
+        this.userService.seedUsersAndUserRoles();
 
         this.categoryService.initCategories();
     }

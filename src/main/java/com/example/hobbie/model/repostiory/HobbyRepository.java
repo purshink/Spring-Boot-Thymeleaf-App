@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface HobbyRepository extends JpaRepository<Hobby, Long> {
 
     List<Hobby> findAllByBusinessOwnerBusinessName(String businessName);
+
 }

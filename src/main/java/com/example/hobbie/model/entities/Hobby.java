@@ -63,7 +63,7 @@ public class Hobby extends BaseEntity{
         this.businessOwner = businessOwner;
     }
 
-    @Transient
+    @Transient()
     public String getProfilePhotoImagePath() {
         if (profilePhoto == null || id == null) return null;
 

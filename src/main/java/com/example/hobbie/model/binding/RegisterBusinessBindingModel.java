@@ -1,26 +1,20 @@
 package com.example.hobbie.model.binding;
 
-import com.example.hobbie.model.entities.enums.GenderEnum;
 import com.sun.istack.NotNull;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class SignUpBindingModel {
-
+public class RegisterBusinessBindingModel {
     private String username;
-    private String fullName;
-    private GenderEnum gender;
+    private String businessName;
+    private String address;
     private String email;
     private String password;
     private String confirmPassword;
 
-    public SignUpBindingModel() {
+    public RegisterBusinessBindingModel() {
     }
-
-    @Size(min = 3, max = 20, message = " must be between 3 and 20 symbols.")
+    @Size(min = 3, max = 20, message = " must be between 3 and 20 symbols")
     public String getUsername() {
         return username;
     }
@@ -28,25 +22,24 @@ public class SignUpBindingModel {
     public void setUsername(String username) {
         this.username = username;
     }
-    @Size(min = 3, max = 20, message = " must be between 3 and 20 symbols.")
-    public String getFullName() {
-        return fullName;
+    @Size(min = 2, max = 30, message = " must be between 2 and 30 symbols")
+    public String getBusinessName() {
+        return businessName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+    @Size(min = 3, max = 30, message = " must be between 3 and 30 symbols")
+    public String getAddress() {
+        return address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
     @NotNull
-    public GenderEnum getGender() {
-        return gender;
-    }
-
-    public void setGender(GenderEnum gender) {
-        this.gender = gender;
-    }
-    @NotNull
-    @Pattern(regexp=".+@.+\\..+", message = " must be valid.")
+    @Pattern(regexp=".+@.+\\..+", message = " must be valid")
     public String getEmail() {
         return email;
     }
@@ -54,7 +47,7 @@ public class SignUpBindingModel {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Size(min = 3, max = 20, message = " must be between 3 and 20 symbols.")
+    @Size(min = 3, max = 20, message = " must be between 3 and 20 symbols")
     public String getPassword() {
         return password;
     }
@@ -62,7 +55,7 @@ public class SignUpBindingModel {
     public void setPassword(String password) {
         this.password = password;
     }
-    @Size(min = 3, max = 20, message = " must be between 3 and 20 symbols.")
+    @Size(min = 3, max = 20, message = " must be between 3 and 20 symbols")
     public String getConfirmPassword() {
         return confirmPassword;
     }

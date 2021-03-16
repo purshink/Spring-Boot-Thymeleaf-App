@@ -1,6 +1,7 @@
 package com.example.hobbie.model.entities;
 
 import com.example.hobbie.model.entities.enums.GenderEnum;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,7 +32,7 @@ public class AppClient extends UserEntity implements Serializable {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     public GenderEnum getGender() {
         return gender;

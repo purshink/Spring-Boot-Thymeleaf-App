@@ -35,8 +35,9 @@ public class HobbyServiceImpl implements HobbyService {
 
     @Override
     public Long createHobby(HobbyServiceModel hobbyServiceModel,  String fileName) {
+                    //todo check why hobbie ids keep incrementing
 
-                    Hobby hobby = this.modelMapper.map(hobbyServiceModel, Hobby.class);
+                                Hobby hobby = this.modelMapper.map(hobbyServiceModel, Hobby.class);
                     hobby.setCategory(this.categoryService.findByName(hobbyServiceModel.getCategory()));
                     hobby.setPhotos(fileName);
                     hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());

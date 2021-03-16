@@ -8,7 +8,9 @@ import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.repostiory.AppClientRepository;
 import com.example.hobbie.model.repostiory.BusinessOwnerRepository;
 import com.example.hobbie.model.repostiory.UserRoleRepository;
+import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
+import com.example.hobbie.service.UserRoleService;
 import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,33 +30,31 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final AppClientRepository appClientRepository;
     private final BusinessOwnerRepository businessOwnerRepository;
+    private final UserRoleService userRoleService;
 
     @Autowired
     public UserServiceImpl(ModelMapper modelMapper, UserRoleRepository userRoleRepository,
-                           PasswordEncoder passwordEncoder, AppClientRepository appClientRepository, BusinessOwnerRepository businessOwnerRepository) {
+                           PasswordEncoder passwordEncoder, AppClientRepository appClientRepository, BusinessOwnerRepository businessOwnerRepository, UserRoleService userRoleService) {
         this.modelMapper = modelMapper;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.appClientRepository = appClientRepository;
         this.businessOwnerRepository = businessOwnerRepository;
+        this.userRoleService = userRoleService;
     }
 
     @Override
-    public void seedUsers() {
+    public void seedUsersAndUserRoles() {
 
-
-        UserRoleEntity userRoleEntity = new UserRoleEntity();
-        userRoleEntity.setRole(UserRoleEnum.USER);
-        UserRoleEntity userRole = userRoleRepository.save(userRoleEntity);
-        UserRoleEntity userRoleEntity2 = new UserRoleEntity();
-        userRoleEntity2.setRole(UserRoleEnum.ADMIN);
-        UserRoleEntity adminRole = userRoleRepository.save(userRoleEntity2);
-        UserRoleEntity userRoleEntity3 = new UserRoleEntity();
-        userRoleEntity3.setRole(UserRoleEnum.BUSINESS_USER);
-        UserRoleEntity businessRole = userRoleRepository.save(userRoleEntity3);
 
         //simple user
         if(appClientRepository.count() == 0) {
+            UserRoleEntity userRoleEntity = new UserRoleEntity();
+            userRoleEntity.setRole(UserRoleEnum.USER);
+            UserRoleEntity userRole = userRoleRepository.save(userRoleEntity);
+            UserRoleEntity userRoleEntity2 = new UserRoleEntity();
+            userRoleEntity2.setRole(UserRoleEnum.ADMIN);
+            UserRoleEntity adminRole = userRoleRepository.save(userRoleEntity2);
             AppClient user = new AppClient();
             user.setUsername("user");
             user.setPassword(this.passwordEncoder.encode("topsecret"));
@@ -69,10 +69,15 @@ public class UserServiceImpl implements UserService {
             admin.setPassword(this.passwordEncoder.encode("topsecret"));
             admin.setRoles(List.of(adminRole, userRole));
             admin.setFullName("Full name of admin here");
+            admin.setGender(GenderEnum.FEMALE);
             appClientRepository.save(user);
             appClientRepository.save(admin);
         }
         if(businessOwnerRepository.count() == 0){
+
+            UserRoleEntity userRoleEntity3 = new UserRoleEntity();
+            userRoleEntity3.setRole(UserRoleEnum.BUSINESS_USER);
+            UserRoleEntity businessRole = userRoleRepository.save(userRoleEntity3);
             //business_user
             BusinessOwner business_user = new BusinessOwner();
             business_user.setUsername("business");
@@ -88,18 +93,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean register(SignUpServiceModel signUpServiceModel) {
 
-        //todo implement logic for register user
-//        try {
-////            AppClient appClient = this.modelMapper.map(signUpServiceModel, AppClient.class);
-////            appClient.setRole(UserRoleEnum.USER);
-////            this.userRepository.save(appClient);
-//        }
-//        catch (Exception e){
-//            return false;
-//        }
+
+        try {
+            UserRoleEntity userRole = this.userRoleService.getUserRoleByEnumName(UserRoleEnum.USER);
+            AppClient appClient = this.modelMapper.map(signUpServiceModel, AppClient.class);
+            appClient.setRoles(List.of(userRole));
+            appClient.setPassword(this.passwordEncoder.encode(signUpServiceModel.getPassword()));
+            appClientRepository.save(appClient);
+        }
+        catch (Exception e){
+            return false;
+        }
 
         return true;
 
+    }
+
+    @Override
+    public boolean registerBusiness(RegisterBusinessServiceModel registerBusinessServiceModel) {
+        try {
+            UserRoleEntity businessUserRole = this.userRoleService.getUserRoleByEnumName(UserRoleEnum.BUSINESS_USER);
+            BusinessOwner businessOwner = this.modelMapper.map(registerBusinessServiceModel, BusinessOwner.class);
+            businessOwner.setRoles(List.of(businessUserRole));
+            businessOwner.setPassword(this.passwordEncoder.encode(registerBusinessServiceModel.getPassword()));
+            businessOwnerRepository.save(businessOwner);
+        }
+        catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 
     @Override
