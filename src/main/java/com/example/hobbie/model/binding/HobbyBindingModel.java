@@ -9,11 +9,13 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 public class HobbyBindingModel {
     private String name;
     private String description;
     private CategoryNameEnum category;
+    private BigDecimal price ;
 //    private String photos;
 
 
@@ -50,7 +52,16 @@ public class HobbyBindingModel {
         this.category = category;
     }
 
-//
+    @NotNull(message = "You have to set price")
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    //
 //    @Transient
 //    public String getPhotos() {
 //        return photos;

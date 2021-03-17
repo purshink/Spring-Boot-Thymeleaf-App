@@ -3,6 +3,7 @@ package com.example.hobbie.model.entities;
 import com.example.hobbie.model.entities.enums.AboTypeEnum;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,7 @@ public class Hobby extends BaseEntity{
     private Category category;
     private String profilePhoto;
     private BusinessOwner businessOwner;
+    private BigDecimal price;
 
 
 
@@ -53,6 +55,14 @@ public class Hobby extends BaseEntity{
         this.profilePhoto = profilePhoto;
     }
 
+    @Column(nullable = false)
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     public BusinessOwner getBusinessOwner() {

@@ -25,6 +25,18 @@
                  <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors">Error message</small>
             </div>
         </div>
+        <div class="row no-gutters">
+            <div class="form-field2">
+                <div class="name-section">
+                    <label for="price" class="label-name">
+                        <span class="content-name">Price per entry</span>
+                    </label>
+                    <input class="h_n" th:field="*{price}"   type="number" name="price"  id="price" required/>
+
+                </div>
+                <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="errors">Error message</small>
+            </div>
+        </div>
 
         <div class="row no-gutters">
             <span class="content-name">Category</span>
@@ -57,7 +69,7 @@
                 <div class="name-section">
 
                     <div class="row_upload">
-                        <label id="name" class="label-name">
+                        <label id="photo" class="label-name">
                             <span class="content-name">Profile Photo</span>
                         </label>
                         <div class="column"><input class="button3" type="file"   name="image" accept="image/png, image/jpeg" /></div>
