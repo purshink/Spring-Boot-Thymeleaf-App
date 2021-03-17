@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en"   xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:replace="fragments/fragments::head"/></div>
 <body>
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
+    <div sec:authorize="hasRole('USER')" class="cart">
+
+        <img class="imgHeader" src="/img/cart.svg" alt="cart">
+
+    </div>
 
 </header>
 <div class="greeting">  <h1>Your hobbies</h1>
@@ -155,7 +161,7 @@
 <footer class="footer bg-transparent  py-2">
     <div class="container-fluid text-center">
         <div class="footer-background h5 text-white">
-         Hobbie 2021. All rights reserved.
+            &copy; Hobbie 2021. All rights reserved.
         </div>
     </div>
 </footer>

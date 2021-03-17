@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
             UserRoleEntity adminRole = userRoleRepository.save(userRoleEntity2);
             AppClient user = new AppClient();
             user.setUsername("user");
+            user.setEmail("n13@gmail.com");
             user.setPassword(this.passwordEncoder.encode("topsecret"));
             user.setRoles(List.of(userRole));
             user.setFullName("Nikoleta Doykova");
@@ -66,6 +67,7 @@ public class UserServiceImpl implements UserService {
             //admin
             AppClient admin = new AppClient();
             admin.setUsername("admin");
+            admin.setEmail("n11@gamil.com");
             admin.setPassword(this.passwordEncoder.encode("topsecret"));
             admin.setRoles(List.of(adminRole, userRole));
             admin.setFullName("Full name of admin here");
@@ -81,6 +83,7 @@ public class UserServiceImpl implements UserService {
             //business_user
             BusinessOwner business_user = new BusinessOwner();
             business_user.setUsername("business");
+            business_user.setEmail("n10@gamil.com");
             business_user.setPassword(this.passwordEncoder.encode("topsecret"));
             business_user.setRoles(List.of(businessRole));
             business_user.setBusinessName("My Business name");

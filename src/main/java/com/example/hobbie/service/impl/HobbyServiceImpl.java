@@ -3,6 +3,8 @@ package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.BusinessOwner;
 import com.example.hobbie.model.entities.Hobby;
+import com.example.hobbie.model.entities.UserRoleEntity;
+import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.repostiory.HobbyRepository;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.service.CategoryService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -50,5 +53,16 @@ public class HobbyServiceImpl implements HobbyService {
     public List<Hobby> getAllHobbyOffers() {
         BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
       return   this.hobbyRepository.findAllByBusinessOwnerBusinessName(currentUserBusinessOwner.getBusinessName());
+    }
+
+    @Override
+    public Hobby findHobbieById(Long id) {
+        Optional<Hobby> hobby = this.hobbyRepository.findById(id);
+        if(hobby.isPresent()){
+            return hobby.get();
+        }
+        else {
+            throw new NullPointerException();
+        }
     }
 }

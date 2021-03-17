@@ -6,17 +6,7 @@
 
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
-    <nav class="navbar">
-    <ul class="nav-links">
-    <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/users/account">Account</a></li>
-    <li sec:authorize="isAuthenticated()" class="nav-item">
-        <a href="javascript: document.logoutForm.submit()" role="menuitem" class="nav-link"> Logout</a>
-        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-            <input hidden type="submit" value="Sign Out"/>
-        </form>
-    </li>
-        </ul>
-    </nav>
+    <div th:replace="fragments/fragments::navbar"/></div>
 </header>
 <main class="coBody">
 <div class="create_offer">

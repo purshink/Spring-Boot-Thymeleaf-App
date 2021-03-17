@@ -2,14 +2,11 @@ package com.example.hobbie.web;
 
 import com.example.hobbie.model.binding.RegisterBusinessBindingModel;
 import com.example.hobbie.model.binding.SignUpBindingModel;
-import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
 import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -128,6 +125,18 @@ public class UserController {
         modelAndView.setViewName("/login");
 
         return modelAndView;
+    }
+
+    @GetMapping("/account-info")
+    public String showAccountInfo(Model model){
+        model.addAttribute("client",this.userService.findCurrentUserAppClient());
+        return "account-info";
+    }
+
+    @GetMapping("/business-account-info")
+    public String showBusinessAccountInfo(Model model){
+        model.addAttribute("business", this.userService.findCurrentUserBusinessOwner());
+        return "business-account-info";
     }
 
 }

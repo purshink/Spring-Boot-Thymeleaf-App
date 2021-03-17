@@ -28,6 +28,7 @@ a {
     color: #23272b;
     text-decoration: none;
 }
+
 h2{
     background: linear-gradient(to right, #494969,#696989);
     -webkit-background-clip: text;
@@ -671,7 +672,194 @@ textarea {background-color: #00BFF0;
 
 .coBody{
     font-family: 'Poppins', sans-serif;
-    height: 135vh;
+    height: auto;
 }
 
 textarea{ font-family: 'Poppins', sans-serif;}
+
+
+/* hobbie-details-page , account-details-page*/
+
+
+.hobbie-main {
+    width: 100%;
+    /* height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+.hobbie-container{
+    padding: 60px;
+    width: 70%;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-areas: "cover content";
+    box-shadow: -2px 0px 33px 0px rgba(0,0,0,0.15);
+
+
+}
+
+.hobbie-cover{
+    grid-area: cover;
+    height: auto;
+    background-image: url(/img/coverImg.png);
+    background-position: center center;
+    background-size: cover;
+}
+.account-cover{
+    grid-area: cover;
+    height: auto;
+    background-image: url(/img/coverImg.png);
+    background-position: center center;
+    background-size: cover;
+}
+
+.hobbie-content{
+    grid-area: content;
+    height:auto;
+    background-color: #fefefe;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+
+}
+
+.hobbie-content-body{
+    display: flex;
+    flex-direction: row;
+    padding-top: 60px;
+    padding-bottom: 10px;
+}
+
+.account-content-body{
+    display: flex;
+    flex-direction: row;
+    margin-top: 90px;
+    padding-bottom: 130px;
+    padding-top: 130px;
+    padding-inline-start: 30px;
+}
+
+
+.hobbie-pages{
+    width: 150%;
+    height: 40%;
+    display: flex;
+    color:gray;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    position: relative;
+    transform: translateY(38px);
+    margin-top: 70px;
+
+}
+
+.hobbie-pages span{
+    margin-top: 40px;
+
+}
+.hoobie-lable{
+    width: 80%  ;
+}
+
+.hobbie-lable p {
+    padding-top: 40px;
+    font-size: 16px;
+    width: 85%;
+    color: gray;
+    padding-bottom: 10px;
+}
+
+.hobbie-title{
+    font-size: 64px;
+    background: linear-gradient(to right, #494969,#696989);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+.account-title{
+    background: linear-gradient(to right, #494969,#696989);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.prix{
+    margin: 50px 0px;
+    width: 45%;
+    display: flex;
+    justify-content: space-between;
+    border-left: 4px solid rgb(255,177,33);
+    background: linear-gradient(to right, #494969,#696989);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+.prix span{
+    padding-left: 10px;
+}
+
+.add-crt-edit{
+    color: rgb(255,177,33);
+    left: 2px;
+    border-bottom: 1px solid rgb(177,177,177);
+
+}
+
+.hobbie-active{
+    color: black;
+    position: relative;
+    transform: translateX(10px);
+    background: linear-gradient(to right, #494969,#696989);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hobbie-active::before{
+    position: absolute;
+    content: "";
+    display: block;
+    width: 37px;
+    right: 137%;
+    top: 45%;
+    background-color: #555;
+
+    min-height: 1px;
+    z-index: 1;
+}
+
+b{
+    padding: 0%;
+}
+
+.footer{
+
+    bottom : 0;
+    height : 40px;
+    margin-top : 40px;
+    margin-left: 5%;
+}
+
+    .account-label p {
+
+    font-size: 16px;
+    width: 100%;
+    color: gray;
+        white-space:pre-wrap;
+
+}
+
+    .edit-offer{   color: rgb(255,177,33);
+        left: 2px;
+        border-bottom: 1px solid rgb(177,177,177);
+        display: flex;
+    }
+
+    .background{
+        padding: 60px;
+        width: 1200px;
+        box-shadow: -2px 0px 33px 0px rgba(0,0,0,0.15);
+        background-color: #fefefe;
+    }

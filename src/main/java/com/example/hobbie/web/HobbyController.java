@@ -3,6 +3,7 @@ package com.example.hobbie.web;
 
 import com.example.hobbie.model.binding.HobbyBindingModel;
 import com.example.hobbie.model.binding.SignUpBindingModel;
+import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
 import com.example.hobbie.service.HobbyService;
@@ -15,10 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -54,7 +52,7 @@ public class HobbyController {
     }
 
     @PostMapping("/create_offer")
-    public RedirectView saveHobby(@Valid     HobbyBindingModel hobbyBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+    public RedirectView saveHobby(@Valid HobbyBindingModel hobbyBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
 
                                   @RequestParam("image") MultipartFile multipartFile) throws IOException {
 
@@ -76,6 +74,13 @@ public class HobbyController {
 
         return new RedirectView("/business_owner", true);
     }
+    @GetMapping("/hobbie-details/{id}")
+    public String showHome(@PathVariable Long id, Model model){
+        Hobby hobby = this.hobbyService.findHobbieById(id);
+        model.addAttribute("hobbie", hobby);
+        return "hobbie-details";
+    }
 }
+
 
 

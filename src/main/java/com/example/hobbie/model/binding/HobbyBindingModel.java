@@ -5,6 +5,7 @@ import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,7 +30,7 @@ public class HobbyBindingModel {
         this.name = name;
     }
 
-    @Size(min = 30, message = "Description must be minimum 30 symbols")
+    @Size(min = 30,max = 1050 , message = "Description must be between 30 and 1050 symbols")
     @NotBlank(message = "You need to have a description")
     public String getDescription() {
         return description;

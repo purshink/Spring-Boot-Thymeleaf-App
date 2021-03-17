@@ -47,7 +47,7 @@ public class UserEntity extends BaseEntity implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-    @Column
+    @Column(nullable = false)
     public String getEmail() {
         return email;
     }

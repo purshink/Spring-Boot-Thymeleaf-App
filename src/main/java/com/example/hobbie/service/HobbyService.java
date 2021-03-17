@@ -12,4 +12,5 @@ public interface HobbyService {
 
     List<Hobby> getAllHobbyOffers();
 
+    Hobby findHobbieById(Long id);
 }

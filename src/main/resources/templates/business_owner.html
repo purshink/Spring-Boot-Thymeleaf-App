@@ -10,6 +10,7 @@
 
 <main>
     <div class="menu">
+        <div class="background">
         <div class="classes" style="height: 30vh; overflow: auto">
             <h3 class="mySticky bg-gray text-dark rounded">Clients</h3>
             <div th:each="drink : ${drinks}" th:object="${drink}" class="tow">
@@ -20,26 +21,26 @@
         <div class="classes" style="height: auto; overflow: hidden">
             <h3 class="mySticky bg-gray text-dark rounded">Hobby offers</h3>
             <div th:each="hobby : ${hobby_offers}" th:object="${hobby}" class="tow">
-             <img hight="40px" width="40px" th:src="@{${hobby.profilePhotoImagePath}}" alt="hobby-photos" src=""/><span th:text="|*{name} - price per entry: 500 CHF|"></span>
+<!--             <img hight="40px" width="40px" th:src="@{${hobby.profilePhotoImagePath}}" alt="hobby-photos" src=""/>-->
+                <span th:text="|*{name} - price per entry: 500 CHF|"></span>
 
-<!--                          <p class="text_medium">  <span th:text="|*{description} |"></span></p>&ndash;&gt;-->
-                <div > Edit</div>
+                <a class="edit-offer" th:href="@{/business/hobbie-details/{id}(id = *{id})}"> Edit</a>
 
-    </div>
+                </div>
+            </div>
+        </div>
 
 
 </main>
-<!--<footer class="footer bg-transparent  py-2">-->
-<!--    <div class="container-fluid text-center">-->
-<!--        <div class="footer-background h5 text-white">-->
-<!--            Hobbie 2021. All rights reserved.-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</footer>-->
-
 <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
 <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
 <img class="blue" src="/img/blue.jpg" alt="blue">
-
+<footer class="footer bg-transparent  py-2">
+    <div class="container-fluid text-center">
+        <div class="footer-background h5 text-white">
+            &copy; Hobbie 2021. All rights reserved.
+        </div>
+    </div>
+</footer>
 </body>
 </html>
