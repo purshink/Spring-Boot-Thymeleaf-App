@@ -11,7 +11,7 @@
 <main class="coBody">
 <div class="create_offer">
     <h2>Create offer</h2>
-    <form method="POST" th:object="${hobbyBindingModel}" th:action="@{/business/create_offer}" enctype="multipart/form-data" >
+    <form method="POST" th:object="${hobbyBindingModel}" th:action="@{/hobbies/create_offer}" enctype="multipart/form-data" >
 
         <div class="row no-gutters">
             <div class="form-field2">
@@ -67,7 +67,9 @@
         <div class="row no-gutters">
             <div class="form-field-photos">
                 <div class="name-section">
-
+                    <div th:if="${noImg}" class="errors" >
+                        Please upload a profile photo
+                    </div>
                     <div class="row_upload">
                         <label id="photo" class="label-name">
                             <span class="content-name">Profile Photo</span>

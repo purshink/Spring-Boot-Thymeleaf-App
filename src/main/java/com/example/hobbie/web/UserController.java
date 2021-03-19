@@ -2,22 +2,29 @@ package com.example.hobbie.web;
 
 import com.example.hobbie.model.binding.RegisterBusinessBindingModel;
 import com.example.hobbie.model.binding.SignUpBindingModel;
+import com.example.hobbie.model.binding.UpdateBusinessBindingModel;
+import com.example.hobbie.model.binding.UpdateClientBindingModel;
+import com.example.hobbie.model.entities.AppClient;
+import com.example.hobbie.model.entities.BusinessOwner;
+import com.example.hobbie.model.entities.UserEntity;
+import com.example.hobbie.model.entities.UserRoleEntity;
 import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
 import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -27,11 +34,13 @@ public class UserController {
     //TODO CREATE POP UP THAT USER HAT SUCCESSFULLY SIGNED UP
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/signup")
@@ -130,7 +139,7 @@ public class UserController {
     @GetMapping("/account-info")
     public String showAccountInfo(Model model){
         model.addAttribute("client",this.userService.findCurrentUserAppClient());
-        return "account-info";
+            return "account-info";
     }
 
     @GetMapping("/business-account-info")
@@ -139,5 +148,77 @@ public class UserController {
         return "business-account-info";
     }
 
+
+    //CRUD
+    @GetMapping("/update-user")
+    public String showUpdateForm(Model model) {
+        AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+        UpdateClientBindingModel updateClientBindingModel = this.modelMapper.map(currentUserAppClient, UpdateClientBindingModel.class);
+        model.addAttribute("updateClientBindingModel", updateClientBindingModel);
+        model.addAttribute("dontMatch",false);
+        model.addAttribute("emptyGender", false);
+        return "update-user";
+    }
+
+        @PostMapping("/update-user")
+        public String updateUser( @Valid UpdateClientBindingModel updateClientBindingModel,
+                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+            if (bindingResult.hasErrors() || !(updateClientBindingModel.getPassword().equals(updateClientBindingModel.getConfirmPassword()))) {
+                redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateClientBindingModel", bindingResult);
+                if(!(updateClientBindingModel.getPassword().equals(updateClientBindingModel.getConfirmPassword()))){
+                    redirectAttributes.addFlashAttribute("dontMatch", true);
+                }
+                return "redirect:/users/update-user";
+            }
+            else {
+                AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+                AppClient appClient = this.modelMapper.map(updateClientBindingModel, AppClient.class);
+                appClient.setId(currentUserAppClient.getId());
+                appClient.setUsername(currentUserAppClient.getUsername());
+                appClient.setPassword(this.passwordEncoder.encode(updateClientBindingModel.getPassword()));
+                appClient.setRoles(currentUserAppClient.getRoles());
+                this.userService.saveUpdatedUserClient(appClient);
+                return "redirect:/users/account-info";
+            }
+    }
+
+    @GetMapping("/update-business")
+    public String showUpdateBusinessForm(Model model, HttpServletRequest request) {
+        BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
+        UpdateBusinessBindingModel updateBusinessBindingModel = this.modelMapper.map(currentUserBusinessOwner, UpdateBusinessBindingModel.class);
+        request.getSession().setAttribute("userId", currentUserBusinessOwner.getId());
+        model.addAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
+        model.addAttribute("dontMatch",false);
+        return "update-business";
+    }
+
+    @PostMapping("/update-business")
+    public String updateBusiness(@Valid UpdateBusinessBindingModel updateBusinessBindingModel ,
+                                 BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+
+        if (bindingResult.hasErrors() || !(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))) {
+            redirectAttributes.addFlashAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateBusinessBindingModel", bindingResult);
+            if(!(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))){
+                redirectAttributes.addFlashAttribute("dontMatch", true);
+            }
+            return "redirect:/users/update-business";
+
+        }
+        else {
+            Long userId = (Long) request.getSession().getAttribute("userId");
+            UserEntity user = this.userService.findUserById(userId);
+            BusinessOwner businessOwner = this.modelMapper.map(updateBusinessBindingModel, BusinessOwner.class);
+            businessOwner.setId(userId);
+            businessOwner.setUsername(user.getUsername());
+            businessOwner.setPassword(this.passwordEncoder.encode(updateBusinessBindingModel.getPassword()));
+            businessOwner.setRoles(user.getRoles());
+            this.userService.saveUpdatedUser(businessOwner);
+            return "redirect:/users/business-account-info";
+        }
+    }
+
 }
+
 

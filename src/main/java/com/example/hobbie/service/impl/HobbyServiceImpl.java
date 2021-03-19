@@ -7,6 +7,7 @@ import com.example.hobbie.model.entities.UserRoleEntity;
 import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.repostiory.HobbyRepository;
 import com.example.hobbie.model.service.HobbyServiceModel;
+import com.example.hobbie.model.service.UpdateHobbyServiceModel;
 import com.example.hobbie.service.CategoryService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.UserService;
@@ -65,4 +66,16 @@ public class HobbyServiceImpl implements HobbyService {
             throw new NullPointerException();
         }
     }
+
+    @Override
+    public void saveUpdatedHobby(UpdateHobbyServiceModel updateHobbyServiceModel, String fileName) {
+
+        Hobby hobby = this.modelMapper.map(updateHobbyServiceModel, Hobby.class);
+        hobby.setCategory(this.categoryService.findByName(updateHobbyServiceModel.getCategory()));
+        hobby.setPhotos(fileName);
+        hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
+       this.hobbyRepository.save(hobby);
+
+    }
+
 }

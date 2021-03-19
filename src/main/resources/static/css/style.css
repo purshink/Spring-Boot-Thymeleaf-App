@@ -850,6 +850,9 @@ b{
         white-space:pre-wrap;
 
 }
+    .hobbie-lable p {
+        white-space:pre-wrap;
+    }
 
     .edit-offer{   color: rgb(255,177,33);
         left: 2px;

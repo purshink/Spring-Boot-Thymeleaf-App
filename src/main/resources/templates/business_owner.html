@@ -22,9 +22,9 @@
             <h3 class="mySticky bg-gray text-dark rounded">Hobby offers</h3>
             <div th:each="hobby : ${hobby_offers}" th:object="${hobby}" class="tow">
 <!--             <img hight="40px" width="40px" th:src="@{${hobby.profilePhotoImagePath}}" alt="hobby-photos" src=""/>-->
-                <span th:text="|*{name} - price per entry: 500 CHF|"></span>
+                <span th:text="|*{name} - price per entry: *{price} CHF|"></span>
 
-                <a class="edit-offer" th:href="@{/business/hobbie-details/{id}(id = *{id})}"> Edit</a>
+                <a class="edit-offer" th:href="@{/hobbies/hobbie-details/{id}(id = *{id})}"> Edit</a>
 
                 </div>
             </div>

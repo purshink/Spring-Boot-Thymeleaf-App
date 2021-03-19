@@ -2,11 +2,13 @@ package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.BusinessOwner;
+import com.example.hobbie.model.entities.UserEntity;
 import com.example.hobbie.model.entities.UserRoleEntity;
 import com.example.hobbie.model.entities.enums.GenderEnum;
 import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.repostiory.AppClientRepository;
 import com.example.hobbie.model.repostiory.BusinessOwnerRepository;
+import com.example.hobbie.model.repostiory.UserRepository;
 import com.example.hobbie.model.repostiory.UserRoleRepository;
 import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
@@ -18,14 +20,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AppClientRepository appClientRepository;
@@ -33,9 +38,10 @@ public class UserServiceImpl implements UserService {
     private final UserRoleService userRoleService;
 
     @Autowired
-    public UserServiceImpl(ModelMapper modelMapper, UserRoleRepository userRoleRepository,
+    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, UserRoleRepository userRoleRepository,
                            PasswordEncoder passwordEncoder, AppClientRepository appClientRepository, BusinessOwnerRepository businessOwnerRepository, UserRoleService userRoleService) {
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.appClientRepository = appClientRepository;
@@ -127,6 +133,30 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
+
+    @Override
+    public void saveUpdatedUser(BusinessOwner businessOwner) {
+        this.businessOwnerRepository.save(businessOwner);
+    }
+
+    @Override
+    public void saveUpdatedUserClient(AppClient appClient) {
+        this.appClientRepository.save(appClient);
+    }
+
+    @Override
+    public UserEntity findUserById(Long userId) {
+
+        Optional<UserEntity> user = this.userRepository.findById(userId);
+        if(user.isPresent()) {
+            return user.get();
+        }
+        else {
+            throw new NullPointerException();
+        }
+
+    }
+
 
     @Override
     public BusinessOwner findCurrentUserBusinessOwner() {
