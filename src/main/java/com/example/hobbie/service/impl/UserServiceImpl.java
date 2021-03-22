@@ -17,11 +17,15 @@ import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +40,11 @@ public class UserServiceImpl implements UserService {
     private final AppClientRepository appClientRepository;
     private final BusinessOwnerRepository businessOwnerRepository;
     private final UserRoleService userRoleService;
+    private SessionRegistry sessionRegistry;
 
     @Autowired
     public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, UserRoleRepository userRoleRepository,
-                           PasswordEncoder passwordEncoder, AppClientRepository appClientRepository, BusinessOwnerRepository businessOwnerRepository, UserRoleService userRoleService) {
+                           PasswordEncoder passwordEncoder, AppClientRepository appClientRepository, BusinessOwnerRepository businessOwnerRepository, UserRoleService userRoleService, SessionRegistry sessionRegistry) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
@@ -47,6 +52,7 @@ public class UserServiceImpl implements UserService {
         this.appClientRepository = appClientRepository;
         this.businessOwnerRepository = businessOwnerRepository;
         this.userRoleService = userRoleService;
+        this.sessionRegistry = sessionRegistry;
     }
 
     @Override
@@ -155,8 +161,24 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         }
 
+
+
     }
 
+    @Override
+    public void deleteUser(Long id) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        expireUserSessions(user.getUsername());
+        userRepository.delete(user);
+
+
+    }
+    public void expireUserSessions(String username) {
+                if (findCurrentUsername().equals(username)) {
+                    SecurityContextHolder.clearContext();
+                }
+        }
 
     @Override
     public BusinessOwner findCurrentUserBusinessOwner() {
@@ -182,7 +204,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
+
     public String findCurrentUsername() {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

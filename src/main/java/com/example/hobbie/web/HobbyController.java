@@ -1,8 +1,10 @@
 package com.example.hobbie.web;
 
 
+import com.example.hobbie.config.UserInterceptor;
 import com.example.hobbie.model.binding.HobbyBindingModel;
 import com.example.hobbie.model.binding.UpdateHobbyBindingModel;
+import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.UpdateHobbyServiceModel;
@@ -44,70 +46,88 @@ public class HobbyController {
 
     @GetMapping("/create_offer")
     public ModelAndView showCreateOffer(Model model) {
-        if(!model.containsAttribute("hobbyBindingModel")){
-            model.addAttribute("hobbyBindingModel", new HobbyBindingModel());
-            model.addAttribute("isExists",false);
-            model.addAttribute("noImg",false);
+        if (UserInterceptor.isUserLogged()) {
+            if (!model.containsAttribute("hobbyBindingModel")) {
+                model.addAttribute("hobbyBindingModel", new HobbyBindingModel());
+                model.addAttribute("isExists", false);
+                model.addAttribute("noImg", false);
+            }
+            ModelAndView mav = new ModelAndView("create_offer");
+            return mav;
         }
-        ModelAndView mav= new ModelAndView("create_offer");
-        return mav;
+        else {   ModelAndView mav = new ModelAndView("index");
+            return mav;}
+
 
     }
 
     @PostMapping("/create_offer")
-    public RedirectView saveHobby(@Valid HobbyBindingModel hobbyBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+    public  String saveHobby(@Valid HobbyBindingModel hobbyBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
 
                                   @RequestParam("image") MultipartFile multipartFile) throws IOException {
+        if (UserInterceptor.isUserLogged()) {
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            if (bindingResult.hasErrors() || fileName.isBlank()) {
+                redirectAttributes.addFlashAttribute("hobbyBindingModel", hobbyBindingModel);
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.hobbyBindingModel", bindingResult);
+                if (fileName.isBlank()) {
+                    redirectAttributes.addFlashAttribute("noImg", true);
+                }
 
-        if (bindingResult.hasErrors() || fileName.isBlank()) {
-            redirectAttributes.addFlashAttribute("hobbyBindingModel", hobbyBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.hobbyBindingModel", bindingResult);
-            if(fileName.isBlank()){
-                redirectAttributes.addFlashAttribute("noImg",true);
+                return ("create_offer");
+            } else {
+
+                Long id = this.hobbyService.createHobby(this.modelMapper.map(hobbyBindingModel, HobbyServiceModel.class), fileName);
+
+                String uploadDir = "hobby-photos/" + id;
+
+                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             }
 
-            return new RedirectView("/hobbies/create_offer", true);
-        } else {
-
-            Long id = this.hobbyService.createHobby(this.modelMapper.map(hobbyBindingModel, HobbyServiceModel.class), fileName);
-
-            String uploadDir = "hobby-photos/" + id;
-
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            return ("business_owner");
         }
-
-        return new RedirectView("/business_owner", true);
+        else{
+            return "index";
+        }
     }
     @GetMapping("/hobbie-details/{id}")
     public String showHome(@PathVariable Long id, Model model){
-        Hobby hobby = this.hobbyService.findHobbieById(id);
-        model.addAttribute("hobbie", hobby);
-        return "hobbie-details";
+        if (UserInterceptor.isUserLogged()) {
+            Hobby hobby = this.hobbyService.findHobbieById(id);
+            model.addAttribute("hobbie", hobby);
+            return "hobbie-details";
+        }
+        else{
+            return "index";
+        }
     }
 
     @GetMapping("/update-hobby/{id}")
     public String showUpdateHobbyForm(@PathVariable("id") long id, Model model) {
-        Hobby hobbie = this.hobbyService.findHobbieById(id);
-        UpdateHobbyBindingModel updateHobbyBindingModel = this.modelMapper.map(hobbie, UpdateHobbyBindingModel.class);
-        model.addAttribute("updateHobbyBindingModel", updateHobbyBindingModel);
-        model.addAttribute("noImg2",false);
+        if (UserInterceptor.isUserLogged()) {
+            Hobby hobbie = this.hobbyService.findHobbieById(id);
+            UpdateHobbyBindingModel updateHobbyBindingModel = this.modelMapper.map(hobbie, UpdateHobbyBindingModel.class);
+            model.addAttribute("updateHobbyBindingModel", updateHobbyBindingModel);
+            model.addAttribute("noImg2", false);
 
-        return "update-hobby";
+            return "update-hobby";
+        }
+        else{
+            return "index";
+        }
     }
 
         @PostMapping("/update-hobby/{id}")
         public String updateHobby(@PathVariable("id") long id,@Valid UpdateHobbyBindingModel updateHobbyBindingModel , BindingResult bindingResult, RedirectAttributes redirectAttributes,
-
                                         @RequestParam("image") MultipartFile multipartFile) throws IOException {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-
+            if (UserInterceptor.isUserLogged()) {
             if (bindingResult.hasErrors() || fileName.isBlank()) {
                 redirectAttributes.addFlashAttribute("updateHobbyBindingModel", updateHobbyBindingModel);
                 redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateHobbyBindingModel", bindingResult);
-                if(fileName.isBlank()){
-                    redirectAttributes.addFlashAttribute("noImg2",true);
+                if (fileName.isBlank()) {
+                    redirectAttributes.addFlashAttribute("noImg2", true);
                 }
                 return "update-hobby";
             } else {
@@ -116,7 +136,7 @@ public class HobbyController {
 
                 String uploadDir = "hobby-photos/" + id;
 
-                if(Files.exists(Path.of(uploadDir))) {
+                if (Files.exists(Path.of(uploadDir))) {
                     FileUtils.cleanDirectory(new File(uploadDir));
                 }
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
@@ -124,6 +144,21 @@ public class HobbyController {
 
             return "redirect:/hobbies/hobbie-details/{id}";
         }
+           else{
+            return "index";
+        }
+        }
+
+    @GetMapping("/delete-hobby/{id}")
+    public String deleteAppClient(@PathVariable("id") long id){
+        if (UserInterceptor.isUserLogged()) {
+            this.hobbyService.deleteHobby(id);
+            return "redirect:/business_owner";
+        }
+        else {
+            return "index";
+        }
+    }
 }
 
 

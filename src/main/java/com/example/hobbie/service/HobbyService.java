@@ -17,4 +17,6 @@ public interface HobbyService {
 
 
     void saveUpdatedHobby(UpdateHobbyServiceModel map, String fileName);
+
+    void deleteHobby(long id);
 }

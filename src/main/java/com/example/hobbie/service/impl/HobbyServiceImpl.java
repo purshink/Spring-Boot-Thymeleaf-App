@@ -78,4 +78,9 @@ public class HobbyServiceImpl implements HobbyService {
 
     }
 
+    @Override
+    public void deleteHobby(long id) {
+            this.hobbyRepository.deleteById(id);
+    }
+
 }

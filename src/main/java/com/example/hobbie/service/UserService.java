@@ -20,6 +20,9 @@ public interface UserService {
     void saveUpdatedUserClient(AppClient appClient);
 
     UserEntity findUserById(Long userId);
+
+    void deleteUser(Long id);
+
 }
 
 
