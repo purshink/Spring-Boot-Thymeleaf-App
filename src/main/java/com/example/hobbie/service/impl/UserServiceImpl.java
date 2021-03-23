@@ -167,13 +167,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        expireUserSessions(user.getUsername());
-        userRepository.delete(user);
+        try {
+            UserEntity user = userRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+            expireUserSessions(user.getUsername());
+            userRepository.delete(user);
+        }
+        catch (Exception e){
+            //TODO HANDLING ERRORS FOR DELETING PARENT - USER;
+        }
 
 
     }
+
+    @Override
+    public BusinessOwner findBusinessOwnerById(long id) {
+        Optional<BusinessOwner> businessOwner = this.businessOwnerRepository.findById(id);
+
+        if(businessOwner.isPresent()) {
+            return businessOwner.get();
+        }
+        else {
+            throw new NullPointerException();
+        }
+
+    }
+
     public void expireUserSessions(String username) {
                 if (findCurrentUsername().equals(username)) {
                     SecurityContextHolder.clearContext();

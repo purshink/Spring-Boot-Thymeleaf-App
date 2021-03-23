@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 @Component
 public class SessionTimerInterceptor implements HandlerInterceptor {
-    private static final long MAX_INACTIVE_SESSION_TIME = 5 * 10000;
+    private static final long MAX_INACTIVE_SESSION_TIME = 12 * 10000;
 
     private HttpSession session;
 

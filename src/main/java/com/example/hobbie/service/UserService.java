@@ -23,6 +23,7 @@ public interface UserService {
 
     void deleteUser(Long id);
 
+    BusinessOwner findBusinessOwnerById(long i);
 }
 
 
