@@ -2,6 +2,7 @@ package com.example.hobbie.model.service;
 
 import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
+import com.example.hobbie.model.entities.enums.LocationEnum;
 
 import java.math.BigDecimal;
 
@@ -11,6 +12,7 @@ public class HobbyServiceModel {
     private CategoryNameEnum category;
     private String photos;
     private BigDecimal price;
+    private LocationEnum location;
 
     public HobbyServiceModel() {
     }
@@ -54,5 +56,13 @@ public class HobbyServiceModel {
 
     public void setPhotos(String photos) {
         this.photos = photos;
+    }
+
+    public LocationEnum getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEnum location) {
+        this.location = location;
     }
 }

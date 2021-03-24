@@ -1,7 +1,9 @@
 package com.example.hobbie.model.binding;
 
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
+import com.example.hobbie.model.entities.enums.LocationEnum;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,8 +14,8 @@ public class UpdateHobbyBindingModel {
     private String name;
     private String description;
     private CategoryNameEnum category;
-    private String photos;
     private BigDecimal price;
+    private LocationEnum location;
 
     public UpdateHobbyBindingModel() {
     }
@@ -65,5 +67,14 @@ public class UpdateHobbyBindingModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @NotNull(message = "You have to choose location")
+    public LocationEnum getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEnum location) {
+        this.location = location;
     }
 }

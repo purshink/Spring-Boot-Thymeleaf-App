@@ -2,6 +2,7 @@ package com.example.hobbie.model.binding;
 
 import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
+import com.example.hobbie.model.entities.enums.LocationEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Transient;
@@ -16,7 +17,7 @@ public class HobbyBindingModel {
     private String description;
     private CategoryNameEnum category;
     private BigDecimal price ;
-//    private String photos;
+    private LocationEnum location;
 
 
     public HobbyBindingModel() {
@@ -61,13 +62,12 @@ public class HobbyBindingModel {
         this.price = price;
     }
 
-    //
-//    @Transient
-//    public String getPhotos() {
-//        return photos;
-//    }
-//
-//    public void setPhotos(String photos) {
-//        this.photos = photos;
-//    }
+    @NotNull(message = "You have to choose location")
+    public LocationEnum getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEnum location) {
+        this.location = location;
+    }
 }

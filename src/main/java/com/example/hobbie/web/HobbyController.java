@@ -85,7 +85,7 @@ public class HobbyController {
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             }
 
-            return ("business_owner");
+            return ("redirect:/business_owner");
         }
         else{
             return "index";
@@ -150,7 +150,7 @@ public class HobbyController {
         }
 
     @GetMapping("/delete-hobby/{id}")
-    public String deleteAppClient(@PathVariable("id") long id){
+    public String deleteAppClient(@PathVariable("id") long id) throws IOException {
         if (UserInterceptor.isUserLogged()) {
             this.hobbyService.deleteHobby(id);
             return "redirect:/business_owner";

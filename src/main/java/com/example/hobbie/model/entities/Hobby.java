@@ -1,6 +1,7 @@
 package com.example.hobbie.model.entities;
 
 import com.example.hobbie.model.entities.enums.AboTypeEnum;
+import com.example.hobbie.model.entities.enums.LocationEnum;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,11 +17,13 @@ public class Hobby extends BaseEntity{
     private String profilePhoto;
     private BusinessOwner businessOwner;
     private BigDecimal price;
-
+    private Location location;
 
 
     public Hobby() {
     }
+
+
 
     @Column(nullable = false)
     public String getName() {
@@ -82,5 +85,14 @@ public class Hobby extends BaseEntity{
 
     public void setPhotos(String profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+
+    @ManyToOne
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

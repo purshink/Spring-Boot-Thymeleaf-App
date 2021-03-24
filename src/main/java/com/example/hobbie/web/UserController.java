@@ -8,15 +8,12 @@ import com.example.hobbie.model.binding.UpdateClientBindingModel;
 import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.BusinessOwner;
 import com.example.hobbie.model.entities.UserEntity;
-import com.example.hobbie.model.entities.UserRoleEntity;
 import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
+import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
@@ -28,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -37,12 +33,14 @@ public class UserController {
     //TODO CREATE CUSTOM VALIDATION NOT NULL ERROR MESSAGE FOR GENDER
     //TODO CREATE POP UP THAT USER HAT SUCCESSFULLY SIGNED UP
     private final UserService userService;
+    private final HobbyService hobbyService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, HobbyService hobbyService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.hobbyService = hobbyService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -261,8 +259,14 @@ public class UserController {
     public String deleteBusinessOwner() {
         if (UserInterceptor.isUserLogged()) {
             BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
-            this.userService.deleteUser(currentUserBusinessOwner.getId());
-            return "redirect:/";
+            if(hobbyService.getAllHobbyOffers().isEmpty()) {
+                this.userService.deleteUser(currentUserBusinessOwner.getId());
+                return "redirect:/";
+            }
+            else {
+                //TODO SHOW POPUP ERROR MESSAGE - USER MUST FIRST DELETE HIS OFFERS
+                return "redirect:/business_owner";
+            }
         }
         else {
             return "index";

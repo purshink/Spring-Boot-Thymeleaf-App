@@ -64,6 +64,18 @@
                 </div>
             </div>
             <div class="row no-gutters">
+                <span class="content-name">Location</span>
+                <select class="form-test" th:field="*{location}"   id="location" name="category">
+
+                    <option value="">Select location</option>
+                    <option th:each="l : ${T(com.example.hobbie.model.entities.enums.LocationEnum).values()}"
+                            th:text="${l}"
+                            th:value="${l}"
+                            value="ACTIVE">Active</option>
+                </select>
+                <small th:if="${#fields.hasErrors('location')}" th:errors="*{location}" class="errors">Error message</small>
+            </div>
+            <div class="row no-gutters">
                 <div class="form-field-photos">
                     <div class="name-section">
                         <div class="row_upload">

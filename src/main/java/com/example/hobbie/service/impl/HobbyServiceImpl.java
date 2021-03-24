@@ -3,22 +3,22 @@ package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.BusinessOwner;
 import com.example.hobbie.model.entities.Hobby;
-import com.example.hobbie.model.entities.UserRoleEntity;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
-import com.example.hobbie.model.entities.enums.UserRoleEnum;
+import com.example.hobbie.model.entities.enums.LocationEnum;
 import com.example.hobbie.model.repostiory.HobbyRepository;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.UpdateHobbyServiceModel;
 import com.example.hobbie.service.CategoryService;
 import com.example.hobbie.service.HobbyService;
+import com.example.hobbie.service.LocationService;
 import com.example.hobbie.service.UserService;
-import com.example.hobbie.util.FileUploadUtil;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -30,22 +30,24 @@ public class HobbyServiceImpl implements HobbyService {
     private final HobbyRepository hobbyRepository;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final LocationService locationService;
 
     @Autowired
-    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryService categoryService, UserService userService) {
+    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryService categoryService, UserService userService, LocationService locationService) {
         this.modelMapper = modelMapper;
         this.hobbyRepository = hobbyRepository;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.locationService = locationService;
     }
 
 
     @Override
     public Long createHobby(HobbyServiceModel hobbyServiceModel,  String fileName) {
-                    //todo check why hobbie ids keep incrementing
 
                                 Hobby hobby = this.modelMapper.map(hobbyServiceModel, Hobby.class);
                     hobby.setCategory(this.categoryService.findByName(hobbyServiceModel.getCategory()));
+                    hobby.setLocation(this.locationService.getLocationByName(hobbyServiceModel.getLocation()));
                     hobby.setPhotos(fileName);
                     hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
                     Hobby savedHobby = this.hobbyRepository.save(hobby);
@@ -76,14 +78,17 @@ public class HobbyServiceImpl implements HobbyService {
         Hobby hobby = this.modelMapper.map(updateHobbyServiceModel, Hobby.class);
         hobby.setCategory(this.categoryService.findByName(updateHobbyServiceModel.getCategory()));
         hobby.setPhotos(fileName);
+        hobby.setLocation(this.locationService.getLocationByName(updateHobbyServiceModel.getLocation()));
         hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
        this.hobbyRepository.save(hobby);
 
     }
 
     @Override
-    public void deleteHobby(long id) {
-            this.hobbyRepository.deleteById(id);
+    public void deleteHobby(long id) throws IOException {
+        String uploadDir = "hobby-photos/" + id;
+        FileUtils.deleteDirectory(new File(uploadDir));
+        this.hobbyRepository.deleteById(id);
     }
 
     @Override
@@ -100,6 +105,7 @@ public class HobbyServiceImpl implements HobbyService {
             climbing.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             climbing.setPrice(new BigDecimal("73"));
             climbing.setProfilePhoto("1.jpg");
+            climbing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(climbing);
             //2
             Hobby dancing = new Hobby();
@@ -112,6 +118,7 @@ public class HobbyServiceImpl implements HobbyService {
             dancing.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             dancing.setPrice(new BigDecimal("62.40"));
             dancing.setProfilePhoto("2.jpg");
+            dancing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(dancing);
             //3
             Hobby horseRiding = new Hobby();
@@ -128,6 +135,7 @@ public class HobbyServiceImpl implements HobbyService {
             horseRiding.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             horseRiding.setPrice(new BigDecimal("162.20"));
             horseRiding.setProfilePhoto("3.jpg");
+            horseRiding.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(horseRiding);
 
             //4
@@ -142,6 +150,7 @@ public class HobbyServiceImpl implements HobbyService {
             yoga.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             yoga.setPrice(new BigDecimal("52.40"));
             yoga.setProfilePhoto("4.jpg");
+            yoga.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(yoga);
 
             //5
@@ -156,6 +165,7 @@ public class HobbyServiceImpl implements HobbyService {
             painting.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             painting.setPrice(new BigDecimal("40"));
             painting.setProfilePhoto("5.jpg");
+            painting.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(painting);
         }
 
