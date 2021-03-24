@@ -62,7 +62,7 @@ public class HobbyBindingModel {
         this.price = price;
     }
 
-    @NotNull(message = "You have to choose location")
+    @NotNull(message = "You have to choose a location")
     public LocationEnum getLocation() {
         return location;
     }

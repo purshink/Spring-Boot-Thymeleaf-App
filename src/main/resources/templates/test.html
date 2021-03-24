@@ -12,77 +12,87 @@
  <div class="test">
      <div class="h2"><h2>Find Your Hobby</h2></div>
  
-    <form  method="POST">
+    <form th:object="${testBindingModel}" th:action="@{/test}" method="POST">
       <div class="row">
-        <select class="form-test" aria-label="Default select example">
-            <option selected>What is missing in your life?</option>
-            <option value="1">Entertainment</option>
-            <option value="2">Pushing my boundaries</option>
-            <option value="3">Excitement</option>
-            <option value="4">Mental stimulation</option>
-            <option value="5">Increased creativiry</option>
-            <option value="3">Other</option>
+        <select th:field="*{categoryOne}" class="form-test" aria-label="Default select example">
+            <option value="1" selected>What is missing in your life?</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).FUN}">Entertainment</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).ACTIVE}">Pushing my boundaries</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).ACTIVE}">Excitement</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).INTELLECTUAL}">Mental stimulation</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).CREATIVE}">Increased creativiry</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).OTHER}">Other</option>
           </select>
           </div>
+        <small th:if="${#fields.hasErrors('categoryOne')}" th:errors="*{categoryOne}" class="errors">Error message</small>
           <div class="row">
-            <select class="form-test" aria-label="Default select example">
-                <option selected>Do you enjoy social activities?</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-                <option value="3">Sometimes</option>
+            <select th:field="*{categoryTwo}" class="form-test" aria-label="Default select example">
+                <option value="2"selected>Do you enjoy social activities?</option>
+                <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).SOCIAL}">Yes</option>
+                <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).OTHER}">No</option>
+                <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).SOCIAL}">Sometimes</option>
               </select>
               </div>
+        <small th:if="${#fields.hasErrors('categoryTwo')}" th:errors="*{categoryTwo}" class="errors">Error message</small>
         <div class="row">
-        <select class="form-test" aria-label="Default select example">
-            <option selected>Are you an active person?</option>
-            <option value="1">Yes</option>
-            <option value="2">No</option>
-            <option value="3">Sometimes</option>
+        <select th:field="*{categoryThree}" class="form-test" aria-label="Default select example">
+            <option value="3"selected>Are you an active person?</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).ACTIVE}">Yes</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).RELAX}">No</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).ACTIVE}">Sometimes</option>
           </select>
           </div>
+        <small th:if="${#fields.hasErrors('categoryThree')}" th:errors="*{categoryThree}" class="errors">Error message</small>
           <div class="row">
-          <select class="form-test" aria-label="Default select example">
-            <option selected>How did you spend your last weekend?</option>
-            <option value="1">On the computer</option>
-            <option value="2">On the couch</option>
-            <option value="3">Outside</option>
+          <select th:field="*{categoryFour}"class="form-test" aria-label="Default select example">
+            <option value="4" selected>How did you spend your last weekend?</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).INTELLECTUAL}">On the computer</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).RELAX}">On the couch</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).ACTIVE}">Outside</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).OTHER}">Other</option>
+          </select>
+          </div>
+        <small th:if="${#fields.hasErrors('categoryFour')}" th:errors="*{categoryFour}" class="errors">Error message</small>
+          <div class="row">
+          <select th:field="*{categoryFive}" class="form-test" aria-label="Default select example">
+            <option value="5" selected>Where did you spent your last vacation?</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).ACTIVE}">In the mountains</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).RELAX}">On the beach</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).RELAX}">At home</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).OTHER}">Other</option>
+          </select>
+          </div>
+        <small th:if="${#fields.hasErrors('categoryFive')}" th:errors="*{categoryFive}" class="errors">Error message</small>
+          <div class="row">
+          <select th:field="*{categorySix}" class="form-test" aria-label="Default select example">
+            <option value="6"selected>What is the best compliment you've ever received?</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).CREATIVE}">You are creative</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).ACTIVE}">You are fit</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).INTELLECTUAL}">You are smart</option>
+            <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).SOCIAL}">You are a good person</option>
             <option value="3">Other</option>
           </select>
           </div>
+        <small th:if="${#fields.hasErrors('categorySix')}" th:errors="*{categorySix}" class="errors">Error message</small>
           <div class="row">
-          <select class="form-test" aria-label="Default select example">
-            <option selected>Where did you spent your last vacation?</option>
-            <option value="1">In the mountains</option>
-            <option value="2">On the beach</option>
-            <option value="3">At home</option>
-            <option value="3">Other</option>
-          </select>
-          </div>
-          <div class="row">
-          <select class="form-test" aria-label="Default select example">
-            <option selected>What is the best compliment you've ever received?</option>
-            <option value="1">You are creative</option>
-            <option value="2">You are fit</option>
-            <option value="2">You are smart</option>
-            <option value="3">You are a good person</option>
-            <option value="3">Other</option>
-          </select>
-          </div>
-          <div class="row">
-            <select class="form-test" aria-label="Default select example">
-              <option selected>Are you willing to commit?</option>
-              <option value="1">Yes, alwyas</option>
-              <option value="2">Sometimes</option>
-              <option value="3">Only if I find the perfect activity for me</option>
+            <select th:field="*{categorySeven}" class="form-test" aria-label="Default select example">
+              <option value="7"selected>Are you willing to commit?</option>
+              <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).OTHER}">Yes, alwyas</option>
+              <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).OTHER}">Sometimes</option>
+              <option th:value="${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).OTHER}">Only if I find the perfect activity for me</option>
             </select>
             </div>
+        <small th:if="${#fields.hasErrors('categorySeven')}" th:errors="*{categorySeven}" class="errors">Error message</small>
             <div class="row">
-              <select class="form-test" aria-label="Default select example">
-                <option selected>Select your city</option>
-                <option value="1">Zurich</option>
-                <option value="3">Other</option>
+              <select th:field="*{location}" class="form-test" aria-label="Default select example">
+                <option value="location" selected>Select your city</option>
+                  <option th:each="l : ${T(com.example.hobbie.model.entities.enums.LocationEnum).values()}"
+                             th:text="${l}"
+                             th:value="${l}"
+                             value="ACTIVE">Active</option>
               </select>
               </div>
+        <small th:if="${#fields.hasErrors('location')}" th:errors="*{location}" class="errors">Error message</small>
           <div class="form-field">
             <button class="button button2">Submit</button>
         </div>

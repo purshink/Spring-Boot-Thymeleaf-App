@@ -12,6 +12,7 @@ import java.util.List;
 public class AppClient extends UserEntity implements Serializable {
     private String fullName;
     private GenderEnum gender;
+    private Test testResults;
     private List<Hobby> hobby_matches;
 
 
@@ -49,5 +50,14 @@ public class AppClient extends UserEntity implements Serializable {
 
     public void setHobby_matches(List<Hobby> hobby_matches) {
         this.hobby_matches = hobby_matches;
+    }
+
+    @OneToOne
+    public Test getTestResults() {
+        return testResults;
+    }
+
+    public void setTestResults(Test testResults) {
+        this.testResults = testResults;
     }
 }
