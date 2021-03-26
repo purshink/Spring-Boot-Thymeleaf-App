@@ -14,148 +14,170 @@
 
 </header>
 <div class="greeting">  <h1>Your hobbies</h1>
+    <div th:marginheight="5px" th:if="${hasNoMatches}">
+        <div class="introduction">
+            <div class="intro-text">
+        We're sorry but no matches for you have been found.
+            </div>
+        </div>
+    </div>
+    <div th:marginheight="5px" th:if="${hasNoResults}">
+        <div class="introduction">
+            <div class="intro-text">
+        Please take the test to find out the best hobbies for you in your aria:
+                 <div class="cta">
+                            <button class="cta_add" ><a class="cta_second_s" href="/test">Find Your Hobby</a></button>
+                </div>
+            </div>
+        </div>
 
+    </div>
 
 </div>
 </div>
 <main class="user_home">
 
+
     <section class="cards">
-        <div class="card">
+
+        <a th:href="@{/hobbies/hobbie-details/{id}(id = *{id})}" th:each="hobby : ${hobby_matches}" th:object="${hobby}" class="card" method="POST">
             <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
+                <img  th:src="*{profilePhotoImagePath}" />
             </div>
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
+            <div   class="card_content">
+                <p th:text="*{name}" class="cart_title text_medium">
                     Hiking
                 </p>
                 <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
+                    <p  class="text_medium">Find out more...</p>
+                    <p th:text="|*{price} CHF|"class="card_price text_medium">500 CHF</p>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+        </a>
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+        <!--        <div class="card">-->
+        <!--            <div class="card_image-container">-->
+        <!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+        <!--            </div>-->
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+        <!--            <div class="card_content">-->
+        <!--                <p class="cart_title text_medium">-->
+        <!--                    Hiking-->
+        <!--                </p>-->
+        <!--                <div class="card_info">-->
+        <!--                    <p class="text_medium">Find out more...</p>-->
+        <!--                    <p class="card_price text_medium">500 CHF</p>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+<!--        -->
+<!--        <div class="card">-->
+<!--            <div class="card_image-container">-->
+<!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+<!--            </div>-->
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+<!--            <div class="card_content">-->
+<!--                <p class="cart_title text_medium">-->
+<!--                    Hiking-->
+<!--                </p>-->
+<!--                <div class="card_info">-->
+<!--                    <p class="text_medium">2 days in the nature</p>-->
+<!--                    <p class="card_price text_medium">500 CHF</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            <div class="card_image-container">-->
+<!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+<!--            </div>-->
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+<!--            <div class="card_content">-->
+<!--                <p class="cart_title text_medium">-->
+<!--                    Hiking-->
+<!--                </p>-->
+<!--                <div class="card_info">-->
+<!--                    <p class="text_medium">2 days in the nature</p>-->
+<!--                    <p class="card_price text_medium">500 CHF</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            <div class="card_image-container">-->
+<!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+<!--            </div>-->
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+<!--            <div class="card_content">-->
+<!--                <p class="cart_title text_medium">-->
+<!--                    Hiking-->
+<!--                </p>-->
+<!--                <div class="card_info">-->
+<!--                    <p class="text_medium">2 days in the nature</p>-->
+<!--                    <p class="card_price text_medium">500 CHF</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            <div class="card_image-container">-->
+<!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+<!--            </div>-->
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card_image-container">
-                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>
-            </div>
+<!--            <div class="card_content">-->
+<!--                <p class="cart_title text_medium">-->
+<!--                    Hiking-->
+<!--                </p>-->
+<!--                <div class="card_info">-->
+<!--                    <p class="text_medium">2 days in the nature</p>-->
+<!--                    <p class="card_price text_medium">500 CHF</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            <div class="card_image-container">-->
+<!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+<!--            </div>-->
 
-            <div class="card_content">
-                <p class="cart_title text_medium">
-                    Hiking
-                </p>
-                <div class="card_info">
-                    <p class="text_medium">2 days in the nature</p>
-                    <p class="card_price text_medium">500 CHF</p>
-                </div>
-            </div>
-        </div>
+<!--            <div class="card_content">-->
+<!--                <p class="cart_title text_medium">-->
+<!--                    Hiking-->
+<!--                </p>-->
+<!--                <div class="card_info">-->
+<!--                    <p class="text_medium">2 days in the nature</p>-->
+<!--                    <p class="card_price text_medium">500 CHF</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            <div class="card_image-container">-->
+<!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+<!--            </div>-->
+
+<!--            <div class="card_content">-->
+<!--                <p class="cart_title text_medium">-->
+<!--                    Hiking-->
+<!--                </p>-->
+<!--                <div class="card_info">-->
+<!--                    <p class="text_medium">2 days in the nature</p>-->
+<!--                    <p class="card_price text_medium">500 CHF</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            <div class="card_image-container">-->
+<!--                <img src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"/>-->
+<!--            </div>-->
+
+<!--            <div class="card_content">-->
+<!--                <p class="cart_title text_medium">-->
+<!--                    Hiking-->
+<!--                </p>-->
+<!--                <div class="card_info">-->
+<!--                    <p class="text_medium">2 days in the nature</p>-->
+<!--                    <p class="card_price text_medium">500 CHF</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </section>
 </main>
 <footer class="footer bg-transparent  py-2">

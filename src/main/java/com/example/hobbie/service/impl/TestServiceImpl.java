@@ -4,7 +4,7 @@ import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.Test;
 import com.example.hobbie.model.repostiory.TestRepository;
 import com.example.hobbie.model.service.TestServiceModel;
-import com.example.hobbie.service.LocationService;
+import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.TestService;
 import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -18,14 +18,15 @@ public class TestServiceImpl implements TestService {
     private final TestRepository testRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
-    private final LocationService locationService;
+    private final HobbyService hobbyService;
+
 
     @Autowired
-    public TestServiceImpl(TestRepository testRepository, ModelMapper modelMapper, UserService userService, LocationService locationService) {
+    public TestServiceImpl(TestRepository testRepository, ModelMapper modelMapper, UserService userService, HobbyService hobbyService) {
         this.testRepository = testRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
-        this.locationService = locationService;
+        this.hobbyService = hobbyService;
     }
 
     @Override
@@ -40,6 +41,7 @@ public class TestServiceImpl implements TestService {
         currentUserAppClient.setTestResults(test);
         this.userService.saveUpdatedUserClient(currentUserAppClient);
         this.testRepository.save(test);
+        currentUserAppClient.setHobby_matches(this.hobbyService.findHobbyMatches(currentUserAppClient));
 
     }
 }

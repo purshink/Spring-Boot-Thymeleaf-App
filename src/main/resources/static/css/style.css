@@ -167,6 +167,15 @@ nav {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }
+.cta_second_s {
+    color: #c36cbb;
+    background: #fefefe;
+    width: 150px;
+    height: 50px;
+    cursor: pointer ;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
 
 .drawing{
     position: absolute;
@@ -442,6 +451,8 @@ input[type=checkbox]:checked:after {
 
 
 .footer {
+    /*position:absolute;*/
+    bottom:0;
     background:transparent;
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#3C000000,endColorstr=#3C000000);
     zoom: 1;

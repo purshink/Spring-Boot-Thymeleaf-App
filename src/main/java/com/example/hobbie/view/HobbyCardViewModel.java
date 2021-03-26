@@ -1,20 +1,17 @@
 package com.example.hobbie.view;
 
-import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
-import com.example.hobbie.model.entities.enums.LocationEnum;
 
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 
-public class HobbyViewModel {
+public class HobbyCardViewModel {
     private Long id;
     private String name;
-    private String description;
-    private String profilePhoto;
     private BigDecimal price;
-    private LocationEnum location;
+    private String profilePhoto;
 
-    public HobbyViewModel() {
+    public HobbyCardViewModel() {
     }
 
     public Long getId() {
@@ -33,14 +30,6 @@ public class HobbyViewModel {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getProfilePhoto() {
         return profilePhoto;
     }
@@ -57,11 +46,10 @@ public class HobbyViewModel {
         this.price = price;
     }
 
-    public LocationEnum getLocation() {
-        return location;
-    }
+    @Transient()
+    public String getProfilePhotoImagePath() {
+        if (profilePhoto == null || id == null) return null;
 
-    public void setLocation(LocationEnum location) {
-        this.location = location;
+        return "/hobby-photos/" + id + "/" + profilePhoto;
     }
 }

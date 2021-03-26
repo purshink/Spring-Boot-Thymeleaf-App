@@ -7,4 +7,5 @@ public interface CategoryService {
     Category findByName(CategoryNameEnum category);
 
     void initCategories();
+
 }

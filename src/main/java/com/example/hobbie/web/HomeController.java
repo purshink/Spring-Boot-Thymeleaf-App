@@ -1,7 +1,11 @@
 package com.example.hobbie.web;
 
 import com.example.hobbie.config.UserInterceptor;
+import com.example.hobbie.model.entities.AppClient;
+import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.service.HobbyService;
+import com.example.hobbie.service.UserService;
+import com.example.hobbie.view.HobbyCardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,14 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/")
 public class HomeController {
     private final HobbyService hobbyService;
+    private final UserService userService;
 
     @Autowired
-    public HomeController(HobbyService hobbyService) {
+    public HomeController(HobbyService hobbyService, UserService userService) {
         this.hobbyService = hobbyService;
+        this.userService = userService;
     }
 
     public String showHome(){
@@ -49,9 +57,25 @@ public class HomeController {
 
     @GetMapping("/user_home")
     public ModelAndView userHomeShow(@AuthenticationPrincipal UserDetails principal) {
+
         if (UserInterceptor.isUserLogged()) {
+            boolean isEmpty = false;
+            boolean hasNoResults = false;
             ModelAndView mav = new ModelAndView("user_home");
             mav.addObject("user", principal);
+            AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+            List<HobbyCardViewModel> hobbyMatches = this.hobbyService.getHobbyMatches(currentUserAppClient);
+            if(currentUserAppClient.getTestResults() == null){
+                hasNoResults = true;
+            }
+            else if(hobbyMatches.isEmpty()){
+                isEmpty = true;
+            }
+
+                mav.addObject("hobby_matches", hobbyMatches);
+                mav.addObject("hasNoMatches", isEmpty);
+                mav.addObject("hasNoResults", hasNoResults);
+
             return mav;
         }
         else{

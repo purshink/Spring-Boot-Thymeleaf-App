@@ -1,8 +1,7 @@
 package com.example.hobbie.service.impl;
 
 
-import com.example.hobbie.model.entities.BusinessOwner;
-import com.example.hobbie.model.entities.Hobby;
+import com.example.hobbie.model.entities.*;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import com.example.hobbie.model.repostiory.HobbyRepository;
@@ -12,19 +11,26 @@ import com.example.hobbie.service.CategoryService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.LocationService;
 import com.example.hobbie.service.UserService;
+import com.example.hobbie.view.HobbyCardViewModel;
+import com.example.hobbie.view.HobbyViewModel;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 
 @Service
+@Transactional
 public class HobbyServiceImpl implements HobbyService {
     private final ModelMapper modelMapper;
     private final HobbyRepository hobbyRepository;
@@ -43,31 +49,32 @@ public class HobbyServiceImpl implements HobbyService {
 
 
     @Override
-    public Long createHobby(HobbyServiceModel hobbyServiceModel,  String fileName) {
+    public Long createHobby(HobbyServiceModel hobbyServiceModel, String fileName) {
 
-                                Hobby hobby = this.modelMapper.map(hobbyServiceModel, Hobby.class);
-                    hobby.setCategory(this.categoryService.findByName(hobbyServiceModel.getCategory()));
-                    hobby.setLocation(this.locationService.getLocationByName(hobbyServiceModel.getLocation()));
-                    hobby.setPhotos(fileName);
-                    hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
-                    Hobby savedHobby = this.hobbyRepository.save(hobby);
-                    return savedHobby.getId();
+        Hobby hobby = this.modelMapper.map(hobbyServiceModel, Hobby.class);
+        hobby.setCategory(this.categoryService.findByName(hobbyServiceModel.getCategory()));
+        hobby.setLocation(this.locationService.getLocationByName(hobbyServiceModel.getLocation()));
+        hobby.setPhotos(fileName);
+        hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
+        Hobby savedHobby = this.hobbyRepository.save(hobby);
+        return savedHobby.getId();
 
     }
 
     @Override
-    public List<Hobby> getAllHobbyOffers() {
+    public List<HobbyViewModel> getAllHobbyOffers() {
         BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
-      return   this.hobbyRepository.findAllByBusinessOwnerBusinessName(currentUserBusinessOwner.getBusinessName());
+        List<Hobby> allHobies = this.hobbyRepository.findAllByBusinessOwnerBusinessName(currentUserBusinessOwner.getBusinessName());
+
+        return allHobies.stream().map(hobby -> this.modelMapper.map(hobby, HobbyViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
     public Hobby findHobbieById(Long id) {
         Optional<Hobby> hobby = this.hobbyRepository.findById(id);
-        if(hobby.isPresent()){
+        if (hobby.isPresent()) {
             return hobby.get();
-        }
-        else {
+        } else {
             throw new NullPointerException();
         }
     }
@@ -80,7 +87,7 @@ public class HobbyServiceImpl implements HobbyService {
         hobby.setPhotos(fileName);
         hobby.setLocation(this.locationService.getLocationByName(updateHobbyServiceModel.getLocation()));
         hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
-       this.hobbyRepository.save(hobby);
+        this.hobbyRepository.save(hobby);
 
     }
 
@@ -93,7 +100,8 @@ public class HobbyServiceImpl implements HobbyService {
 
     @Override
     public void initHobbyOffers() {
-        if(hobbyRepository.count() == 0) {
+        if (hobbyRepository.count() == 0) {
+            //TODO CREATE PHOTOS DIR IF IT DOESNT EXIST
             //1
             Hobby climbing = new Hobby();
             climbing.setName("Climbing");
@@ -130,7 +138,7 @@ public class HobbyServiceImpl implements HobbyService {
                     "The practice of horse riding is known as equitation and it is relatively simple to start with, at least to be able to go on rides in the countryside. If your interest grows further, you will want to improve your riding skills and acquire more knowledge about horses.\n" +
                     "\n" +
                     "How fast your skills improve depend on every individual and on your purpose, you can ride for pleasure in the nature in all types of terrain or choose an equestrian sport and train professionally.\n" +
-                    "\n" );
+                    "\n");
             horseRiding.setCategory(this.categoryService.findByName(CategoryNameEnum.ACTIVE));
             horseRiding.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             horseRiding.setPrice(new BigDecimal("162.20"));
@@ -171,4 +179,55 @@ public class HobbyServiceImpl implements HobbyService {
 
     }
 
+    @Override
+    public List<Hobby> findHobbyMatches(AppClient currentUserAppClient) {
+        List<Hobby> hobby_matches = new ArrayList<>();
+        if(currentUserAppClient.getTestResults() != null) {
+            boolean isAdded = false;
+            Random rand = new Random();
+            LocationEnum location = currentUserAppClient.getTestResults().getLocation();
+            Location locationByName = this.locationService.getLocationByName(location);
+            List<Hobby> allByLocation = this.hobbyRepository.findAllByLocation(locationByName);
+            List<CategoryNameEnum> testCategoryResults = new ArrayList<>();
+
+            testCategoryResults.add(currentUserAppClient.getTestResults().getCategoryOne());
+            testCategoryResults.add(currentUserAppClient.getTestResults().getCategoryTwo());
+            testCategoryResults.add(currentUserAppClient.getTestResults().getCategoryThree());
+            testCategoryResults.add(currentUserAppClient.getTestResults().getCategoryFour());
+            testCategoryResults.add(currentUserAppClient.getTestResults().getCategoryFive());
+            testCategoryResults.add(currentUserAppClient.getTestResults().getCategorySix());
+
+            if (allByLocation.size() > 0) {
+
+                for (int i = 0; i < 10; i++) {
+                    int randomIndex = rand.nextInt(allByLocation.size());
+                    Hobby randomHobby = allByLocation.get(randomIndex);
+                    if (hobby_matches.contains(randomHobby)) {
+                        continue;
+                    }
+                    for (CategoryNameEnum testCategory : testCategoryResults) {
+                        if (randomHobby.getCategory().getName().equals(testCategory)) {
+                            hobby_matches.add(randomHobby);
+                            isAdded = true;
+                        }
+                        if (isAdded) {
+                            isAdded = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        return hobby_matches;
+    }
+
+    @Override
+    public List<HobbyCardViewModel> getHobbyMatches(AppClient currentAppClient) {
+     return   findHobbyMatches(currentAppClient)
+                .stream().map(hobby -> this.modelMapper.map(hobby, HobbyCardViewModel.class)).collect(Collectors.toList());
+    }
 }
+
