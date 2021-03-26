@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "app_clients")
 public class AppClient extends UserEntity implements Serializable {
     private String fullName;
+    //TODO PHONE NUMBER
     private GenderEnum gender;
     private Test testResults;
     private List<Hobby> hobby_matches;

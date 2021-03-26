@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <div th:replace="fragments/fragments::head"/></div>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+</head>
+
+<body>
+<div th:replace="fragments/fragments::logo"/></div>
+<div th:replace="fragments/fragments::navbar"/></div>
+
+<div class="container">
+
+    <h1 class="jumbotron">
+        <span></span>Shopping Cart
+    </h1>
+
+
+    <div class="panel-default well" th:each="abo : ${abos}">
+        <div class="panel-heading">
+            <h1><a th:text="${abo.hobby.name}" th:href="@{/hobbies/hobbie-details/{id}(id = ${abo.hobby.id})}">Title</a></h1>
+<!--            <h3 th:text="${}">Description</h3>-->
+        </div>
+        <div class="row panel-body">
+            <div th:text="|${abo.hobby.name} Abo : 5 Entries|" class="col-md-9"></div>
+            <div th:text="|Abo Price: ${abo.aboPrice} |" class="col-md-2"></div>
+            <div th:text="| Prise per entry: ${abo.hobby.price}|" class="col-md-9"></div>
+            <a th:href="@{'/shoppingCart/removeProduct/{id}'(id=${abo.hobby.id})}" class="col-md-1">
+                <button type="button" class="btn btn-primary" th:text="Remove">Remove</button>
+            </a>
+        </div>
+        <br></br>
+    </div>
+
+    <div class="row panel-body">
+        <h2 class="col-md-11" th:inline="text">Total: [[${total}]]</h2>
+        <a th:href="@{'/shoppingCart/checkout'}" class="col-md-1">
+            <button type="button" class="btn btn-danger" th:text="Checkout">Checkout</button>
+        </a>
+    </div>
+
+</div>
+
+<footer class="footer bg-transparent  py-2">
+    <div class="container-fluid text-center">
+        <div class="footer-background h5 text-white">
+            &copy; Hobbie 2021. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

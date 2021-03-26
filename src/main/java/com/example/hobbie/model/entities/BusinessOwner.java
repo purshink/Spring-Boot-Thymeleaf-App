@@ -9,7 +9,7 @@ public class BusinessOwner extends UserEntity {
     private String businessName;
     private String address;
     private List<Hobby> hobby_offers;
-
+    //TODO PHONE NUMBER
     //TODO BankDetail bankDetails;
 
 

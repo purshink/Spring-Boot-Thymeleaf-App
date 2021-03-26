@@ -38,8 +38,14 @@
                         Pole climbing: Climbing poles and masts without equipment. </p>
                     <div class="prix">
                         <span><b th:text="|*{price} CHF|"></b></span>
-                        <span ><a class="add-crt-edit" th:href="@{/hobbies/update-hobby/{id}(id = *{id})}">Edit</a></span>
-                        <span ><a class="add-crt-edit" th:href="@{/hobbies/delete-hobby/{id}(id = *{id})}">Delete</a></span>
+                        <th:block sec:authorize="hasRole('BUSINESS_USER')">
+                            <span ><a class="add-crt-edit" th:href="@{/hobbies/update-hobby/{id}(id = *{id})}">Edit</a></span>
+                            <span ><a class="add-crt-edit" th:href="@{/hobbies/delete-hobby/{id}(id = *{id})}">Delete</a></span>
+                        </th:block>
+                        <th:block sec:authorize="hasRole('USER')">
+                            <span ><a class="add-crt-edit" th:href="@{/hobbies/save-hobby/{id}(id = *{id})}">Save</a></span>
+                            <span ><a class="add-crt-edit" th:href="@{/shoppingCart/addProduct/{id}(id = *{id})}">Add to cart</a></span>
+                        </th:block>
                     </div>
 
                 </div>

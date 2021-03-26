@@ -18,6 +18,8 @@ public class Hobby extends BaseEntity{
     private BusinessOwner businessOwner;
     private BigDecimal price;
     private Location location;
+    //TODO HOBBY ADDRESS
+    //TODO  HOBBY ENTRY DURTION
 
 
     public Hobby() {

@@ -11,28 +11,10 @@ import java.util.Date;
 @Table(name = "entries")
 public class Entry extends BaseEntity{
 
-    private Integer duration;
-    private BigDecimal price;
     private Date date;
+    private String notes;
 
     public Entry() {
-    }
-
-    @Column(nullable = false)
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-    @Column(nullable = false)
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Date getDate() {
@@ -41,5 +23,14 @@ public class Entry extends BaseEntity{
     @Column(nullable = false)
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Column(columnDefinition = "TEXT")
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

@@ -102,6 +102,7 @@ public class HobbyController {
             return "index";
         }
     }
+    //todo @GetMapping("/save-hobby/{id}") - hobbies saved per client
 
     @GetMapping("/update-hobby/{id}")
     public String showUpdateHobbyForm(@PathVariable("id") long id, Model model) {

@@ -31,7 +31,7 @@ public class HobbieUserDetailsService implements UserDetailsService {
 
 
     }
-//TODO SEE HOW TO CONFIGURE CHANGE OF USERNAME AND PASSWORD SO IT GOES WITH USERDETAILS SERVICE
+
     //TODO SEE HOW TO DISPLAY VALIDATION ERROR MESSAGES
     private UserDetails mapToUserDetails(UserEntity userEntity) {
 
