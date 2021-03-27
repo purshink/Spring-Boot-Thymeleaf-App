@@ -1,11 +1,7 @@
 package com.example.hobbie.model.entities;
 
-import com.example.hobbie.model.entities.enums.AboTypeEnum;
-import com.example.hobbie.model.entities.enums.LocationEnum;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "hobbies")

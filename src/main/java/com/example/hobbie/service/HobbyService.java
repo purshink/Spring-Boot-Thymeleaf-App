@@ -29,4 +29,11 @@ public interface HobbyService {
 
     List<Hobby> findHobbyMatches(AppClient currentUserAppClient);
     List<HobbyCardViewModel> getHobbyMatches(AppClient currentAppClient);
+
+
+    void saveHobbyForClient(Hobby hobby);
+
+    void removeHobbyForClient(Hobby hobby);
+
+    boolean isHobbySaved(Long hobbyId);
 }

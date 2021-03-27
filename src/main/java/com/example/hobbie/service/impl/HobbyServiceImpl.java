@@ -229,5 +229,35 @@ public class HobbyServiceImpl implements HobbyService {
      return   findHobbyMatches(currentAppClient)
                 .stream().map(hobby -> this.modelMapper.map(hobby, HobbyCardViewModel.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public void saveHobbyForClient(Hobby hobby) {
+        AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+        Optional<Hobby> hobbyById = this.hobbyRepository .findById(hobby.getId());
+        List<Hobby> saved_hobbies = currentUserAppClient.getSaved_hobbies();
+
+            if(hobbyById.isPresent() && !(saved_hobbies.contains(hobbyById.get()))) {
+                saved_hobbies.add(hobbyById.get());
+            }
+
+    }
+
+    @Override
+    public void removeHobbyForClient(Hobby hobby) {
+        AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+        Optional<Hobby> hobbyById = this.hobbyRepository .findById(hobby.getId());
+        if(hobbyById.isPresent()) {
+            currentUserAppClient.getSaved_hobbies().remove(hobbyById.get());
+        }
+        System.out.println();
+    }
+
+    @Override
+    public boolean isHobbySaved(Long hobbyId) {
+        AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+        Optional<Hobby> byId = this.hobbyRepository.findById(hobbyId);
+        return byId.filter(hobby -> currentUserAppClient.getSaved_hobbies().contains(hobby)).isPresent();
+
+    }
 }
 

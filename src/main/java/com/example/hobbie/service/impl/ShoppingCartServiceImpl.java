@@ -1,9 +1,7 @@
 package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.Abo;
-import com.example.hobbie.model.entities.Entry;
 import com.example.hobbie.model.entities.Hobby;
-import com.example.hobbie.model.entities.enums.AboTypeEnum;
 import com.example.hobbie.service.AboService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.ShoppingCartService;
@@ -13,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -49,7 +45,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         price =  price.add(price.multiply(new BigDecimal("0.1")));
         price = price.setScale(2, RoundingMode.HALF_EVEN);
         abo.setAboPrice(price);
-        abo.setAboType(AboTypeEnum.FIVE_ENTRIES);
+
 //        abo.setEntries(entries);
 
         if(!inCart.contains(abo)){

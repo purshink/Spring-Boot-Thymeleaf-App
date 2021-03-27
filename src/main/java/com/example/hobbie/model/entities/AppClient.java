@@ -15,6 +15,7 @@ public class AppClient extends UserEntity implements Serializable {
     private GenderEnum gender;
     private Test testResults;
     private List<Hobby> hobby_matches;
+    private List<Hobby> saved_hobbies;
 
 
     public AppClient() {
@@ -60,5 +61,14 @@ public class AppClient extends UserEntity implements Serializable {
 
     public void setTestResults(Test testResults) {
         this.testResults = testResults;
+    }
+
+    @OneToMany
+    public List<Hobby> getSaved_hobbies() {
+        return saved_hobbies;
+    }
+
+    public void setSaved_hobbies(List<Hobby> saved_hobbies) {
+        this.saved_hobbies = saved_hobbies;
     }
 }

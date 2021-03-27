@@ -43,7 +43,8 @@
                             <span ><a class="add-crt-edit" th:href="@{/hobbies/delete-hobby/{id}(id = *{id})}">Delete</a></span>
                         </th:block>
                         <th:block sec:authorize="hasRole('USER')">
-                            <span ><a class="add-crt-edit" th:href="@{/hobbies/save-hobby/{id}(id = *{id})}">Save</a></span>
+                            <span ><a th:if="${isSaved}" class="add-crt-edit" th:href="@{/hobbies/remove-hobby/{id}(id = *{id})}">Remove</a></span>
+                            <span ><a th:if="${!isSaved}"class="add-crt-edit" th:href="@{/hobbies/save-hobby/{id}(id = *{id})}">Save</a></span>
                             <span ><a class="add-crt-edit" th:href="@{/shoppingCart/addProduct/{id}(id = *{id})}">Add to cart</a></span>
                         </th:block>
                     </div>

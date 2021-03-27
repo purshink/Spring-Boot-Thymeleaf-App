@@ -93,16 +93,45 @@ public class HobbyController {
     }
     @GetMapping("/hobbie-details/{id}")
     public String showHome(@PathVariable Long id, Model model){
+
         if (UserInterceptor.isUserLogged()) {
             Hobby hobby = this.hobbyService.findHobbieById(id);
             model.addAttribute("hobbie", hobby);
+            model.addAttribute("isSaved", this.hobbyService.isHobbySaved(id));
             return "hobbie-details";
         }
         else{
             return "index";
         }
     }
-    //todo @GetMapping("/save-hobby/{id}") - hobbies saved per client
+     @GetMapping("/save-hobby/{id}")
+     public String saveHobby(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+
+         if (UserInterceptor.isUserLogged()) {
+             Hobby hobby = this.hobbyService.findHobbieById(id);
+             this.hobbyService.saveHobbyForClient(hobby);
+             model.addAttribute("hobbie", hobby);
+             model.addAttribute("isSaved", this.hobbyService.isHobbySaved(id));
+             return "hobbie-details";
+         }
+         else{
+             return "index";
+         }
+     }
+    @GetMapping("/remove-hobby/{id}")
+    public String removeHobby(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+
+        if (UserInterceptor.isUserLogged()) {
+            Hobby hobby = this.hobbyService.findHobbieById(id);
+            this.hobbyService.removeHobbyForClient(hobby);
+            model.addAttribute("hobbie", hobby);
+            model.addAttribute("isSaved", this.hobbyService.isHobbySaved(id));
+            return "hobbie-details";
+        }
+        else{
+            return "index";
+        }
+    }
 
     @GetMapping("/update-hobby/{id}")
     public String showUpdateHobbyForm(@PathVariable("id") long id, Model model) {
