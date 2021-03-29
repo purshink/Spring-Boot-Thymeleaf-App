@@ -6,13 +6,19 @@ import com.example.hobbie.model.binding.HobbyBindingModel;
 import com.example.hobbie.model.binding.UpdateHobbyBindingModel;
 import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.Hobby;
+import com.example.hobbie.model.entities.UserRoleEntity;
+import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.UpdateHobbyServiceModel;
 import com.example.hobbie.service.HobbyService;
+import com.example.hobbie.service.UserService;
 import com.example.hobbie.util.FileUploadUtil;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.BeanDefinitionDsl;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -30,17 +36,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import static java.lang.String.valueOf;
+
 @Controller
 @RequestMapping("/hobbies")
 public class HobbyController {
 
     private final ModelMapper modelMapper;
     private final HobbyService hobbyService;
+    private final UserService userService;
 
     @Autowired
-    public HobbyController(ModelMapper modelMapper, HobbyService hobbyService) {
+    public HobbyController(ModelMapper modelMapper, HobbyService hobbyService,UserService userService) {
         this.modelMapper = modelMapper;
         this.hobbyService = hobbyService;
+        this.userService = userService;
     }
 
 
@@ -97,8 +107,24 @@ public class HobbyController {
         if (UserInterceptor.isUserLogged()) {
             Hobby hobby = this.hobbyService.findHobbieById(id);
             model.addAttribute("hobbie", hobby);
-            model.addAttribute("isSaved", this.hobbyService.isHobbySaved(id));
+                    model.addAttribute("isSaved", this.hobbyService.isHobbySaved(id));
+
+
             return "hobbie-details";
+        }
+        else{
+            return "index";
+        }
+    }
+
+    @GetMapping("/offer-details/{id}")
+    public String showOffer(@PathVariable Long id, Model model){
+
+        if (UserInterceptor.isUserLogged()) {
+            Hobby hobby = this.hobbyService.findHobbieById(id);
+            model.addAttribute("hobbie", hobby);
+
+            return "offer-details";
         }
         else{
             return "index";

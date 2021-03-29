@@ -1,9 +1,6 @@
 package com.example.hobbie.service.impl;
 
-import com.example.hobbie.model.entities.AppClient;
-import com.example.hobbie.model.entities.BusinessOwner;
-import com.example.hobbie.model.entities.UserEntity;
-import com.example.hobbie.model.entities.UserRoleEntity;
+import com.example.hobbie.model.entities.*;
 import com.example.hobbie.model.entities.enums.GenderEnum;
 import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.repostiory.AppClientRepository;
@@ -186,6 +183,19 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public UserEntity findUserByUsername(String username) {
+        Optional<UserEntity> byUsername = this.userRepository.findByUsername(username);
+
+        if(byUsername.isPresent()){
+            return byUsername.get();
+        }
+        else {
+            throw new NullPointerException();
+        }
+    }
+
 
     public void expireUserSessions(String username) {
                 if (findCurrentUsername().equals(username)) {

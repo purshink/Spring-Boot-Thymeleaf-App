@@ -3,6 +3,7 @@ package com.example.hobbie.service;
 import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.BusinessOwner;
 import com.example.hobbie.model.entities.Hobby;
+import com.example.hobbie.model.entities.UserEntity;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.UpdateHobbyServiceModel;
 import com.example.hobbie.view.HobbyCardViewModel;
@@ -36,4 +37,6 @@ public interface HobbyService {
     void removeHobbyForClient(Hobby hobby);
 
     boolean isHobbySaved(Long hobbyId);
+    List<Hobby> findSavedHobbies(AppClient appClient);
+
 }

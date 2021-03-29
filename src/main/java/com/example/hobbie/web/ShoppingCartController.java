@@ -14,13 +14,14 @@ public class ShoppingCartController {
 
     private final AboService aboService;
 
+
     @Autowired
     public ShoppingCartController(ShoppingCartService shoppingCartService, AboService aboService) {
         this.shoppingCartService = shoppingCartService;
         this.aboService = aboService;
     }
 
-    @GetMapping("/shoppingCart/")
+    @GetMapping("/shoppingCart")
     public ModelAndView shoppingCart() {
         ModelAndView modelAndView = new ModelAndView("/shoppingCart");
         modelAndView.addObject("abos", shoppingCartService.getAbosInCart());
@@ -41,11 +42,11 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/shoppingCart/checkout")
-    public ModelAndView checkout() {
+    public String checkout() {
 
             shoppingCartService.checkout();
 
-        return shoppingCart();
+        return "success";
     }
 
 }

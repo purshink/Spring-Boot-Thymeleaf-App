@@ -2,6 +2,8 @@ package com.example.hobbie.model.entities;
 
 import com.example.hobbie.model.entities.enums.GenderEnum;
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -64,6 +66,7 @@ public class AppClient extends UserEntity implements Serializable {
     }
 
     @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     public List<Hobby> getSaved_hobbies() {
         return saved_hobbies;
     }

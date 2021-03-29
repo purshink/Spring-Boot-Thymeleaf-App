@@ -2,9 +2,13 @@ package com.example.hobbie.service;
 
 import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.BusinessOwner;
+import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.model.entities.UserEntity;
 import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
+
+import java.util.List;
+import java.util.Set;
 
 public interface UserService {
     void seedUsersAndUserRoles();
@@ -24,6 +28,9 @@ public interface UserService {
     void deleteUser(Long id);
 
     BusinessOwner findBusinessOwnerById(long i);
+
+
+    UserEntity findUserByUsername(String username);
 }
 
 

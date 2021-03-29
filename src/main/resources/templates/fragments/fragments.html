@@ -36,7 +36,7 @@
             <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/test">Take the test</a></li>
             <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/users/account-info">Account</a></li>
             <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/users/business-account-info">Account</a></li>
-            <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/users/abos">My Abos</a></li>
+            <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/my-abos">My Abos</a></li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
                 <a href="javascript: document.logoutForm.submit()" role="menuitem" class="nav-link"> Logout</a>
                 <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
@@ -51,6 +51,12 @@
 <!--                        <img class="imgHeader" src="/img/cart.svg" alt="cart">-->
 <!--                    </div>-->
     </nav>
+
+<div th:fragment="cart" sec:authorize="hasRole('USER')" class="cart">
+
+    <a href="/shoppingCart">  <img class="imgHeader" src="/img/cart.svg" alt="cart"></a>
+
+</div>
 
 <body>
 

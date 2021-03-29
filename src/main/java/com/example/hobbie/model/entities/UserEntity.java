@@ -21,6 +21,7 @@ public class UserEntity extends BaseEntity implements Serializable{
     private String password;
 
 
+
     public UserEntity(String username, String email, List<UserRoleEntity> roles, String password) {
         this.username = username;
         this.email = email;
@@ -31,7 +32,7 @@ public class UserEntity extends BaseEntity implements Serializable{
     public UserEntity() {
     }
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     public String getUsername() {
         return username;
     }
@@ -64,4 +65,6 @@ public class UserEntity extends BaseEntity implements Serializable{
     public void setRoles(List<UserRoleEntity> roles) {
         this.roles = roles;
     }
+
+
 }

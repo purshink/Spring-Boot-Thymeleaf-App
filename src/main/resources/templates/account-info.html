@@ -6,11 +6,7 @@
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
-    <div sec:authorize="hasRole('USER')" class="cart">
-
-        <img class="imgHeader" src="/img/cart.svg" alt="cart">
-
-    </div>
+    <div th:replace="fragments/fragments::cart"/></div>
 </header>
 <main class="hobbie-main">
     <div class="hobbie-container">

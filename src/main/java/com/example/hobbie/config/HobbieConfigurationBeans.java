@@ -11,6 +11,9 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.session.ConcurrentSessionFilter;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templatemode.TemplateMode;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,5 +39,6 @@ public class HobbieConfigurationBeans {
         return new SessionRegistryImpl();
 
     }
+
 
 }

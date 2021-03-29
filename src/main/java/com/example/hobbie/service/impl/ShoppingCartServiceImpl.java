@@ -1,11 +1,9 @@
 package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.Abo;
+import com.example.hobbie.model.entities.Entry;
 import com.example.hobbie.model.entities.Hobby;
-import com.example.hobbie.service.AboService;
-import com.example.hobbie.service.HobbyService;
-import com.example.hobbie.service.ShoppingCartService;
-import com.example.hobbie.service.UserService;
+import com.example.hobbie.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,21 +20,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final HobbyService hobbyService;
     private final UserService userService;
     private final AboService aboService;
+    private final EntryService entryService;
 
     private List<Abo> inCart = new ArrayList<>();
 
     @Autowired
-    public ShoppingCartServiceImpl(HobbyService hobbyService, UserService userService, AboService aboService) {
+    public ShoppingCartServiceImpl(HobbyService hobbyService, UserService userService, AboService aboService, EntryService entryService) {
         this.hobbyService = hobbyService;
         this.userService = userService;
         this.aboService = aboService;
+        this.entryService = entryService;
     }
 
     @Override
     public void addAboToCart(Long hobbyId) {
         Hobby hobbieById = this.hobbyService.findHobbieById(hobbyId);
-//        Entry entry = new Entry();
-//        List<Entry> entries = Collections.nCopies(5, entry);
         Abo abo = new Abo();
         abo.setClient(this.userService.findCurrentUserAppClient());
         abo.setHobby(hobbieById);
@@ -46,7 +44,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         price = price.setScale(2, RoundingMode.HALF_EVEN);
         abo.setAboPrice(price);
 
-//        abo.setEntries(entries);
 
         if(!inCart.contains(abo)){
             inCart.add(abo);
@@ -77,7 +74,24 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void checkout() {
-        this.aboService.saveAbos(inCart);
+
+        List<Abo> abos = this.aboService.saveAbos(inCart);
+        abos.forEach(this::fillEntries);
+        this.aboService.updateAbosWithEntries(abos);
         inCart.clear();
     }
+
+    private void fillEntries(Abo abo) {
+
+            List<Entry> aboEntries = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                Entry entry = new Entry();
+                entry.setAboId(abo.getId());
+                aboEntries.add(entry);
+            }
+            List<Entry> entries = this.entryService.saveAboEntries(aboEntries);
+            abo.setEntries(entries);
+
+        }
+
 }

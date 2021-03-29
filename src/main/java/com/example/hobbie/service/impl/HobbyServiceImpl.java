@@ -239,17 +239,13 @@ public class HobbyServiceImpl implements HobbyService {
             if(hobbyById.isPresent() && !(saved_hobbies.contains(hobbyById.get()))) {
                 saved_hobbies.add(hobbyById.get());
             }
-
     }
 
     @Override
     public void removeHobbyForClient(Hobby hobby) {
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
         Optional<Hobby> hobbyById = this.hobbyRepository .findById(hobby.getId());
-        if(hobbyById.isPresent()) {
-            currentUserAppClient.getSaved_hobbies().remove(hobbyById.get());
-        }
-        System.out.println();
+        hobbyById.ifPresent(value -> currentUserAppClient.getSaved_hobbies().remove(value));
     }
 
     @Override
@@ -258,6 +254,11 @@ public class HobbyServiceImpl implements HobbyService {
         Optional<Hobby> byId = this.hobbyRepository.findById(hobbyId);
         return byId.filter(hobby -> currentUserAppClient.getSaved_hobbies().contains(hobby)).isPresent();
 
+    }
+
+    @Override
+    public List<Hobby> findSavedHobbies(AppClient currentAppClient) {
+        return currentAppClient.getSaved_hobbies();
     }
 }
 

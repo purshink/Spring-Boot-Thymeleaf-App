@@ -2,7 +2,7 @@ package com.example.hobbie.web;
 
 import com.example.hobbie.config.UserInterceptor;
 import com.example.hobbie.model.entities.AppClient;
-import com.example.hobbie.model.entities.Hobby;
+import com.example.hobbie.service.AboService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.UserService;
 import com.example.hobbie.view.HobbyCardViewModel;
@@ -21,11 +21,13 @@ import java.util.List;
 public class HomeController {
     private final HobbyService hobbyService;
     private final UserService userService;
+    private final AboService aboService;
 
     @Autowired
-    public HomeController(HobbyService hobbyService, UserService userService) {
+    public HomeController(HobbyService hobbyService, UserService userService, AboService aboService) {
         this.hobbyService = hobbyService;
         this.userService = userService;
+        this.aboService = aboService;
     }
 
     public String showHome(){
@@ -39,6 +41,7 @@ public class HomeController {
             ModelAndView mav = new ModelAndView("business_owner");
             mav.addObject("user", principal);
             mav.addObject("hobby_offers", hobbyService.getAllHobbyOffers());
+            mav.addObject("abos", this.aboService.getAbosPerBusiness());
             return mav;
         }
         else{

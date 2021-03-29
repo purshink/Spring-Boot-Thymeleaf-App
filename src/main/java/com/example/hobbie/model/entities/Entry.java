@@ -4,33 +4,36 @@ package com.example.hobbie.model.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "entries")
 public class Entry extends BaseEntity{
-
+    private Long aboId;
     private Date date;
-    private String notes;
+
 
     public Entry() {
     }
 
+    @Column
     public Date getDate() {
         return date;
     }
-    @Column(nullable = false)
+
     public void setDate(Date date) {
         this.date = date;
     }
 
-    @Column(columnDefinition = "TEXT")
-    public String getNotes() {
-        return notes;
+
+    @NotNull
+    public Long getAboId() {
+        return aboId;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setAboId(Long aboId) {
+        this.aboId = aboId;
     }
 }

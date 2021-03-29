@@ -1,53 +1,102 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">-->
 
-<head>
-    <div th:replace="fragments/fragments::head"/></div>
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen"/>
+<!--<head>-->
+<!--    <div th:replace="fragments/fragments::head"/></div>-->
 
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
-</head>
+<!--</head>-->
 
+<!--<body>-->
+<!--<header>-->
+<!--    <div th:replace="fragments/fragments::logo"/></div>-->
+<!--    <div th:replace="fragments/fragments::navbar"/></div>-->
+<!--</header>-->
+<!--<div class="test">-->
+
+
+<!--        <h2>Shopping Cart</h2>-->
+
+<!--        <br>-->
+
+<!--    <div  th:each="abo : ${abos}">-->
+<!--        <div >-->
+<!--            <h1><a class="add-crt-edit" th:text="${abo.hobby.name}" th:href="@{/hobbies/hobbie-details/{id}(id = ${abo.hobby.id})}">Title</a></h1>-->
+<!--&lt;!&ndash;            <h3 th:text="${}">Description</h3>&ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="">-->
+<!--            <div th:text="|${abo.hobby.name} Abo : 5 Entries|" class="col-md-9"></div>-->
+<!--            <div th:text="|Abo Price: ${abo.aboPrice} |" class="col-md-2"></div>-->
+<!--            <div th:text="| Prise per entry: ${abo.hobby.price}|" class="col-md-9"></div>-->
+<!--            <a th:href="@{'/shoppingCart/removeProduct/{id}'(id=${abo.hobby.id})}" class="col-md-1">-->
+<!--                <button type="button" class="button button2" th:text="Remove">Remove</button>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <br></br>-->
+<!--    </div>-->
+
+<!--    <div class="">-->
+<!--        <h2 class="col-md-11" th:inline="text">Total: [[${total}]]</h2>-->
+<!--        <a th:href="@{'/shoppingCart/checkout'}" class="col-md-1">-->
+<!--            <button type="button" class="button button2" th:text="Checkout">Checkout</button>-->
+<!--        </a>-->
+<!--    </div>-->
+
+
+<!--</div>-->
+<!--<img class="blueImg3" src="/img/blueImg.png" alt="blueImg">-->
+<!--<img class="blueImg4" src="/img/blueImg.png" alt="blueImg">-->
+<!--<img class="blue" src="/img/blue.jpg" alt="blue">-->
+<!--<footer class="footer bg-transparent  py-2">-->
+<!--    <div class="container-fluid text-center">-->
+<!--        <div class="footer-background h5 text-white">-->
+<!--            &copy; Hobbie 2021. All rights reserved.-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:replace="fragments/fragments::head"/></div>
 <body>
-<div th:replace="fragments/fragments::logo"/></div>
-<div th:replace="fragments/fragments::navbar"/></div>
+<header>
+    <div th:replace="fragments/fragments::logo"/></div>
+    <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::cart"/></div>
+</header>
 
-<div class="container">
+<main>
+    <div class="menu">
+        <div class="background">
+            <div class="classes" style="height: 30vh; overflow: auto">
+                <h3 class="mySticky bg-gray text-dark rounded">Shopping cart</h3>
+                <div th:each="abo : ${abos}" >
+                <span th:text="|${abo.hobby.name} Abo : 5 Entries|" ></span>
+                <span th:text="|Abo Price: ${abo.aboPrice} |" ></span>
+                    <br>
+                <span th:text="| Prise per entry: ${abo.hobby.price}|"></span>
+                    <a class="edit-offer" th:href="@{'/shoppingCart/removeProduct/{id}'(id=${abo.hobby.id})}">Remove</a>
+                </div>
+            </div>
+            <div class="classes" style="height: auto; overflow: hidden">
+                <h3 class="mySticky bg-gray text-dark rounded">Total</h3>
+                    <span th:text="| *{total} CHF|"></span>
 
-    <h1 class="jumbotron">
-        <span></span>Shopping Cart
-    </h1>
+                    <a class="edit-offer" th:href="@{'/shoppingCart/checkout'}"> Checkout</a>
 
-
-    <div class="panel-default well" th:each="abo : ${abos}">
-        <div class="panel-heading">
-            <h1><a th:text="${abo.hobby.name}" th:href="@{/hobbies/hobbie-details/{id}(id = ${abo.hobby.id})}">Title</a></h1>
-<!--            <h3 th:text="${}">Description</h3>-->
+                </div>
+            </div>
         </div>
-        <div class="row panel-body">
-            <div th:text="|${abo.hobby.name} Abo : 5 Entries|" class="col-md-9"></div>
-            <div th:text="|Abo Price: ${abo.aboPrice} |" class="col-md-2"></div>
-            <div th:text="| Prise per entry: ${abo.hobby.price}|" class="col-md-9"></div>
-            <a th:href="@{'/shoppingCart/removeProduct/{id}'(id=${abo.hobby.id})}" class="col-md-1">
-                <button type="button" class="btn btn-primary" th:text="Remove">Remove</button>
-            </a>
-        </div>
-        <br></br>
-    </div>
 
-    <div class="row panel-body">
-        <h2 class="col-md-11" th:inline="text">Total: [[${total}]]</h2>
-        <a th:href="@{'/shoppingCart/checkout'}" class="col-md-1">
-            <button type="button" class="btn btn-danger" th:text="Checkout">Checkout</button>
-        </a>
-    </div>
 
-</div>
-
+</main>
+<img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
+<img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
+<img class="blue" src="/img/blue.jpg" alt="blue">
 <footer class="footer bg-transparent  py-2">
     <div class="container-fluid text-center">
         <div class="footer-background h5 text-white">
@@ -55,6 +104,5 @@
         </div>
     </div>
 </footer>
-
 </body>
 </html>

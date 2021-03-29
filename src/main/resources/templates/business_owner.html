@@ -13,9 +13,9 @@
         <div class="background">
         <div class="classes" style="height: 30vh; overflow: auto">
             <h3 class="mySticky bg-gray text-dark rounded">Clients</h3>
-            <div th:each="drink : ${drinks}" th:object="${drink}" class="tow">
-                <span th:text="|Name: *{name} Price: *{price} lv|">Name: Abo:  Entries:</span>
-                <a class="ml-3 text-danger" th:href="@{/products/buy/{id}(id = *{id})}">Details</a>
+            <div th:each="a : ${abos}" th:object="${a}" class="tow">
+                <span th:text="|*{client.fullName}, ${a.hobby.name} Abo|">Name: Abo:  Entries:</span>
+                <a class="edit-offer" th:href="@{/abo/{id}(id = ${a.id})}"> Details</a>
             </div>
         </div>
         <div class="classes" style="height: auto; overflow: hidden">
@@ -24,7 +24,7 @@
 <!--             <img hight="40px" width="40px" th:src="@{${hobby.profilePhotoImagePath}}" alt="hobby-photos" src=""/>-->
                 <span th:text="|*{name} - price per entry: *{price} CHF|"></span>
 
-                <a class="edit-offer" th:href="@{/hobbies/hobbie-details/{id}(id = *{id})}"> Edit</a>
+                <a class="edit-offer" th:href="@{/hobbies/offer-details/{id}(id = *{id})}"> Edit</a>
 
                 </div>
             </div>
