@@ -3,6 +3,7 @@ package com.example.hobbie.model.service;
 import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -13,6 +14,7 @@ public class HobbyServiceModel {
     private String photos;
     private BigDecimal price;
     private LocationEnum location;
+    private MultipartFile img;
 
     public HobbyServiceModel() {
     }
@@ -64,5 +66,13 @@ public class HobbyServiceModel {
 
     public void setLocation(LocationEnum location) {
         this.location = location;
+    }
+
+    public MultipartFile getImg() {
+        return img;
+    }
+
+    public void setImg(MultipartFile img) {
+        this.img = img;
     }
 }

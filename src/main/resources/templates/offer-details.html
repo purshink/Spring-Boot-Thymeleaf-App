@@ -10,8 +10,7 @@
 </header>
 <main class="hobbie-main" th:object="${hobbie}">
     <div class="hobbie-container">
-        <div class="hobbie-cover"  th:style="'background-image:url(' + *{profilePhotoImagePath} + ');'"></div>
-
+   <div class="hobbie-cover"  th:style="'background-image:url(' + *{imgUrl} + ');'"></div>
         <div class="hobbie-content">
             <div class="hobbie-content-body">
                 <div class="hobbie-pages">

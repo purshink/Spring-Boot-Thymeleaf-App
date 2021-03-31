@@ -38,7 +38,7 @@
 
         <a th:href="@{/hobbies/hobbie-details/{id}(id = *{id})}" th:each="hobby : ${hobby_matches}" th:object="${hobby}" class="card" method="POST">
             <div class="card_image-container">
-                <img  th:src="*{profilePhotoImagePath}" />
+                <img  th:src="*{imgUrl}" alt="Hobby picture" />
             </div>
 
             <div   class="card_content">

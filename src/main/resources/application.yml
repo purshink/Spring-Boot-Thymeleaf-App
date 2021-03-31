@@ -1,8 +1,13 @@
-paypal:
-    client:
-        id: AXwt4-s7FPgRMbtwFW93zC-__adQKck2eQdhKEVWjYAtN4_MthGzhHle45_iKwzj8El52R-rqQeUan-i
-        secret: EAydkaqDIz4i0EVOCZmG6nxH4WJm2JX32HrG6Vu4RgA9NdSza9k_yLW9Ykkexh2OrUfvn609QmXcmbdF
-    mode: sandbox
+
+cloudinary:
+    cloud-name: dv6ktrxwv
+    api-key: 129216924887731
+    api-secret: kzImAroivRAKixaSgU__grkj0AA
+#paypal:
+#    client:
+#        id: AXwt4-s7FPgRMbtwFW93zC-__adQKck2eQdhKEVWjYAtN4_MthGzhHle45_iKwzj8El52R-rqQeUan-i
+#        secret: EAydkaqDIz4i0EVOCZmG6nxH4WJm2JX32HrG6Vu4RgA9NdSza9k_yLW9Ykkexh2OrUfvn609QmXcmbdF
+#    mode: sandbox
 spring:
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
@@ -12,7 +17,7 @@ spring:
     jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
             use-new-id-generator-mappings: false
         open-in-view: false
         properties:
@@ -32,6 +37,8 @@ spring:
             enabled: true
             max-file-size: 10MB
             max-request-size: 10MB
+
+
 
 
 

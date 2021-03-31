@@ -10,6 +10,7 @@ import com.example.hobbie.model.entities.UserRoleEntity;
 import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.UpdateHobbyServiceModel;
+import com.example.hobbie.service.CloudinaryService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.UserService;
 import com.example.hobbie.util.FileUploadUtil;
@@ -74,7 +75,7 @@ public class HobbyController {
     @PostMapping("/create_offer")
     public  String saveHobby(@Valid HobbyBindingModel hobbyBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
 
-                                  @RequestParam("image") MultipartFile multipartFile) throws IOException {
+                             @RequestParam("img") MultipartFile multipartFile) throws IOException {
         if (UserInterceptor.isUserLogged()) {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
@@ -86,15 +87,14 @@ public class HobbyController {
                 }
 
                 return ("create_offer");
-            } else {
-
-                Long id = this.hobbyService.createHobby(this.modelMapper.map(hobbyBindingModel, HobbyServiceModel.class), fileName);
-
-                String uploadDir = "hobby-photos/" + id;
-
-                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             }
-
+//            else {
+//
+//                String uploadDir = "hobby-photos/" + id;
+//
+//                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+//            }
+               this.hobbyService.createHobby(this.modelMapper.map(hobbyBindingModel, HobbyServiceModel.class), fileName);
             return ("redirect:/business_owner");
         }
         else{
@@ -176,7 +176,7 @@ public class HobbyController {
 
         @PostMapping("/update-hobby/{id}")
         public String updateHobby(@PathVariable("id") long id,@Valid UpdateHobbyBindingModel updateHobbyBindingModel , BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                                        @RequestParam("image") MultipartFile multipartFile) throws IOException {
+                                        @RequestParam("img") MultipartFile multipartFile) throws IOException {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             if (UserInterceptor.isUserLogged()) {
             if (bindingResult.hasErrors() || fileName.isBlank()) {
@@ -190,12 +190,11 @@ public class HobbyController {
                 updateHobbyBindingModel.setId(id);
                 this.hobbyService.saveUpdatedHobby(this.modelMapper.map(updateHobbyBindingModel, UpdateHobbyServiceModel.class), fileName);
 
-                String uploadDir = "hobby-photos/" + id;
-
-                if (Files.exists(Path.of(uploadDir))) {
-                    FileUtils.cleanDirectory(new File(uploadDir));
-                }
-                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+//                String uploadDir = "hobby-photos/" + id;
+//                if (Files.exists(Path.of(uploadDir))) {
+//                    FileUtils.cleanDirectory(new File(uploadDir));
+//                }
+//                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             }
 
             return "redirect:/business_owner";

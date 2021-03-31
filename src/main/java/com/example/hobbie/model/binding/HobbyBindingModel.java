@@ -3,6 +3,7 @@ package com.example.hobbie.model.binding;
 import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.Transient;
@@ -18,6 +19,7 @@ public class HobbyBindingModel {
     private CategoryNameEnum category;
     private BigDecimal price ;
     private LocationEnum location;
+    private MultipartFile img;
 
 
     public HobbyBindingModel() {
@@ -69,5 +71,13 @@ public class HobbyBindingModel {
 
     public void setLocation(LocationEnum location) {
         this.location = location;
+    }
+
+    public MultipartFile getImg() {
+        return img;
+    }
+
+    public void setImg(MultipartFile img) {
+        this.img = img;
     }
 }

@@ -10,6 +10,7 @@ public class HobbyCardViewModel {
     private String name;
     private BigDecimal price;
     private String profilePhoto;
+    private String imgUrl;
 
     public HobbyCardViewModel() {
     }
@@ -51,5 +52,13 @@ public class HobbyCardViewModel {
         if (profilePhoto == null || id == null) return null;
 
         return "/hobby-photos/" + id + "/" + profilePhoto;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

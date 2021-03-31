@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,9 +38,10 @@ public class HobbyServiceImpl implements HobbyService {
     private final LocationService locationService;
     private final AboService aboService;
     private final ShoppingCartService shoppingCartService;
+    private final CloudinaryService cloudinaryService;
 
     @Autowired
-    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryService categoryService, UserService userService, LocationService locationService, AboService aboService, ShoppingCartService shoppingCartService) {
+    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryService categoryService, UserService userService, LocationService locationService, AboService aboService, ShoppingCartService shoppingCartService, CloudinaryService cloudinaryService) {
         this.modelMapper = modelMapper;
         this.hobbyRepository = hobbyRepository;
         this.categoryService = categoryService;
@@ -47,17 +49,24 @@ public class HobbyServiceImpl implements HobbyService {
         this.locationService = locationService;
         this.aboService = aboService;
         this.shoppingCartService = shoppingCartService;
+        this.cloudinaryService = cloudinaryService;
     }
 
 
     @Override
-    public Long createHobby(HobbyServiceModel hobbyServiceModel, String fileName) {
+    public Long createHobby(HobbyServiceModel hobbyServiceModel, String fileName) throws IOException {
 
         Hobby hobby = this.modelMapper.map(hobbyServiceModel, Hobby.class);
         hobby.setCategory(this.categoryService.findByName(hobbyServiceModel.getCategory()));
-        hobby.setLocation(this.locationService.getLocationByName(hobbyServiceModel.getLocation()));
-        hobby.setPhotos(fileName);
         hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
+        hobby.setLocation(this.locationService.getLocationByName(hobbyServiceModel.getLocation()));
+//        hobby.setPhotos(fileName);
+
+        MultipartFile img = hobbyServiceModel.getImg();
+
+        String imageUrl = cloudinaryService.uploadImage(img);
+        hobby.setImgUrl(imageUrl);
+
         Hobby savedHobby = this.hobbyRepository.save(hobby);
         return savedHobby.getId();
 
@@ -82,13 +91,17 @@ public class HobbyServiceImpl implements HobbyService {
     }
 
     @Override
-    public void saveUpdatedHobby(UpdateHobbyServiceModel updateHobbyServiceModel, String fileName) {
+    public void saveUpdatedHobby(UpdateHobbyServiceModel updateHobbyServiceModel, String fileName) throws IOException {
 
         Hobby hobby = this.modelMapper.map(updateHobbyServiceModel, Hobby.class);
         hobby.setCategory(this.categoryService.findByName(updateHobbyServiceModel.getCategory()));
-        hobby.setPhotos(fileName);
+//        hobby.setPhotos(fileName);
         hobby.setLocation(this.locationService.getLocationByName(updateHobbyServiceModel.getLocation()));
         hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
+
+        MultipartFile img = updateHobbyServiceModel.getImg();
+        String imageUrl = cloudinaryService.uploadImage(img);
+        hobby.setImgUrl(imageUrl);
         this.hobbyRepository.save(hobby);
 
     }
@@ -124,7 +137,7 @@ public class HobbyServiceImpl implements HobbyService {
             climbing.setCategory(this.categoryService.findByName(CategoryNameEnum.ACTIVE));
             climbing.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             climbing.setPrice(new BigDecimal("73"));
-            climbing.setProfilePhoto("1.jpg");
+//            climbing.setProfilePhoto("1.jpg");
             climbing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(climbing);
             //2
@@ -137,7 +150,7 @@ public class HobbyServiceImpl implements HobbyService {
             dancing.setCategory(this.categoryService.findByName(CategoryNameEnum.FUN));
             dancing.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             dancing.setPrice(new BigDecimal("62.40"));
-            dancing.setProfilePhoto("2.jpg");
+//            dancing.setProfilePhoto("2.jpg");
             dancing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(dancing);
             //3
@@ -154,7 +167,7 @@ public class HobbyServiceImpl implements HobbyService {
             horseRiding.setCategory(this.categoryService.findByName(CategoryNameEnum.ACTIVE));
             horseRiding.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             horseRiding.setPrice(new BigDecimal("162.20"));
-            horseRiding.setProfilePhoto("3.jpg");
+//            horseRiding.setProfilePhoto("3.jpg");
             horseRiding.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(horseRiding);
 
@@ -169,7 +182,7 @@ public class HobbyServiceImpl implements HobbyService {
             yoga.setCategory(this.categoryService.findByName(CategoryNameEnum.RELAX));
             yoga.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             yoga.setPrice(new BigDecimal("52.40"));
-            yoga.setProfilePhoto("2.jpg");
+//            yoga.setProfilePhoto("2.jpg");
             yoga.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(yoga);
 
@@ -184,7 +197,7 @@ public class HobbyServiceImpl implements HobbyService {
             painting.setCategory(this.categoryService.findByName(CategoryNameEnum.CREATIVE));
             painting.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             painting.setPrice(new BigDecimal("40"));
-            painting.setProfilePhoto("5.jpg");
+//            painting.setProfilePhoto("5.jpg");
             painting.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(painting);
         }

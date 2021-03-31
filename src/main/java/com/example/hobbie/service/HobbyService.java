@@ -15,14 +15,14 @@ import java.io.IOException;
 import java.util.List;
 
 public interface HobbyService {
-    Long createHobby(HobbyServiceModel hobbyServiceModel,  String fileName);
+    Long createHobby(HobbyServiceModel hobbyServiceModel,  String fileName) throws IOException;
 
     List<HobbyViewModel> getAllHobbyOffers();
 
     Hobby findHobbieById(Long id);
 
 
-    void saveUpdatedHobby(UpdateHobbyServiceModel map, String fileName);
+    void saveUpdatedHobby(UpdateHobbyServiceModel map, String fileName) throws IOException;
 
     void deleteHobby(long id) throws IOException;
 

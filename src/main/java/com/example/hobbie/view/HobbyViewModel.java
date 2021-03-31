@@ -13,6 +13,7 @@ public class HobbyViewModel {
     private String profilePhoto;
     private BigDecimal price;
     private LocationEnum location;
+    private String imgUrl;
 
     public HobbyViewModel() {
     }
@@ -63,5 +64,13 @@ public class HobbyViewModel {
 
     public void setLocation(LocationEnum location) {
         this.location = location;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }
