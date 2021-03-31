@@ -1,6 +1,7 @@
 package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.Abo;
+import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.entities.Entry;
 import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.service.*;
@@ -17,7 +18,7 @@ import java.util.List;
 @Transactional
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    private final HobbyService hobbyService;
+
     private final UserService userService;
     private final AboService aboService;
     private final EntryService entryService;
@@ -25,19 +26,22 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private List<Abo> inCart = new ArrayList<>();
 
     @Autowired
-    public ShoppingCartServiceImpl(HobbyService hobbyService, UserService userService, AboService aboService, EntryService entryService) {
-        this.hobbyService = hobbyService;
+    public ShoppingCartServiceImpl(UserService userService, AboService aboService, EntryService entryService) {
         this.userService = userService;
         this.aboService = aboService;
         this.entryService = entryService;
     }
 
     @Override
-    public void addAboToCart(Long hobbyId) {
-        Hobby hobbieById = this.hobbyService.findHobbieById(hobbyId);
+    public void addAboToCart(Hobby hobbieById) {
+
         Abo abo = new Abo();
-        abo.setClient(this.userService.findCurrentUserAppClient());
-        abo.setHobby(hobbieById);
+        AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+        abo.setClientId(currentUserAppClient.getId());
+        abo.setBusinessOwnerId(hobbieById.getBusinessOwner().getId());
+        abo.setHobbyId(hobbieById.getId());
+        abo.setName(hobbieById.getName());
+        abo.setClientName(currentUserAppClient.getFullName());
 
         BigDecimal price = hobbieById.getPrice().multiply(new BigDecimal(5));
         price =  price.add(price.multiply(new BigDecimal("0.1")));
@@ -54,7 +58,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void removeProductFromCart(Long hobbyId) {
         for (Abo abo : inCart) {
-            if(abo.getHobby().getId().equals(hobbyId)){
+            if(abo.getHobbyId().equals(hobbyId)){
                 inCart.remove(abo);
                 break;
             }
@@ -86,7 +90,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             List<Entry> aboEntries = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 Entry entry = new Entry();
-                entry.setAboId(abo.getId());
+                entry.setAbo(abo);
                 aboEntries.add(entry);
             }
             List<Entry> entries = this.entryService.saveAboEntries(aboEntries);

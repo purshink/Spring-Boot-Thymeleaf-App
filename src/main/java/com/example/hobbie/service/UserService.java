@@ -13,11 +13,11 @@ import java.util.Set;
 public interface UserService {
     void seedUsersAndUserRoles();
 
-    boolean register(SignUpServiceModel signUpServiceModel);
+    void register(SignUpServiceModel signUpServiceModel);
     BusinessOwner findCurrentUserBusinessOwner();
     AppClient findCurrentUserAppClient();
     String findCurrentUsername();
-    boolean registerBusiness(RegisterBusinessServiceModel map);
+    void registerBusiness(RegisterBusinessServiceModel map);
 
     void saveUpdatedUser(BusinessOwner businessOwner);
 
@@ -31,6 +31,16 @@ public interface UserService {
 
 
     UserEntity findUserByUsername(String username);
+
+    boolean userExists(String username, String email);
+
+    void deleteBusinessOwner(Long id);
+
+    void deleteAppClient(Long id);
+
+    AppClient findAppClientById(Long clientId);
+
+    void findAndRemoveHobbyfromClientsRecords(Hobby hobby);
 }
 
 

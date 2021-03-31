@@ -11,12 +11,13 @@ import java.util.Optional;
 public interface AboRepository extends JpaRepository<Abo, Long> {
 
 
-    List<Abo> findByClient_Id(Long id);
+    List<Abo> findByClientId(Long id);
 
 
     Optional<Abo> findByEntriesId(Long entryId);
 
-    List<Abo> findByHobby_BusinessOwner_Id(Long id);
+    List<Abo> findByHobbyId(Long id);
 
+    List<Abo> findAllByBusinessOwnerId(Long id);
 
 }

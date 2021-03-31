@@ -14,17 +14,20 @@
             <div  sec:authorize="hasRole('BUSINESS_USER')"class="classes" style=" overflow: auto">
                 <h3 class="mySticky bg-gray text-dark rounded">Client details</h3>
 
-                <div  th:object="${clientDetails}" class="tow">
+                <form th:action="@{/delete-abo/{id}(id = ${aboId})}" th:method="POST" th:object="${clientDetails}" class="tow">
                     <span  class="edit-offer"  th:text="| *{fullName}|">Name: Abo:  Entries:</span>
                     <span th:text="|Email: *{email}|">Name: Abo:  Entries:</span>
-                </div>
+                    <th:block sec:authorize="hasRole('BUSINESS_USER')">
+                    <button class="noButton" th:background="none" th:border="none"> <a class="edit-offer">Delete Abo</a></button>
+                    </th:block>
+                </form>
             </div>
             <div  sec:authorize="hasRole('USER')"class="classes" style=" overflow: auto">
                 <h3 class="mySticky bg-gray text-dark rounded">Abo details</h3>
 
                 <div  th:object="${aboDetails}" class="tow">
-                    <span  class="edit-offer"  th:text="| ${aboDetails.hobby.name} Abo|">Name: Abo:  Entries:</span>
-                    <span  th:text="|${aboDetails.client.fullName}|">Name: Abo:  Entries:</span>
+                    <span  class="edit-offer"  th:text="| ${aboDetails.clientName} Abo|">Name: Abo:  Entries:</span>
+                    <span  th:text="|${aboDetails.name}|">Name: Abo:  Entries:</span>
                 </div>
             </div>
             <br>

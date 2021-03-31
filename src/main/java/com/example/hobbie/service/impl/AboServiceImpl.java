@@ -1,5 +1,7 @@
 package com.example.hobbie.service.impl;
 
+import com.example.hobbie.handler.FailToDeleteException;
+import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.model.entities.Abo;
 import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.repostiory.AboRepository;
@@ -34,8 +36,12 @@ public class AboServiceImpl implements AboService {
     }
 
     @Override
-    public List<Abo> getUserAbos(Long id) {
-      return  this.aboRepository.findByClient_Id(id);
+    public List<AboViewModel> getUserAbos(Long id) {
+
+
+        List<Abo> byClientId = this.aboRepository.findByClientId(id);
+
+        return byClientId.stream().map(abo -> this.modelMapper.map(abo, AboViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -52,26 +58,27 @@ public class AboServiceImpl implements AboService {
         }
 
         else{
-            throw new NullPointerException();
+            throw new NotFoundException("This abo does not exist.");
         }
     }
 
     @Override
     public List<AboViewModel> getAbosPerBusiness() {
         Long id = this.userService.findCurrentUserBusinessOwner().getId();
-        List<Abo> abos = this.aboRepository.findByHobby_BusinessOwner_Id(id);
+        List<Abo> abos = this.aboRepository.findAllByBusinessOwnerId(id);
         return abos.stream().map(abo -> this.modelMapper.map(abo,AboViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
     public AppClient getClientDetails(Long id) {
+
         Optional<Abo> byId = this.aboRepository.findById(id);
 
         if(byId.isPresent()){
-            return byId.get().getClient();
+            return this.userService.findAppClientById(byId.get().getClientId());
         }
         else{
-            throw new NullPointerException();
+            throw new NotFoundException("No such client. This abo does not exist.");
         }
 
     }
@@ -84,7 +91,34 @@ public class AboServiceImpl implements AboService {
             return this.modelMapper.map(byId.get(), AboViewModel.class);
         }
         else {
-            throw new NullPointerException();
+            throw new NotFoundException("This abo does not exist.");
+        }
+    }
+
+    @Override
+    public List<Abo> getExcistingAbosForClient(Long id) {
+
+        return this.aboRepository.findByClientId(id);
+
+    }
+
+    @Override
+    public void deleteAbo(Long id) {
+        Optional<Abo> byId = this.aboRepository.findById(id);
+        if(byId.isPresent()){
+            this.aboRepository.delete( byId.get());
+        }
+        else {
+            throw new NotFoundException("Abo does not exist");
+        }
+
+    }
+
+    @Override
+    public void findExcistingAbosWithHobbyId(long id) {
+        List<Abo> byHobbyId = this.aboRepository.findByHobbyId(id);
+        if(byHobbyId.size() > 0){
+            throw new FailToDeleteException("Can not delete hobby. There are existing Abos for this offer.");
         }
     }
 

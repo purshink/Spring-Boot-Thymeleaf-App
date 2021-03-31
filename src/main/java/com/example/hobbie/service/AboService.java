@@ -11,7 +11,7 @@ public interface AboService {
 
     List<Abo> saveAbos(List<Abo> inCart);
 
-    List<Abo> getUserAbos(Long id);
+    List<AboViewModel> getUserAbos(Long id);
 
 
     void updateAbosWithEntries(List<Abo> abos);
@@ -24,4 +24,10 @@ public interface AboService {
     AppClient getClientDetails(Long id);
 
     AboViewModel findAboById(Long id);
+
+    List<Abo> getExcistingAbosForClient(Long id);
+
+    void deleteAbo(Long id);
+
+    void findExcistingAbosWithHobbyId(long id);
 }

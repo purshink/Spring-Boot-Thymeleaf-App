@@ -1,9 +1,7 @@
 package com.example.hobbie.model.entities;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,11 +9,21 @@ import java.util.Date;
 @Entity
 @Table(name = "entries")
 public class Entry extends BaseEntity{
-    private Long aboId;
+
     private Date date;
+    private Abo abo;
 
 
     public Entry() {
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    public Abo getAbo() {
+        return abo;
+    }
+
+    public void setAbo(Abo abo) {
+        this.abo = abo;
     }
 
     @Column
@@ -28,12 +36,4 @@ public class Entry extends BaseEntity{
     }
 
 
-    @NotNull
-    public Long getAboId() {
-        return aboId;
-    }
-
-    public void setAboId(Long aboId) {
-        this.aboId = aboId;
-    }
 }

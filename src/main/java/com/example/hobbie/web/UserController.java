@@ -1,6 +1,7 @@
 package com.example.hobbie.web;
 
 import com.example.hobbie.config.UserInterceptor;
+import com.example.hobbie.handler.FailToDeleteException;
 import com.example.hobbie.model.binding.RegisterBusinessBindingModel;
 import com.example.hobbie.model.binding.SignUpBindingModel;
 import com.example.hobbie.model.binding.UpdateBusinessBindingModel;
@@ -10,6 +11,7 @@ import com.example.hobbie.model.entities.BusinessOwner;
 import com.example.hobbie.model.entities.UserEntity;
 import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
+import com.example.hobbie.service.AboService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -34,13 +36,15 @@ public class UserController {
     //TODO CREATE POP UP THAT USER HAT SUCCESSFULLY SIGNED UP
     private final UserService userService;
     private final HobbyService hobbyService;
+    private final AboService aboService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, HobbyService hobbyService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, HobbyService hobbyService, AboService aboService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.hobbyService = hobbyService;
+        this.aboService = aboService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -71,17 +75,15 @@ public class UserController {
             return "redirect:/users/signup";
         }
 
-        else {
+        else if(this.userService.userExists(signUpBindingModel.getUsername(), signUpBindingModel.getEmail())) {
 
-            boolean isSaved = this.userService.register(this.modelMapper.map(signUpBindingModel, SignUpServiceModel.class));
 
-            if(!isSaved){
                 redirectAttributes.addFlashAttribute("signUpBindingModel", signUpBindingModel);
                 redirectAttributes.addFlashAttribute("isExists", true);
                 return "redirect:/users/signup";
             }
+            this.userService.register(this.modelMapper.map(signUpBindingModel, SignUpServiceModel.class));
             return "redirect:/users/login";
-        }
     }
 
     @GetMapping("/register-business")
@@ -106,17 +108,15 @@ public class UserController {
             return "redirect:/users/register-business";
         }
 
-        else {
+        else if (this.userService.userExists(registerBusinessBindingModel.getUsername(), registerBusinessBindingModel.getEmail())){
 
-            boolean isSaved = this.userService.registerBusiness(this.modelMapper.map(registerBusinessBindingModel, RegisterBusinessServiceModel.class));
 
-            if(!isSaved){
                 redirectAttributes.addFlashAttribute("registerBusinessBindingModel", registerBusinessBindingModel);
                 redirectAttributes.addFlashAttribute("isExists", true);
                 return "redirect:/users/register-business";
-            }
-            return "redirect:/users/login";
         }
+        this.userService.registerBusiness(this.modelMapper.map(registerBusinessBindingModel, RegisterBusinessServiceModel.class));
+        return "redirect:/users/login";
     }
 
     @GetMapping("/login")
@@ -247,9 +247,14 @@ public class UserController {
     public String deleteAppClient(){
         if (UserInterceptor.isUserLogged()) {
             AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
-            this.userService.deleteUser(currentUserAppClient.getId());
+            if(aboService.getExcistingAbosForClient(currentUserAppClient.getId()).isEmpty()) {
+                this.userService.deleteAppClient(currentUserAppClient.getId());
+                return "redirect:/";
+            }
 
-            return "redirect:/";
+            else {
+                throw new FailToDeleteException("Failed to delete user. You have existing Abos.");
+            }
         }
         else {
             return "index";
@@ -259,19 +264,19 @@ public class UserController {
     public String deleteBusinessOwner() {
         if (UserInterceptor.isUserLogged()) {
             BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
-            if(hobbyService.getAllHobbyOffers().isEmpty()) {
-                this.userService.deleteUser(currentUserBusinessOwner.getId());
+            if(this.aboService.getAbosPerBusiness().isEmpty() && this.hobbyService.getAllHobbyOffers().isEmpty()) {
+                this.userService.deleteBusinessOwner(currentUserBusinessOwner.getId());
                 return "redirect:/";
             }
             else {
-                //TODO SHOW POPUP ERROR MESSAGE - USER MUST FIRST DELETE HIS OFFERS
-                return "redirect:/business_owner";
+                throw new FailToDeleteException("Failed to delete user. You have existing clients or offers.");
             }
         }
         else {
             return "index";
         }
     }
+
 }
 
 

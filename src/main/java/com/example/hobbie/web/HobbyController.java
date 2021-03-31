@@ -198,7 +198,7 @@ public class HobbyController {
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             }
 
-            return "redirect:/hobbies/hobbie-details/{id}";
+            return "redirect:/business_owner";
         }
            else{
             return "index";

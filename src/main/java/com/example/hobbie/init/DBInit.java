@@ -32,6 +32,8 @@ public class DBInit implements CommandLineRunner {
         this.userService.seedUsersAndUserRoles();
         this.categoryService.initCategories();
         this.locationService.initLocations();
+
+        //TODO PHOTOS??
         this.hobbyService.initHobbyOffers();
 
     }

@@ -1,5 +1,6 @@
 package com.example.hobbie.service.impl;
 
+import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.model.entities.*;
 import com.example.hobbie.model.entities.enums.GenderEnum;
 import com.example.hobbie.model.entities.enums.UserRoleEnum;
@@ -14,15 +15,12 @@ import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final UserRoleService userRoleService;
     private SessionRegistry sessionRegistry;
 
+
     @Autowired
     public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, UserRoleRepository userRoleRepository,
                            PasswordEncoder passwordEncoder, AppClientRepository appClientRepository, BusinessOwnerRepository businessOwnerRepository, UserRoleService userRoleService, SessionRegistry sessionRegistry) {
@@ -50,6 +49,7 @@ public class UserServiceImpl implements UserService {
         this.businessOwnerRepository = businessOwnerRepository;
         this.userRoleService = userRoleService;
         this.sessionRegistry = sessionRegistry;
+
     }
 
     @Override
@@ -103,38 +103,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register(SignUpServiceModel signUpServiceModel) {
+    public void register(SignUpServiceModel signUpServiceModel) {
 
 
-        try {
+
             UserRoleEntity userRole = this.userRoleService.getUserRoleByEnumName(UserRoleEnum.USER);
             AppClient appClient = this.modelMapper.map(signUpServiceModel, AppClient.class);
             appClient.setRoles(List.of(userRole));
             appClient.setPassword(this.passwordEncoder.encode(signUpServiceModel.getPassword()));
             appClientRepository.save(appClient);
-        }
-        catch (Exception e){
-            return false;
-        }
-
-        return true;
 
     }
 
     @Override
-    public boolean registerBusiness(RegisterBusinessServiceModel registerBusinessServiceModel) {
-        try {
+    public void registerBusiness(RegisterBusinessServiceModel registerBusinessServiceModel) {
+
             UserRoleEntity businessUserRole = this.userRoleService.getUserRoleByEnumName(UserRoleEnum.BUSINESS_USER);
             BusinessOwner businessOwner = this.modelMapper.map(registerBusinessServiceModel, BusinessOwner.class);
             businessOwner.setRoles(List.of(businessUserRole));
             businessOwner.setPassword(this.passwordEncoder.encode(registerBusinessServiceModel.getPassword()));
             businessOwnerRepository.save(businessOwner);
-        }
-        catch (Exception e){
-            return false;
-        }
 
-        return true;
+
+
     }
 
     @Override
@@ -150,24 +141,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findUserById(Long userId) {
 
-        Optional<UserEntity> user = this.userRepository.findById(userId);
-        if(user.isPresent()) {
-            return user.get();
+
+        Optional<UserEntity> byId = this.userRepository.findById(userId);
+
+        if (byId.isPresent()) {
+            return byId.get();
+        } else {
+            throw new NotFoundException("User not found");
         }
-        else {
-            throw new NullPointerException();
-        }
 
-
-
-    }
-
-    @Override
-    public void deleteUser(Long id) {
-            UserEntity user = userRepository.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-            expireUserSessions(user.getUsername());
-            userRepository.delete(user);
 
     }
 
@@ -179,7 +161,7 @@ public class UserServiceImpl implements UserService {
             return businessOwner.get();
         }
         else {
-            throw new NullPointerException();
+            throw new NotFoundException("Can not find business owner");
         }
 
     }
@@ -192,7 +174,80 @@ public class UserServiceImpl implements UserService {
             return byUsername.get();
         }
         else {
-            throw new NullPointerException();
+            throw new NotFoundException("Can not find user with this username");
+        }
+    }
+
+    @Override
+    public boolean userExists(String username, String email) {
+        Optional<UserEntity> byUsername = this.userRepository.findByUsername(username);
+        Optional<UserEntity> byEmail = this.userRepository.findByEmail(email);
+
+        return byUsername.isPresent() || byEmail.isPresent();
+
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        UserEntity user = findUserById(id);
+        expireUserSessions(user.getUsername());
+
+        userRepository.delete(user);
+
+
+    }
+
+    @Override
+    public void deleteBusinessOwner(Long id) {
+        Optional<BusinessOwner> user = this.businessOwnerRepository.findById(id);
+        if(user.isPresent()) {
+
+
+            expireUserSessions(user.get().getUsername());
+            userRepository.delete(user.get());
+        }
+        else {
+            throw new NotFoundException("Can not find current business owner");
+        }
+
+    }
+
+    @Override
+    public void deleteAppClient(Long id) {
+        Optional<AppClient> user = this.appClientRepository.findById(id);
+        if(user.isPresent()) {
+
+            this.appClientRepository.save(user.get());
+            expireUserSessions(user.get().getUsername());
+
+            appClientRepository.delete(user.get());
+        }
+        else {
+            throw new NotFoundException("Can not find current user");
+        }
+    }
+
+    @Override
+    public AppClient findAppClientById(Long clientId) {
+        Optional<AppClient> user = this.appClientRepository.findById(clientId);
+        if(user.isPresent()) {
+
+            return user.get();
+        }
+        else {
+            throw new NotFoundException("Can not find current user.");
+        }
+    }
+
+    @Override
+    public void findAndRemoveHobbyfromClientsRecords(Hobby hobby) {
+        List<AppClient> all = this.appClientRepository.findAll();
+
+        for (AppClient appClient : all) {
+            appClient.getSaved_hobbies().remove(hobby);
+            appClient.getHobby_matches().remove(hobby);
+
+
         }
     }
 
@@ -211,7 +266,7 @@ public class UserServiceImpl implements UserService {
             return user.get();
         }
         else {
-            throw new NullPointerException();
+            throw new NotFoundException("Can not find current business owner");
         }
 
     }
@@ -223,7 +278,7 @@ public class UserServiceImpl implements UserService {
             return user.get();
         }
         else {
-            throw new NullPointerException();
+            throw new NotFoundException("Can not find current user");
         }
     }
 

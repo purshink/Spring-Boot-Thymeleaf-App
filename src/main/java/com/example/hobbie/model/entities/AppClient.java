@@ -56,7 +56,7 @@ public class AppClient extends UserEntity implements Serializable {
         this.hobby_matches = hobby_matches;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     public Test getTestResults() {
         return testResults;
     }

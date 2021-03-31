@@ -2,6 +2,7 @@ package com.example.hobbie.model.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "hobbies")
@@ -14,6 +15,7 @@ public class Hobby extends BaseEntity{
     private BusinessOwner businessOwner;
     private BigDecimal price;
     private Location location;
+
     //TODO HOBBY ADDRESS
     //TODO  HOBBY ENTRY DURTION
 

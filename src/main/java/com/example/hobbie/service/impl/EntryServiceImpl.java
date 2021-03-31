@@ -1,5 +1,6 @@
 package com.example.hobbie.service.impl;
 
+import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.view.EntryViewModel;
 import com.example.hobbie.model.entities.Entry;
 import com.example.hobbie.model.repostiory.EntryRepository;
@@ -43,7 +44,7 @@ public class EntryServiceImpl implements EntryService {
             this.entryRepository.save(entry.get());
         }
         else {
-            throw new NullPointerException();
+            throw new NotFoundException("Entry not found");
         }
 
     }

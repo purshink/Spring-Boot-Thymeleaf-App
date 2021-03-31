@@ -1,6 +1,7 @@
 package com.example.hobbie.web;
 
 import com.example.hobbie.config.UserInterceptor;
+import com.example.hobbie.view.AboViewModel;
 import com.example.hobbie.view.EntryViewModel;
 import com.example.hobbie.service.AboService;
 import com.example.hobbie.service.EntryService;
@@ -54,9 +55,12 @@ public class AboController {
     public String showAbo(@PathVariable Long id, Model model) {
         if (UserInterceptor.isUserLogged()) {
             model.addAttribute("clientDetails", this.aboService.getClientDetails(id));
-            model.addAttribute("aboDetails", this.aboService.findAboById(id));
+            AboViewModel aboById = this.aboService.findAboById(id);
+            model.addAttribute("aboDetails", aboById);
             List<EntryViewModel> aboEntries = this.entryService.getAboEntries(id);
             model.addAttribute("entries",aboEntries);
+            model.addAttribute("aboId", id);
+            model.addAttribute("hobbyName", this.hobbyService.findHobbieById(aboById.getHobbyId()).getName());
 
 
 
@@ -77,4 +81,16 @@ public class AboController {
             return "index";
         }
     }
+
+    @PostMapping("/delete-abo/{id}")
+    public String deleteAbo(@PathVariable Long id, Model model) {
+        if (UserInterceptor.isUserLogged()) {
+            this.aboService.deleteAbo(id);
+            return "redirect:/default";
+        }
+        else{
+            return "index";
+        }
+    }
+
 }

@@ -7,15 +7,36 @@ import java.util.List;
 @Entity
 @Table(name = "abos")
 public class Abo extends BaseEntity{
-    private AppClient client;
-    private Hobby hobby;
+    private Long clientId;
+    private Long businessOwnerId;
+    private Long hobbyId;
     private List<Entry> entries;
     private BigDecimal aboPrice;
+    private String name;
+    private String clientName;
 
     public Abo() {
     }
 
-    @OneToMany
+    @Column
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    @Column(nullable = false)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @OneToMany(cascade = CascadeType.REMOVE)
     public List<Entry> getEntries() {
         return entries;
     }
@@ -23,21 +44,31 @@ public class Abo extends BaseEntity{
     public void setEntries(List<Entry> entries) {
         this.entries = entries;
     }
-    @OneToOne
-    public AppClient getClient() {
-        return client;
+
+    @Column(nullable = false)
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClient(AppClient client) {
-        this.client = client;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
-    @ManyToOne
-    public Hobby getHobby() {
-        return hobby;
+    @Column(nullable = false)
+    public Long getBusinessOwnerId() {
+        return businessOwnerId;
     }
 
-    public void setHobby(Hobby hobby) {
-        this.hobby = hobby;
+    public void setBusinessOwnerId(Long businessOwnerId) {
+        this.businessOwnerId = businessOwnerId;
+    }
+
+    @Column(nullable = false)
+    public Long getHobbyId() {
+        return hobbyId;
+    }
+
+    public void setHobbyId(Long hobbyId) {
+        this.hobbyId = hobbyId;
     }
 
     @Column

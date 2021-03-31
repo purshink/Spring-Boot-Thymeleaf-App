@@ -1,8 +1,7 @@
 package com.example.hobbie.service.impl;
 
-import com.example.hobbie.model.entities.Category;
+import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.model.entities.Location;
-import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import com.example.hobbie.model.repostiory.LocationRepository;
 import com.example.hobbie.service.LocationService;
@@ -40,7 +39,7 @@ public class LocationServiceImpl implements LocationService {
             return location.get();
         }
         else {
-            throw new NullPointerException();
+            throw new NotFoundException("Location not found");
         }
 
     }

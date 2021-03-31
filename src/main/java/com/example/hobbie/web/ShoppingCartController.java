@@ -1,6 +1,8 @@
 package com.example.hobbie.web;
 
+import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.service.AboService;
+import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,13 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
-
+    private final HobbyService hobbyService;
     private final AboService aboService;
 
 
     @Autowired
-    public ShoppingCartController(ShoppingCartService shoppingCartService, AboService aboService) {
+    public ShoppingCartController(ShoppingCartService shoppingCartService, HobbyService hobbyService, AboService aboService) {
         this.shoppingCartService = shoppingCartService;
+        this.hobbyService = hobbyService;
         this.aboService = aboService;
     }
 
@@ -31,7 +34,8 @@ public class ShoppingCartController {
 
     @GetMapping("/shoppingCart/addProduct/{hobbyId}")
     public ModelAndView addProductToCart(@PathVariable("hobbyId") Long hobbyId) {
-        this.shoppingCartService.addAboToCart(hobbyId);
+        Hobby hobbieById = this.hobbyService.findHobbieById(hobbyId);
+        this.shoppingCartService.addAboToCart(hobbieById);
         return shoppingCart();
     }
 

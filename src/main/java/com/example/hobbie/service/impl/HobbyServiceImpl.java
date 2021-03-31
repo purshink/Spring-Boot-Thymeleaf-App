@@ -1,16 +1,14 @@
 package com.example.hobbie.service.impl;
 
 
+import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.model.entities.*;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import com.example.hobbie.model.repostiory.HobbyRepository;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.UpdateHobbyServiceModel;
-import com.example.hobbie.service.CategoryService;
-import com.example.hobbie.service.HobbyService;
-import com.example.hobbie.service.LocationService;
-import com.example.hobbie.service.UserService;
+import com.example.hobbie.service.*;
 import com.example.hobbie.view.HobbyCardViewModel;
 import com.example.hobbie.view.HobbyViewModel;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -37,14 +35,18 @@ public class HobbyServiceImpl implements HobbyService {
     private final CategoryService categoryService;
     private final UserService userService;
     private final LocationService locationService;
+    private final AboService aboService;
+    private final ShoppingCartService shoppingCartService;
 
     @Autowired
-    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryService categoryService, UserService userService, LocationService locationService) {
+    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryService categoryService, UserService userService, LocationService locationService, AboService aboService, ShoppingCartService shoppingCartService) {
         this.modelMapper = modelMapper;
         this.hobbyRepository = hobbyRepository;
         this.categoryService = categoryService;
         this.userService = userService;
         this.locationService = locationService;
+        this.aboService = aboService;
+        this.shoppingCartService = shoppingCartService;
     }
 
 
@@ -75,7 +77,7 @@ public class HobbyServiceImpl implements HobbyService {
         if (hobby.isPresent()) {
             return hobby.get();
         } else {
-            throw new NullPointerException();
+            throw new NotFoundException("This hobby does not exist");
         }
     }
 
@@ -94,8 +96,18 @@ public class HobbyServiceImpl implements HobbyService {
     @Override
     public void deleteHobby(long id) throws IOException {
         String uploadDir = "hobby-photos/" + id;
-        FileUtils.deleteDirectory(new File(uploadDir));
-        this.hobbyRepository.deleteById(id);
+        Optional<Hobby> byId = this.hobbyRepository.findById(id);
+        if(byId.isPresent()){
+            FileUtils.deleteDirectory(new File(uploadDir));
+            this.userService.findAndRemoveHobbyfromClientsRecords(byId.get());
+            this.aboService .findExcistingAbosWithHobbyId(id);
+            this.shoppingCartService.removeProductFromCart(id);
+            this.hobbyRepository.deleteById(id);
+        }
+        else {
+            throw new NotFoundException("Hobby does not exist");
+        }
+
     }
 
     @Override
@@ -157,7 +169,7 @@ public class HobbyServiceImpl implements HobbyService {
             yoga.setCategory(this.categoryService.findByName(CategoryNameEnum.RELAX));
             yoga.setBusinessOwner(this.userService.findBusinessOwnerById(3));
             yoga.setPrice(new BigDecimal("52.40"));
-            yoga.setProfilePhoto("4.jpg");
+            yoga.setProfilePhoto("2.jpg");
             yoga.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
             this.hobbyRepository.save(yoga);
 

@@ -1,5 +1,6 @@
 package com.example.hobbie.service.impl;
 
+import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.repostiory.CategoryRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -21,7 +23,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category findByName(CategoryNameEnum category) {
-        return this.categoryRepository.findByName(category).orElse(null);
+        Optional<Category> byName = this.categoryRepository.findByName(category);
+
+        if(byName.isPresent()){
+            return byName.get();
+        }
+        else{
+            throw new NotFoundException("Category with this name not found");
+        }
     }
 
     @Override

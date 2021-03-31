@@ -75,11 +75,11 @@
             <div class="classes" style="height: 30vh; overflow: auto">
                 <h3 class="mySticky bg-gray text-dark rounded">Shopping cart</h3>
                 <div th:each="abo : ${abos}" >
-                <span th:text="|${abo.hobby.name} Abo : 5 Entries|" ></span>
+                <span th:text="|${abo.name} Abo : 5 Entries - |" ></span>
                 <span th:text="|Abo Price: ${abo.aboPrice} |" ></span>
                     <br>
-                <span th:text="| Prise per entry: ${abo.hobby.price}|"></span>
-                    <a class="edit-offer" th:href="@{'/shoppingCart/removeProduct/{id}'(id=${abo.hobby.id})}">Remove</a>
+<!--                <span th:text="| Prise per entry: ${abo.hobby.price}|"></span>-->
+                    <a class="edit-offer" th:href="@{'/shoppingCart/removeProduct/{id}'(id=${abo.hobbyId})}">Remove</a>
                 </div>
             </div>
             <div class="classes" style="height: auto; overflow: hidden">

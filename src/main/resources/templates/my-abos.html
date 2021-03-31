@@ -23,8 +23,8 @@
                 <h3 class="mySticky bg-gray text-dark rounded">My abos</h3>
                 <div th:each="a : ${abos}" th:object="${a}" class="tow">
                     <!--             <img hight="40px" width="40px" th:src="@{${hobby.profilePhotoImagePath}}" alt="hobby-photos" src=""/>-->
-                    <span th:text="|${a.hobby.name}  -  price per entry: ${a.hobby.price} CHF;  |"></span>
-                    <span th:text="| Price per Abo(5 entries): ${a.aboPrice} CHF|"></span>
+                    <span th:text="|${a.name}  Abo  |"></span>
+                    <span th:text="| Price per 5 entries: ${a.aboPrice} CHF|"></span>
                     <a class="edit-offer" th:href="@{/abo/{id}(id = ${a.id})}"> View</a>
 
                 </div>

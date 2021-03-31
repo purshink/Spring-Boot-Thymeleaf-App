@@ -14,7 +14,8 @@
         <div class="classes" style="height: 30vh; overflow: auto">
             <h3 class="mySticky bg-gray text-dark rounded">Clients</h3>
             <div th:each="a : ${abos}" th:object="${a}" class="tow">
-                <span th:text="|*{client.fullName}, ${a.hobby.name} Abo|">Name: Abo:  Entries:</span>
+                <span  class="edit-offer" th:text="| ${a.clientName} |">Name: Abo:  Entries:</span>
+                <span th:text="| ${a.name} Abo|">Name: Abo:  Entries:</span>
                 <a class="edit-offer" th:href="@{/abo/{id}(id = ${a.id})}"> Details</a>
             </div>
         </div>
