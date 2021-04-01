@@ -7,6 +7,8 @@ import com.example.hobbie.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
     private final UserRoleRepository userRoleRepository;
@@ -19,9 +21,20 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public UserRoleEntity getUserRoleByEnumName(UserRoleEnum userRoleEnum){
 
-        return this.userRoleRepository.findByRole(userRoleEnum).orElseThrow(
-                () -> new NotFoundException("User role not found. Please seed the roles."));
+        //todo check if needed
+        Optional<UserRoleEntity> byRole = this.userRoleRepository.findByRole(userRoleEnum);
 
+        if (byRole.isPresent()) {
+            return byRole.get();
+        } else {
+            throw new NotFoundException("User role not found. Please seed the roles.");
+        }
+
+    }
+
+    @Override
+    public UserRoleEntity saveRole(UserRoleEntity userRoleEntity) {
+         return    this.userRoleRepository.save(userRoleEntity);
     }
 
 

@@ -5,4 +5,6 @@ import com.example.hobbie.model.entities.enums.UserRoleEnum;
 
 public interface UserRoleService {
     UserRoleEntity getUserRoleByEnumName(UserRoleEnum userRoleEnum);
+
+    UserRoleEntity saveRole(UserRoleEntity userRoleEntity);
 }

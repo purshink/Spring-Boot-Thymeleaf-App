@@ -5,6 +5,7 @@ import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.model.entities.*;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
+import com.example.hobbie.model.repostiory.CategoryRepository;
 import com.example.hobbie.model.repostiory.HobbyRepository;
 import com.example.hobbie.model.service.HobbyServiceModel;
 import com.example.hobbie.model.service.UpdateHobbyServiceModel;
@@ -41,7 +42,7 @@ public class HobbyServiceImpl implements HobbyService {
     private final CloudinaryService cloudinaryService;
 
     @Autowired
-    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryService categoryService, UserService userService, LocationService locationService, AboService aboService, ShoppingCartService shoppingCartService, CloudinaryService cloudinaryService) {
+    public HobbyServiceImpl(ModelMapper modelMapper, HobbyRepository hobbyRepository, CategoryRepository mockCategoryRepository, CategoryService categoryService, UserService userService, LocationService locationService, AboService aboService, ShoppingCartService shoppingCartService, CloudinaryService cloudinaryService) {
         this.modelMapper = modelMapper;
         this.hobbyRepository = hobbyRepository;
         this.categoryService = categoryService;
@@ -112,7 +113,7 @@ public class HobbyServiceImpl implements HobbyService {
         Optional<Hobby> byId = this.hobbyRepository.findById(id);
         if(byId.isPresent()){
             FileUtils.deleteDirectory(new File(uploadDir));
-            this.userService.findAndRemoveHobbyfromClientsRecords(byId.get());
+            this.userService.findAndRemoveHobbyFromClientsRecords(byId.get());
             this.aboService .findExcistingAbosWithHobbyId(id);
             this.shoppingCartService.removeProductFromCart(id);
             this.hobbyRepository.deleteById(id);
@@ -135,7 +136,7 @@ public class HobbyServiceImpl implements HobbyService {
                     "Because of the wide range and variety of rock formations around the world, rock climbing has been separated into several different styles and sub-disciplines, such as scrambling, another activity involving the scaling of hills and similar formations, differentiated by rock climbing's sustained use of hands to support the climber's weight as well as to provide balance.");
 
             climbing.setCategory(this.categoryService.findByName(CategoryNameEnum.ACTIVE));
-            climbing.setBusinessOwner(this.userService.findBusinessOwnerById(3));
+            climbing.setBusinessOwner(this.userService.findBusinessOwnerById(3L));
             climbing.setPrice(new BigDecimal("73"));
 //            climbing.setProfilePhoto("1.jpg");
             climbing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
@@ -148,7 +149,7 @@ public class HobbyServiceImpl implements HobbyService {
                     "An important distinction is to be drawn between the contexts of theatrical and participatory dance, although these two categories are not always completely separate; both may have special functions, whether social, ceremonial, competitive, erotic, martial, or sacred/liturgical. Other forms of human movement are sometimes said to have a dance-like quality, including martial arts, gymnastics, cheerleading, figure skating, synchronised swimming, marching bands, and many other forms of athletics.");
 
             dancing.setCategory(this.categoryService.findByName(CategoryNameEnum.FUN));
-            dancing.setBusinessOwner(this.userService.findBusinessOwnerById(3));
+            dancing.setBusinessOwner(this.userService.findBusinessOwnerById(3L));
             dancing.setPrice(new BigDecimal("62.40"));
 //            dancing.setProfilePhoto("2.jpg");
             dancing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
@@ -165,7 +166,7 @@ public class HobbyServiceImpl implements HobbyService {
                     "How fast your skills improve depend on every individual and on your purpose, you can ride for pleasure in the nature in all types of terrain or choose an equestrian sport and train professionally.\n" +
                     "\n");
             horseRiding.setCategory(this.categoryService.findByName(CategoryNameEnum.ACTIVE));
-            horseRiding.setBusinessOwner(this.userService.findBusinessOwnerById(3));
+            horseRiding.setBusinessOwner(this.userService.findBusinessOwnerById(3L));
             horseRiding.setPrice(new BigDecimal("162.20"));
 //            horseRiding.setProfilePhoto("3.jpg");
             horseRiding.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
@@ -180,7 +181,7 @@ public class HobbyServiceImpl implements HobbyService {
                     "\n" +
                     "Yoga professes a complete system of physical, mental, social, and spiritual development. For generations, this philosophy was passed on from the master teacher to the student. The first written records of the practice of yoga appeared around 200 BC in Yogasutra of Patanjali. The system consisted of the eightfold path or Asthangayoga.");
             yoga.setCategory(this.categoryService.findByName(CategoryNameEnum.RELAX));
-            yoga.setBusinessOwner(this.userService.findBusinessOwnerById(3));
+            yoga.setBusinessOwner(this.userService.findBusinessOwnerById(3L));
             yoga.setPrice(new BigDecimal("52.40"));
 //            yoga.setProfilePhoto("2.jpg");
             yoga.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
@@ -195,7 +196,7 @@ public class HobbyServiceImpl implements HobbyService {
                     "\n" +
                     "Life of Art is a place where all senses are stimulated; natural daylight, incense and music to help you relax. The goal is to create an atmosphere where your mind feels at ease and is not blocking your sensitivity and your imagination. Over time, students refine their technique and creativity.");
             painting.setCategory(this.categoryService.findByName(CategoryNameEnum.CREATIVE));
-            painting.setBusinessOwner(this.userService.findBusinessOwnerById(3));
+            painting.setBusinessOwner(this.userService.findBusinessOwnerById(3L));
             painting.setPrice(new BigDecimal("40"));
 //            painting.setProfilePhoto("5.jpg");
             painting.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));

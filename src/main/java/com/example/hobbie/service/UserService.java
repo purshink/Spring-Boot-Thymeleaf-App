@@ -11,23 +11,23 @@ import java.util.List;
 import java.util.Set;
 
 public interface UserService {
-    void seedUsersAndUserRoles();
+    List<UserEntity> seedUsersAndUserRoles();
 
-    void register(SignUpServiceModel signUpServiceModel);
+    AppClient register(SignUpServiceModel signUpServiceModel);
     BusinessOwner findCurrentUserBusinessOwner();
     AppClient findCurrentUserAppClient();
     String findCurrentUsername();
-    void registerBusiness(RegisterBusinessServiceModel map);
+    BusinessOwner registerBusiness(RegisterBusinessServiceModel map);
 
-    void saveUpdatedUser(BusinessOwner businessOwner);
+    BusinessOwner saveUpdatedUser(BusinessOwner businessOwner);
 
-    void saveUpdatedUserClient(AppClient appClient);
+    AppClient saveUpdatedUserClient(AppClient appClient);
 
     UserEntity findUserById(Long userId);
 
     void deleteUser(Long id);
 
-    BusinessOwner findBusinessOwnerById(long i);
+    BusinessOwner findBusinessOwnerById(Long id);
 
 
     UserEntity findUserByUsername(String username);
@@ -40,7 +40,8 @@ public interface UserService {
 
     AppClient findAppClientById(Long clientId);
 
-    void findAndRemoveHobbyfromClientsRecords(Hobby hobby);
+    void findAndRemoveHobbyFromClientsRecords(Hobby hobby);
+    void expireUserSessions();
 }
 
 

@@ -8,7 +8,9 @@ import com.example.hobbie.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,13 +36,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void initCategories() {
+    public List<Category> initCategories() {
+        List<Category> init = new ArrayList<>();
         if(categoryRepository.count() == 0) {
             Arrays.stream(CategoryNameEnum.values()).forEach(categoryNameEnum -> {
                 Category category = new Category(categoryNameEnum);
                 this.categoryRepository.save(category);
-
+                init.add(category);
             });
         }
+        return init;
     }
 }

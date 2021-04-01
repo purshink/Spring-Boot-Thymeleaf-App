@@ -30,7 +30,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public void saveTest(TestServiceModel testServiceModel) {
+    public Test saveTest(TestServiceModel testServiceModel) {
         Test test = this.modelMapper.map(testServiceModel, Test.class);
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
         test.setAppClient(currentUserAppClient);
@@ -40,8 +40,8 @@ public class TestServiceImpl implements TestService {
         }
         currentUserAppClient.setTestResults(test);
         this.userService.saveUpdatedUserClient(currentUserAppClient);
-        this.testRepository.save(test);
         currentUserAppClient.setHobby_matches(this.hobbyService.findHobbyMatches(currentUserAppClient));
+        return this.testRepository.save(test);
 
     }
 }

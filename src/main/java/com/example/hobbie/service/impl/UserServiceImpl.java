@@ -7,7 +7,6 @@ import com.example.hobbie.model.entities.enums.UserRoleEnum;
 import com.example.hobbie.model.repostiory.AppClientRepository;
 import com.example.hobbie.model.repostiory.BusinessOwnerRepository;
 import com.example.hobbie.model.repostiory.UserRepository;
-import com.example.hobbie.model.repostiory.UserRoleRepository;
 import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
 import com.example.hobbie.service.UserRoleService;
@@ -15,12 +14,12 @@ import com.example.hobbie.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,40 +29,37 @@ public class UserServiceImpl implements UserService {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
-    private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AppClientRepository appClientRepository;
     private final BusinessOwnerRepository businessOwnerRepository;
     private final UserRoleService userRoleService;
-    private SessionRegistry sessionRegistry;
 
 
     @Autowired
-    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, UserRoleRepository userRoleRepository,
-                           PasswordEncoder passwordEncoder, AppClientRepository appClientRepository, BusinessOwnerRepository businessOwnerRepository, UserRoleService userRoleService, SessionRegistry sessionRegistry) {
+    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository,
+                           PasswordEncoder passwordEncoder, AppClientRepository appClientRepository,
+                           BusinessOwnerRepository businessOwnerRepository, UserRoleService userRoleService) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.appClientRepository = appClientRepository;
         this.businessOwnerRepository = businessOwnerRepository;
         this.userRoleService = userRoleService;
-        this.sessionRegistry = sessionRegistry;
 
     }
 
     @Override
-    public void seedUsersAndUserRoles() {
-
+    public List<UserEntity> seedUsersAndUserRoles() {
+        List<UserEntity> seededUsers = new ArrayList<>();
 
         //simple user
         if(appClientRepository.count() == 0) {
             UserRoleEntity userRoleEntity = new UserRoleEntity();
             userRoleEntity.setRole(UserRoleEnum.USER);
-            UserRoleEntity userRole = userRoleRepository.save(userRoleEntity);
+            UserRoleEntity userRole = this.userRoleService.saveRole(userRoleEntity);
             UserRoleEntity userRoleEntity2 = new UserRoleEntity();
             userRoleEntity2.setRole(UserRoleEnum.ADMIN);
-            UserRoleEntity adminRole = userRoleRepository.save(userRoleEntity2);
+            UserRoleEntity adminRole = this.userRoleService.saveRole(userRoleEntity2);
             AppClient user = new AppClient();
             user.setUsername("user");
             user.setEmail("n13@gmail.com");
@@ -83,12 +79,15 @@ public class UserServiceImpl implements UserService {
             admin.setGender(GenderEnum.FEMALE);
             appClientRepository.save(user);
             appClientRepository.save(admin);
+            seededUsers.add( user);
+            seededUsers.add( admin);
+
         }
         if(businessOwnerRepository.count() == 0){
 
             UserRoleEntity userRoleEntity3 = new UserRoleEntity();
             userRoleEntity3.setRole(UserRoleEnum.BUSINESS_USER);
-            UserRoleEntity businessRole = userRoleRepository.save(userRoleEntity3);
+            UserRoleEntity businessRole = this.userRoleService.saveRole(userRoleEntity3);
             //business_user
             BusinessOwner business_user = new BusinessOwner();
             business_user.setUsername("business");
@@ -99,43 +98,44 @@ public class UserServiceImpl implements UserService {
             business_user.setAddress("My business address");
 
             businessOwnerRepository.save(business_user);
+            seededUsers.add( business_user);
         }
+        return seededUsers;
     }
 
     @Override
-    public void register(SignUpServiceModel signUpServiceModel) {
-
-
+    public AppClient register(SignUpServiceModel signUpServiceModel) {
 
             UserRoleEntity userRole = this.userRoleService.getUserRoleByEnumName(UserRoleEnum.USER);
             AppClient appClient = this.modelMapper.map(signUpServiceModel, AppClient.class);
             appClient.setRoles(List.of(userRole));
-            appClient.setPassword(this.passwordEncoder.encode(signUpServiceModel.getPassword()));
-            appClientRepository.save(appClient);
-
+                appClient.setPassword(this.passwordEncoder.encode(signUpServiceModel.getPassword()));
+        return     appClientRepository.save(appClient);
     }
 
     @Override
-    public void registerBusiness(RegisterBusinessServiceModel registerBusinessServiceModel) {
+    public BusinessOwner registerBusiness(RegisterBusinessServiceModel registerBusinessServiceModel) {
 
             UserRoleEntity businessUserRole = this.userRoleService.getUserRoleByEnumName(UserRoleEnum.BUSINESS_USER);
             BusinessOwner businessOwner = this.modelMapper.map(registerBusinessServiceModel, BusinessOwner.class);
             businessOwner.setRoles(List.of(businessUserRole));
             businessOwner.setPassword(this.passwordEncoder.encode(registerBusinessServiceModel.getPassword()));
-            businessOwnerRepository.save(businessOwner);
+           return businessOwnerRepository.save(businessOwner);
 
 
 
     }
 
     @Override
-    public void saveUpdatedUser(BusinessOwner businessOwner) {
-        this.businessOwnerRepository.save(businessOwner);
+    public BusinessOwner saveUpdatedUser(BusinessOwner businessOwner) {
+      return   this.businessOwnerRepository.save(businessOwner);
+
     }
 
     @Override
-    public void saveUpdatedUserClient(AppClient appClient) {
-        this.appClientRepository.save(appClient);
+    public AppClient saveUpdatedUserClient(AppClient appClient) {
+     return    this.appClientRepository.save(appClient);
+
     }
 
     @Override
@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BusinessOwner findBusinessOwnerById(long id) {
+    public BusinessOwner findBusinessOwnerById(Long id) {
         Optional<BusinessOwner> businessOwner = this.businessOwnerRepository.findById(id);
 
         if(businessOwner.isPresent()) {
@@ -190,7 +190,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         UserEntity user = findUserById(id);
-        expireUserSessions(user.getUsername());
+        expireUserSessions();
 
         userRepository.delete(user);
 
@@ -203,7 +203,7 @@ public class UserServiceImpl implements UserService {
         if(user.isPresent()) {
 
 
-            expireUserSessions(user.get().getUsername());
+            expireUserSessions();
             userRepository.delete(user.get());
         }
         else {
@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
         if(user.isPresent()) {
 
             this.appClientRepository.save(user.get());
-            expireUserSessions(user.get().getUsername());
+            expireUserSessions();
 
             appClientRepository.delete(user.get());
         }
@@ -240,22 +240,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void findAndRemoveHobbyfromClientsRecords(Hobby hobby) {
+    public void findAndRemoveHobbyFromClientsRecords(Hobby hobby) {
         List<AppClient> all = this.appClientRepository.findAll();
 
         for (AppClient appClient : all) {
             appClient.getSaved_hobbies().remove(hobby);
             appClient.getHobby_matches().remove(hobby);
-
-
         }
     }
 
-
-    public void expireUserSessions(String username) {
-                if (findCurrentUsername().equals(username)) {
+    @Override
+    public void expireUserSessions() {
                     SecurityContextHolder.clearContext();
-                }
         }
 
     @Override

@@ -30,6 +30,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         this.userService = userService;
         this.aboService = aboService;
         this.entryService = entryService;
+
     }
 
     @Override
@@ -98,4 +99,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         }
 
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public AboService getAboService() {
+        return aboService;
+    }
+
+    public EntryService getEntryService() {
+        return entryService;
+    }
+
+    public List<Abo> getInCart() {
+        return inCart;
+    }
+
+    public void setInCart(List<Abo> inCart) {
+        this.inCart = inCart;
+    }
 }

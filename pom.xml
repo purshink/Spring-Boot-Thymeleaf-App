@@ -131,6 +131,12 @@
             <artifactId>cloudinary-taglib</artifactId>
             <version>1.0.14</version>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
