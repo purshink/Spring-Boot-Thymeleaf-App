@@ -1,4 +1,4 @@
-package com.example.hobbie.service;
+package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.Location;
@@ -6,6 +6,7 @@ import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import com.example.hobbie.model.repostiory.CategoryRepository;
 import com.example.hobbie.model.repostiory.LocationRepository;
+import com.example.hobbie.service.CategoryService;
 import com.example.hobbie.service.impl.CategoryServiceImpl;
 import com.example.hobbie.service.impl.LocationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
