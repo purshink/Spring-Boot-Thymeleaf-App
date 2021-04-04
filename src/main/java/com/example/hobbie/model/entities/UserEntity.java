@@ -32,7 +32,7 @@ public class UserEntity extends BaseEntity implements Serializable{
     public UserEntity() {
     }
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     public String getUsername() {
         return username;
     }
