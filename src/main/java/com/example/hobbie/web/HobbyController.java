@@ -13,7 +13,7 @@ import com.example.hobbie.model.service.UpdateHobbyServiceModel;
 import com.example.hobbie.service.CloudinaryService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.UserService;
-import com.example.hobbie.util.FileUploadUtil;
+
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

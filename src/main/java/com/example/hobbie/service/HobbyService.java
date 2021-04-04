@@ -26,7 +26,7 @@ public interface HobbyService {
 
     void deleteHobby(long id) throws IOException;
 
-    void initHobbyOffers();
+    List<Hobby> initHobbyOffers();
 
     List<Hobby> findHobbyMatches(AppClient currentUserAppClient);
     List<HobbyCardViewModel> getHobbyMatches(AppClient currentAppClient);

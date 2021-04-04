@@ -29,5 +29,5 @@ public interface AboService {
 
     void deleteAbo(Long id);
 
-    void findExcistingAbosWithHobbyId(long id);
+    void findExcistingAbosWithHobbyId(Long id);
 }

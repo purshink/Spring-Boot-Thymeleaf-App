@@ -115,7 +115,7 @@ public class AboServiceImpl implements AboService {
     }
 
     @Override
-    public void findExcistingAbosWithHobbyId(long id) {
+    public void findExcistingAbosWithHobbyId(Long id) {
         List<Abo> byHobbyId = this.aboRepository.findByHobbyId(id);
         if(byHobbyId.size() > 0){
             throw new FailToDeleteException("Can not delete hobby. There are existing Abos for this offer.");

@@ -109,10 +109,10 @@ public class HobbyServiceImpl implements HobbyService {
 
     @Override
     public void deleteHobby(long id) throws IOException {
-        String uploadDir = "hobby-photos/" + id;
+//        String uploadDir = "hobby-photos/" + id;
         Optional<Hobby> byId = this.hobbyRepository.findById(id);
         if(byId.isPresent()){
-            FileUtils.deleteDirectory(new File(uploadDir));
+//            FileUtils.deleteDirectory(new File(uploadDir));
             this.userService.findAndRemoveHobbyFromClientsRecords(byId.get());
             this.aboService .findExcistingAbosWithHobbyId(id);
             this.shoppingCartService.removeProductFromCart(id);
@@ -125,7 +125,9 @@ public class HobbyServiceImpl implements HobbyService {
     }
 
     @Override
-    public void initHobbyOffers() {
+    public List<Hobby> initHobbyOffers() {
+
+        List<Hobby> offers = new ArrayList<>();
         if (hobbyRepository.count() == 0) {
             //TODO CREATE PHOTOS DIR IF IT DOESNT EXIST
             //1
@@ -140,6 +142,7 @@ public class HobbyServiceImpl implements HobbyService {
             climbing.setPrice(new BigDecimal("73"));
 //            climbing.setProfilePhoto("1.jpg");
             climbing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
+            offers.add(climbing);
             this.hobbyRepository.save(climbing);
             //2
             Hobby dancing = new Hobby();
@@ -153,6 +156,7 @@ public class HobbyServiceImpl implements HobbyService {
             dancing.setPrice(new BigDecimal("62.40"));
 //            dancing.setProfilePhoto("2.jpg");
             dancing.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
+            offers.add(dancing);
             this.hobbyRepository.save(dancing);
             //3
             Hobby horseRiding = new Hobby();
@@ -170,6 +174,7 @@ public class HobbyServiceImpl implements HobbyService {
             horseRiding.setPrice(new BigDecimal("162.20"));
 //            horseRiding.setProfilePhoto("3.jpg");
             horseRiding.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
+            offers.add(horseRiding);
             this.hobbyRepository.save(horseRiding);
 
             //4
@@ -185,6 +190,7 @@ public class HobbyServiceImpl implements HobbyService {
             yoga.setPrice(new BigDecimal("52.40"));
 //            yoga.setProfilePhoto("2.jpg");
             yoga.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
+            offers.add(yoga);
             this.hobbyRepository.save(yoga);
 
             //5
@@ -200,9 +206,10 @@ public class HobbyServiceImpl implements HobbyService {
             painting.setPrice(new BigDecimal("40"));
 //            painting.setProfilePhoto("5.jpg");
             painting.setLocation(this.locationService.getLocationByName(LocationEnum.ZURICH));
+            offers.add(painting);
             this.hobbyRepository.save(painting);
         }
-
+            return offers;
     }
 
     @Override

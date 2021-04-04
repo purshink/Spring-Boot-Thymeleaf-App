@@ -1,6 +1,7 @@
 package com.example.hobbie.service.impl;
 
 import com.example.hobbie.model.entities.AppClient;
+import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.model.entities.Test;
 import com.example.hobbie.model.repostiory.TestRepository;
 import com.example.hobbie.model.service.TestServiceModel;
@@ -11,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -30,7 +33,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public Test saveTest(TestServiceModel testServiceModel) {
+    public void saveTest(TestServiceModel testServiceModel) {
         Test test = this.modelMapper.map(testServiceModel, Test.class);
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
         test.setAppClient(currentUserAppClient);
@@ -38,10 +41,10 @@ public class TestServiceImpl implements TestService {
         if(currentUserAppClient.getTestResults() != null){
             test.setId(currentUserAppClient.getTestResults().getId());
         }
+        this.testRepository.save(test);
         currentUserAppClient.setTestResults(test);
+        List<Hobby> hobbyMatches = this.hobbyService.findHobbyMatches(currentUserAppClient);
+        currentUserAppClient.setHobby_matches(hobbyMatches);
         this.userService.saveUpdatedUserClient(currentUserAppClient);
-        currentUserAppClient.setHobby_matches(this.hobbyService.findHobbyMatches(currentUserAppClient));
-        return this.testRepository.save(test);
-
     }
 }
