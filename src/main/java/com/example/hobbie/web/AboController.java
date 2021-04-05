@@ -33,7 +33,6 @@ public class AboController {
         this.userService = userService;
         this.aboService = aboService;
         this.hobbyService = hobbyService;
-
         this.entryService = entryService;
         this.modelMapper = modelMapper;
     }

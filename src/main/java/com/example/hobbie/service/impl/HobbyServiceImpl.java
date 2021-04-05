@@ -129,7 +129,7 @@ public class HobbyServiceImpl implements HobbyService {
 
         List<Hobby> offers = new ArrayList<>();
         if (hobbyRepository.count() == 0) {
-            //TODO CREATE PHOTOS DIR IF IT DOESNT EXIST
+
             //1
             Hobby climbing = new Hobby();
             climbing.setName("Climbing");
