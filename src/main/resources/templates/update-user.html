@@ -14,6 +14,9 @@
     <div th:marginheight="10px" th:if="${dontMatch}" class="errors" >
         Passwords don't match
     </div>
+    <div th:marginheight="10px" th:if="${isExists}" class="errors" >
+        This email already exist.
+    </div>
     <form method="POST" th:object="${updateClientBindingModel}" th:action="@{/users/update-user}">
 
 <!--        <div class="row">-->

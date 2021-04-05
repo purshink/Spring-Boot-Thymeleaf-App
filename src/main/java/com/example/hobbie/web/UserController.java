@@ -166,6 +166,7 @@ public class UserController {
             model.addAttribute("updateClientBindingModel", updateClientBindingModel);
             model.addAttribute("dontMatch", false);
             model.addAttribute("emptyGender", false);
+            model.addAttribute("isExists",false);
             return "update-user";
         }
         else {
@@ -184,7 +185,15 @@ public class UserController {
                         redirectAttributes.addFlashAttribute("dontMatch", true);
                     }
                     return "redirect:/users/update-user";
-                } else {
+                }
+                else if (this.userService.userExists(updateClientBindingModel.getUsername(), updateClientBindingModel.getEmail())){
+                    redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
+                    redirectAttributes.addFlashAttribute("isExists", true);
+                    return "redirect:/users/update-user";
+                }
+
+
+                else {
                     AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
                     AppClient appClient = this.modelMapper.map(updateClientBindingModel, AppClient.class);
                     appClient.setId(currentUserAppClient.getId());
@@ -208,6 +217,7 @@ public class UserController {
             request.getSession().setAttribute("userId", currentUserBusinessOwner.getId());
             model.addAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
             model.addAttribute("dontMatch", false);
+            model.addAttribute("isExists",false);
             return "update-business";
         }
         else{
@@ -227,7 +237,16 @@ public class UserController {
                 }
                 return "redirect:/users/update-business";
 
-            } else {
+            }
+            else if (this.userService.userExists(updateBusinessBindingModel.getUsername(), updateBusinessBindingModel.getEmail())){
+
+
+                redirectAttributes.addFlashAttribute("registerBusinessBindingModel", updateBusinessBindingModel);
+                redirectAttributes.addFlashAttribute("isExists", true);
+                return "redirect:/users/update-business";
+            }
+
+            else {
                 Long userId = (Long) request.getSession().getAttribute("userId");
                 UserEntity user = this.userService.findUserById(userId);
                 BusinessOwner businessOwner = this.modelMapper.map(updateBusinessBindingModel, BusinessOwner.class);
