@@ -30,4 +30,6 @@ public interface AboService {
     void deleteAbo(Long id);
 
     void findExcistingAbosWithHobbyId(Long id);
+
+    Abo findAbo(Long id);
 }

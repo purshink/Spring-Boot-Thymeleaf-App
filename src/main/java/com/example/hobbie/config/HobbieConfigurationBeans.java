@@ -3,6 +3,8 @@ package com.example.hobbie.config;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -35,10 +37,7 @@ public class HobbieConfigurationBeans {
 
     @Bean
     public SessionRegistry sessionRegistry () {
-
         return new SessionRegistryImpl();
-
     }
-
 
 }

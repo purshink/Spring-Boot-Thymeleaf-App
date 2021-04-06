@@ -1,5 +1,7 @@
 package com.example.hobbie.service;
 
+import com.example.hobbie.model.entities.AppClient;
+import com.example.hobbie.model.entities.UserEntity;
 import com.example.hobbie.view.EntryViewModel;
 import com.example.hobbie.model.entities.Entry;
 
@@ -12,6 +14,7 @@ public interface EntryService {
     List<Entry> saveAboEntries(List<Entry> aboEntries);
 
 
-    void saveUpdatedEntry(Long entryId) throws ParseException;
+    void saveUpdatedEntry(AppClient appClient, Long entryId) ;
+    void confirmUpdatedEntry(Long entryId);
 
 }

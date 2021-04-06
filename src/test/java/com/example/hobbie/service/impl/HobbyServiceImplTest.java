@@ -12,11 +12,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 import java.io.IOException;
@@ -30,6 +27,7 @@ import static org.mockito.Mockito.*;
 
 class HobbyServiceImplTest {
     private HobbyRepository mockHobbyRepository;
+    private NotificationService  notificationService;
     private HobbyService hobbyServiceToTest;
     private AppClient appClient;
     private  Hobby hobby;
@@ -50,7 +48,7 @@ class HobbyServiceImplTest {
         CloudinaryService cloudinaryServiceTest = mock(CloudinaryService.class);
         UserService userServiceTest = mock(UserService.class);
         AboService aboServiceTest = new AboServiceImpl(aboRepository, userServiceTest, modelMapper);
-        EntryService entryServiceTest = new EntryServiceImpl(mockEntryRepository, modelMapper);
+        EntryService entryServiceTest = new EntryServiceImpl( mockEntryRepository, modelMapper, notificationService);
         ShoppingCartService shoppingCartServiceTest = new ShoppingCartServiceImpl(userServiceTest, aboServiceTest, entryServiceTest);
         hobbyServiceToTest = new HobbyServiceImpl(modelMapper,mockHobbyRepository, mockCategoryRepository, categoryServiceTest, userServiceTest, locationServiceTest, aboServiceTest, shoppingCartServiceTest,cloudinaryServiceTest);
 

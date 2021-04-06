@@ -16,6 +16,7 @@ public class Entry extends BaseEntity{
 
     private String date;
     private Abo abo;
+    private boolean isInProcess;
 
 
     public Entry() {
@@ -40,5 +41,11 @@ public class Entry extends BaseEntity{
         this.date = date;
     }
 
+    public boolean isInProcess() {
+        return isInProcess;
+    }
 
+    public void setInProcess(boolean inProcess) {
+        isInProcess = inProcess;
+    }
 }

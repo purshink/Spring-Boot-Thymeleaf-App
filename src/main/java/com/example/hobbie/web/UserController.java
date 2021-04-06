@@ -32,7 +32,7 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
 
-    //TODO CREATE CUSTOM VALIDATION NOT NULL ERROR MESSAGE FOR GENDER
+
     //TODO CREATE POP UP THAT USER HAT SUCCESSFULLY SIGNED UP
     private final UserService userService;
     private final HobbyService hobbyService;

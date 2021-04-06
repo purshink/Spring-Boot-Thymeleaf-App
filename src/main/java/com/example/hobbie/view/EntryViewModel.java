@@ -6,6 +6,7 @@ public class EntryViewModel {
     private Long id;
     private String date;
     private Long aboId;
+    private boolean isInProcess;
 
     public EntryViewModel() {
     }
@@ -33,5 +34,13 @@ public class EntryViewModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isInProcess() {
+        return isInProcess;
+    }
+
+    public void setInProcess(boolean inProcess) {
+        isInProcess = inProcess;
     }
 }

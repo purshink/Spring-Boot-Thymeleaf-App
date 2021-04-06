@@ -37,9 +37,13 @@
                 <form th:action="@{/update-entry/{id}(id = ${e.id})}" th:method="POST" class="entries" th:each="e : ${entries}" th:object="${e}">
                     <span  th:if="${e.date} != null" th:text="|Entry date: |">Name: Abo:  Entries:</span>
                     <span th:if="${e.date} != null" ><span th:text="|${e.date}|"></span></span>
-                    <th:block sec:authorize="hasRole('BUSINESS_USER')">
+                    <th:block th:unless="${e.inProcess}" sec:authorize="hasRole('BUSINESS_USER')">
                         <span  th:if="${e.date} == null" th:text="|New entry: |">Name: Abo:  Entries:</span>
                         <button class="noButton" th:if="${e.date} == null" th:background="none" th:border="none"> <a class="edit-offer">Save</a></button>
+                    </th:block>
+                    <th:block th:if="${e.inProcess}" sec:authorize="hasRole('BUSINESS_USER')">
+                        <span  th:if="${e.date} == null" th:text="|Waiting confirmation.. |">Name: Abo:  Entries:</span>
+                        <button class="noButton" th:if="${e.date} == null" th:background="none" th:border="none"> <a class="edit-offer">Send request again</a></button>
                     </th:block>
                 </form>
             </div>

@@ -6,6 +6,7 @@ import com.example.hobbie.model.entities.Abo;
 import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.model.repostiory.AboRepository;
 import com.example.hobbie.service.AboService;
+import com.example.hobbie.service.NotificationService;
 import com.example.hobbie.service.UserService;
 import com.example.hobbie.view.AboViewModel;
 import org.modelmapper.ModelMapper;
@@ -22,11 +23,13 @@ public class AboServiceImpl implements AboService {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
+
     @Autowired
     public AboServiceImpl(AboRepository aboRepository, UserService userService, ModelMapper modelMapper) {
         this.aboRepository = aboRepository;
         this.userService = userService;
         this.modelMapper = modelMapper;
+
     }
 
     @Override
@@ -120,6 +123,20 @@ public class AboServiceImpl implements AboService {
         if(byHobbyId.size() > 0){
             throw new FailToDeleteException("Can not delete hobby. There are existing Abos for this offer.");
         }
+    }
+
+    @Override
+    public Abo findAbo(Long id) {
+        Optional<Abo> byId = this.aboRepository.findById(id);
+
+        if(byId.isPresent()){
+            return byId.get();
+        }
+        else {
+
+            throw new NotFoundException("Abo does not exist");
+        }
+
     }
 
 

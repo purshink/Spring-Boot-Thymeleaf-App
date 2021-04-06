@@ -1,6 +1,8 @@
 package com.example.hobbie.web;
 
 import com.example.hobbie.config.UserInterceptor;
+import com.example.hobbie.model.entities.Abo;
+import com.example.hobbie.model.entities.AppClient;
 import com.example.hobbie.view.AboViewModel;
 import com.example.hobbie.view.EntryViewModel;
 import com.example.hobbie.service.AboService;
@@ -64,17 +66,27 @@ public class AboController {
 
 
 
+
             return "abo";
         } else {
             return "index";
         }
     }
 
-    @PostMapping("/update-entry/{id}")
-    public String updateAbo(@PathVariable Long id, Model model) throws ParseException {
-        if (UserInterceptor.isUserLogged()) {
-            this.entryService.saveUpdatedEntry(id);
+    @GetMapping ("/confirm-update-entry/{id}")
+    public String confirmUpdateEntry(@PathVariable Long id) throws ParseException {
             Long aboId = this.aboService.findAboId(id);
+           this.entryService.confirmUpdatedEntry(id);
+            return "redirect:/abo/" + aboId;
+    }
+
+    @PostMapping("/update-entry/{id}")
+    public String updateEntry(@PathVariable Long id) throws ParseException {
+        if (UserInterceptor.isUserLogged()) {
+            Long aboId = this.aboService.findAboId(id);
+            Abo abo = this.aboService.findAbo(aboId);
+            AppClient appClientById = this.userService.findAppClientById(abo.getClientId());
+            this.entryService.saveUpdatedEntry(appClientById,id);
             return "redirect:/abo/" + aboId;
         }
         else{

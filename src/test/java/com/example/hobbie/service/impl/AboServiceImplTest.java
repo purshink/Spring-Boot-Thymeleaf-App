@@ -3,22 +3,17 @@ package com.example.hobbie.service.impl;
 import com.example.hobbie.handler.FailToDeleteException;
 import com.example.hobbie.handler.NotFoundException;
 import com.example.hobbie.model.entities.Abo;
-import com.example.hobbie.model.entities.Entry;
-import com.example.hobbie.model.entities.Hobby;
 import com.example.hobbie.model.repostiory.AboRepository;
 import com.example.hobbie.service.AboService;
 import com.example.hobbie.service.UserService;
-import com.example.hobbie.view.AboViewModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssumptions.given;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,7 +35,7 @@ class AboServiceImplTest {
         mockAboRepository = mock(AboRepository.class);
         abo = new Abo();
         abo.setId(1L);
-        aboServiceTest = new AboServiceImpl(mockAboRepository, userService, new ModelMapper());
+        aboServiceTest = new AboServiceImpl(mockAboRepository, userService, modelMapper);
 
         //abo data
 
