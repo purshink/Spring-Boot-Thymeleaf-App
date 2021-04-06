@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -70,7 +71,7 @@ public class AboController {
     }
 
     @PostMapping("/update-entry/{id}")
-    public String updateAbo(@PathVariable Long id, Model model) {
+    public String updateAbo(@PathVariable Long id, Model model) throws ParseException {
         if (UserInterceptor.isUserLogged()) {
             this.entryService.saveUpdatedEntry(id);
             Long aboId = this.aboService.findAboId(id);

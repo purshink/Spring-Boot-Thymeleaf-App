@@ -8,7 +8,11 @@ import com.example.hobbie.service.EntryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,9 +42,10 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     public void saveUpdatedEntry(Long entryId) {
+//
         Optional<Entry> entry = this.entryRepository.findById(entryId);
         if(entry.isPresent()){
-            entry.get().setDate(Calendar.getInstance().getTime());
+            entry.get().setDate(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));
             this.entryRepository.save(entry.get());
         }
         else {

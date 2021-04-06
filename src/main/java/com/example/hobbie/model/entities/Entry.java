@@ -1,8 +1,12 @@
 package com.example.hobbie.model.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,7 +14,7 @@ import java.util.Date;
 @Table(name = "entries")
 public class Entry extends BaseEntity{
 
-    private Date date;
+    private String date;
     private Abo abo;
 
 
@@ -26,12 +30,13 @@ public class Entry extends BaseEntity{
         this.abo = abo;
     }
 
+
     @Column
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

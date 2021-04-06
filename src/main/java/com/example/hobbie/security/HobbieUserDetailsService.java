@@ -32,7 +32,7 @@ public class HobbieUserDetailsService implements UserDetailsService {
 
     }
 
-    //TODO SEE HOW TO DISPLAY VALIDATION ERROR MESSAGES
+    
     private UserDetails mapToUserDetails(UserEntity userEntity) {
 
         List<GrantedAuthority> authorities = userEntity.getRoles().stream()

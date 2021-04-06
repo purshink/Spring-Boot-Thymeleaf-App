@@ -1,16 +1,10 @@
 package com.example.hobbie.view;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class EntryViewModel {
     private Long id;
-    private Date date;
+    private String date;
     private Long aboId;
 
     public EntryViewModel() {
@@ -24,11 +18,11 @@ public class EntryViewModel {
         this.aboId = abId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
