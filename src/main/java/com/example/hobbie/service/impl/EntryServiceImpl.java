@@ -72,7 +72,7 @@ public class EntryServiceImpl implements EntryService {
     public void confirmUpdatedEntry(Long entryId) {
         Optional<Entry> entry = this.entryRepository.findById(entryId);
         if(entry.isPresent()){
-            entry.get().setDate(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));
+            entry.get().setDate(new SimpleDateFormat("MM.dd.yyyy").format(Calendar.getInstance().getTime()));
             entry.get().setInProcess(false);
             this.entryRepository.save(entry.get());
 
