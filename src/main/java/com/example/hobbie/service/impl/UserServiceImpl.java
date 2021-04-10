@@ -255,6 +255,12 @@ public class UserServiceImpl implements UserService {
         }
 
     @Override
+    public boolean businessExists(String businessName) {
+        Optional<BusinessOwner> byBusinessName = this.businessOwnerRepository.findByBusinessName(businessName);
+        return byBusinessName.isPresent();
+    }
+
+    @Override
     public BusinessOwner findCurrentUserBusinessOwner() {
 
         Optional<BusinessOwner> user = this.businessOwnerRepository.findByUsername(findCurrentUsername());

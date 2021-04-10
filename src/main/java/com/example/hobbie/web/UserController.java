@@ -108,7 +108,8 @@ public class UserController {
             return "redirect:/users/register-business";
         }
 
-        else if (this.userService.userExists(registerBusinessBindingModel.getUsername(), registerBusinessBindingModel.getEmail())){
+        else if (this.userService.userExists(registerBusinessBindingModel.getUsername(), registerBusinessBindingModel.getEmail())||
+        this.userService.businessExists(registerBusinessBindingModel.getBusinessName())){
 
 
                 redirectAttributes.addFlashAttribute("registerBusinessBindingModel", registerBusinessBindingModel);
@@ -186,11 +187,6 @@ public class UserController {
                     }
                     return "redirect:/users/update-user";
                 }
-                else if (this.userService.userExists(updateClientBindingModel.getUsername(), updateClientBindingModel.getEmail())){
-                    redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
-                    redirectAttributes.addFlashAttribute("isExists", true);
-                    return "redirect:/users/update-user";
-                }
 
 
                 else {
@@ -229,7 +225,8 @@ public class UserController {
     public String updateBusiness(@Valid UpdateBusinessBindingModel updateBusinessBindingModel ,
                                  BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         if (UserInterceptor.isUserLogged()) {
-            if (bindingResult.hasErrors() || !(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))) {
+            if (bindingResult.hasErrors() || !(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))||
+                    this.userService.businessExists(updateBusinessBindingModel.getBusinessName())) {
                 redirectAttributes.addFlashAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
                 redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateBusinessBindingModel", bindingResult);
                 if (!(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))) {
@@ -237,13 +234,6 @@ public class UserController {
                 }
                 return "redirect:/users/update-business";
 
-            }
-            else if (this.userService.userExists(updateBusinessBindingModel.getUsername(), updateBusinessBindingModel.getEmail())){
-
-
-                redirectAttributes.addFlashAttribute("registerBusinessBindingModel", updateBusinessBindingModel);
-                redirectAttributes.addFlashAttribute("isExists", true);
-                return "redirect:/users/update-business";
             }
 
             else {

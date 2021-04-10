@@ -42,6 +42,8 @@ public interface UserService {
 
     void findAndRemoveHobbyFromClientsRecords(Hobby hobby);
     void expireUserSessions();
+
+    boolean businessExists(String businessName);
 }
 
 

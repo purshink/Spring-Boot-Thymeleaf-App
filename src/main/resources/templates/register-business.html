@@ -15,7 +15,7 @@
          Passwords don't match
      </div>
      <div th:marginheight="10px" th:if="${isExists}" class="errors" >
-         This username or email already exist.
+         This username, business name or email already exist.
      </div>
     <form method="POST"  th:object="${registerBusinessBindingModel}" th:action="@{/users/register-business}">
 
