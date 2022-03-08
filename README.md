@@ -1,68 +1,32 @@
 Spring & Thymeleaf project
 
-Java MVC Frameworks
+<hr></hr>
+A Spring Web MVC application that renders thymeleaf templates as HTML. Supports basic integration with spring security and provides login logout support.
+Uses Spring Data to persist data into the MYSQL db. 
 
-Individual Project Assignment
+<br><br>
+<b>Prerequisites</b>
+<hr></hr>
 
-This is the Individual Project Assignment for the Spring MVC Frameworks Course @ SoftUni.
+- JDK 11 and JAVA_HOME environment variable set
 
-General Requirements
+<hr>/hr>
 
-Your Web application should use the following technologies, frameworks and development techniques:
+<b>Building the project</b>
+Clone the repository:
 
-• The application must be implemented using Spring Framework.
+git clone https://github.com/kolorobot/spring-boot-thymeleaf
 
-o The application must have at least 12 web pages (views).
+Navigate to the newly created folder:
 
-o The application must have at least 5 independent entity models.
+cd spring-boot-thymeleaf
 
-o The application must have at least 5 controllers.
+Run the project with:
 
-o The application must have at least 5 services.
+./mvnw clean spring-boot:run
 
-o The application must have at least 5 repositories.
+Navigate to:
 
-o Optionally, you may use Spring Data REST.
-
-• Use IntelliJ or Eclipse.
-
-o Use Thymeleaf template engine for generating the UI.
-
- Use fragments.
-
-o You could also make the Front-End using JavaScript, consuming REST services from a Web API.
-
-• Use MySQL / Oracle / PostgreSQL as a database.
-
-• Use Spring Data to access your database.
-
-o User Hibernate / EclipseLink or any other provider as a JPA implementation.
-
-• Implement Responsive Web Page Design based on Bootstrap / Google Material Design.
-
-• Use the standard Spring Security for managing users and roles.
-
-o Your registered users should have at least these roles: user and administrator.
-
-o User roles should be managable from the application.
-
-o Make sure the role management is secured and error-safe.
-
-• Use AJAX to asynchronously load and display data somewhere in your application.
-
-• Write Unit Tests for your logic, services, repository query methods, helpers, etc.
-
-o You should have at least 80% coverage on your business logic.
-
-• Implement Error Handling and Data Validation to avoid crashes when invalid data is entered (both client-side and server-side).
-
-• Handle correctly the special HTML characters and tags like
-and <script> (escape special characters).
-
-• Use at least 2 Interceptors.
-
-• Run asynchronous tasks for jobs that do not need to run sequential or for jobs in the background.
-
-• Schedule jobs that impact the whole application running e.g. once/twice a day.
-
-• Use ModelМapper or other mapping library.
+http://localhost:8080
+Login with: user or business
+password:123 
