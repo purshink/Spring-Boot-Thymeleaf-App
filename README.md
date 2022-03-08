@@ -1,10 +1,10 @@
-Spring & Thymeleaf project
+<b>Spring & Thymeleaf project</b>
 
 * * * * *
 
 A Spring Web MVC application that renders thymeleaf templates as HTML. Supports basic integration with spring security and provides login logout support. Uses Spring Data to persist data into the MYSQL db.
 
-Prerequisites
+<b>Prerequisites</b>
 
 * * * * *
 
@@ -12,13 +12,17 @@ Prerequisites
 
 * * * * *
 
-Building the project Clone the repository:
+<b>Building the project</b>
+
+* * * * *
+
+Clone the repository:
 
 git clone <https://github.com/purshink/Spring-Boot-Thymeleaf-App>
 
 Navigate to the newly created folder:
 
-cd spring-boot-thymeleaf
+cd Spring-Boot-Thymeleaf-App
 
 Run the project with:
 
@@ -28,4 +32,5 @@ Navigate to:
 
 [http://localhost:8080](http://localhost:8080/)
 
-Login with: user or business password:123
+Login with: user or business,
+password:123
