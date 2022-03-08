@@ -2,7 +2,7 @@
 
 * * * * *
 
-A Spring Web MVC application that renders thymeleaf templates as HTML. Supports basic integration with spring security and provides login logout support. Uses Spring Data to persist data into the MYSQL db.
+A Spring Web MVC application that renders thymeleaf templates as HTML. Supports integration with spring security and provides login logout support. Uses Spring Data to persist data into the MYSQL db.
 
 <b>Prerequisites</b>
 
