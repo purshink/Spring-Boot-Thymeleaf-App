@@ -23,9 +23,9 @@ Navigate to the newly created folder:
 
 <pre>cd Spring-Boot-Thymeleaf-App</pre>
 
-Run the project:
+Run the project with:
 
-<pre>Open ./Spring-Boot-Thymeleaf-App on any IDE (IntelliJ/Eclipse etc.) and run the application.</pre>
+<pre>./mvnw clean spring-boot:run</pre>
 
 Navigate to:
 
