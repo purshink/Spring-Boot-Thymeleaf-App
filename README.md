@@ -18,9 +18,7 @@ A Spring Web MVC application that renders thymeleaf templates as HTML. Supports 
 
 Clone the repository:
 
-<pre>
-```git clone <https://github.com/purshink/Spring-Boot-Thymeleaf-App>```
-</pre>
+<pre>git clone <https://github.com/purshink/Spring-Boot-Thymeleaf-App> </pre>
 Navigate to the newly created folder:
 
 ```cd Spring-Boot-Thymeleaf-App```
