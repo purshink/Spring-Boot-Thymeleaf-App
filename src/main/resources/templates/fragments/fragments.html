@@ -30,7 +30,6 @@
             <th:block sec:authorize="!isAuthenticated()">
             <li><a class="nav-link" href="/users/register-business">Register your business</a></li>
             <li><a class="nav-link" href="/users/login">Login</a></li>
-            <li><a  class="nav-link"href="">Contact</a></li>
             </th:block>
             <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/default">Home</a></li>
             <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/hobbies/create_offer">Create new Hobby Offer</a></li>
