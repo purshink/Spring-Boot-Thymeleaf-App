@@ -44,23 +44,13 @@
                 </form>
             </li>
         </ul>
-<!--                    <div sec:authorize="hasRole('USER')" class="cart">-->
-<!--                        $<span id="cart_total" class="simpleCart_total" th:text="${cart.total}"> 0.00 </span>-->
-<!--                        (<span id="cart_items_count" class="simpleCart_quantity" th:text="${#lists.size(cart.items)}">-->
-<!--     </span><span>Items</span>)-->
-<!--                        <img class="imgHeader" src="/img/cart.svg" alt="cart">-->
-<!--                    </div>-->
     </nav>
 
-<div th:fragment="cart" sec:authorize="hasRole('USER')" class="cart">
+      <div th:fragment="cart" sec:authorize="hasRole('USER')" class="cart">
 
-    <a href="/shoppingCart">  <img class="imgHeader" src="/img/cart.svg" alt="cart"></a>
+       <a href="/shoppingCart">  <img class="imgHeader" src="/img/cart.svg" alt="cart"></a>
 
 </div>
-
 <body>
-
-
-
 </body>
 </html>
