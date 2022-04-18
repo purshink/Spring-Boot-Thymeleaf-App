@@ -6,6 +6,7 @@
 
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
 
 </header>
 
@@ -18,19 +19,6 @@
         This email already exist.
     </div>
     <form method="POST" th:object="${updateClientBindingModel}" th:action="@{/users/update-user}">
-
-<!--        <div class="row">-->
-<!--            <div class="form-field">-->
-
-<!--                <div class="name-section">-->
-<!--                    <input  th:field="*{username}"  th:value="*{username}" type="text" name="name"  required/>-->
-<!--                    <label id="name" class="label-name">-->
-<!--                        <span class="content-name">Username</span>-->
-<!--                        <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="errors">Invalid username</small>-->
-<!--                    </label>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="row">
             <div class="form-field">
                 <div class="name-section">
@@ -69,7 +57,7 @@
                     <input  th:field="*{email}"  th:value="*{email}" type="email" name="name"  required/>
                     <label id="email" class="label-name">
                         <span class="content-name">Email</span>
-                        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="errors">Invalid username</small>
+                        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="errors">Invalid email</small>
                     </label>
                 </div>
             </div>
@@ -100,15 +88,15 @@
         <div class="form-field">
             <button class="button button2">Update</button>
         </div>
-
-
-
     </form>
 </div>
+
+<footer class="footer_hobbie_details">
+    &copy; Hobbie 2021. All rights reserved.
+</footer>
 <img class="blueImg2" src="/img/blueImg.png" alt="blueImg2">
 </body>
 <script>
-    // document.getElementById("checkbox1").setAttribute("checked","checked")
     function selectOnlyThis(id) {
         for (let i = 1; i <= 3; i++)
         {

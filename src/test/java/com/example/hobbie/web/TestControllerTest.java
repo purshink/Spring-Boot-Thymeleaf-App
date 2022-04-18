@@ -26,21 +26,13 @@ class TestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-//    private CategoryNameEnum categoryOne;
-//    private CategoryNameEnum categoryTwo;
-//    private CategoryNameEnum categoryThree;
-//    private CategoryNameEnum categoryFour;
-//    private CategoryNameEnum categoryFive;
-//    private CategoryNameEnum categorySix;
-//    private CategoryNameEnum categorySeven;
-//    private LocationEnum location;
 
 
     @Test
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
     void showTest_should_work() throws Exception {
         this.mockMvc.perform(get("/test")).
-                andExpect(view().name("test")).
+                andExpect(view().name("test/test")).
                 andExpect(status().isOk());
     }
 

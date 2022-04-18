@@ -55,7 +55,7 @@ class AboControllerTest {
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
     public void testShowAllAbosOK() throws Exception {
         this.mockMvc.perform(get("/my-abos")).
-                andExpect(view().name("my-abos")).
+                andExpect(view().name("abo/my-abos")).
                 andExpect(status().isOk());
     }
 

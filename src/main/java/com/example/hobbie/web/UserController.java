@@ -33,7 +33,6 @@ import javax.validation.Valid;
 public class UserController {
 
 
-    //TODO CREATE POP UP THAT USER HAT SUCCESSFULLY SIGNED UP
     private final UserService userService;
     private final HobbyService hobbyService;
     private final AboService aboService;
@@ -58,7 +57,7 @@ public class UserController {
             model.addAttribute("emptyGender", false);
         }
 
-        return "signup";
+        return "signup/signup";
     }
 
     @PostMapping("/signup")
@@ -94,7 +93,7 @@ public class UserController {
             model.addAttribute("dontMatch",false);
         }
 
-        return "register-business";
+        return "signup/register-business";
     }
 
     @PostMapping("/register-business")
@@ -111,7 +110,6 @@ public class UserController {
         else if (this.userService.userExists(registerBusinessBindingModel.getUsername(), registerBusinessBindingModel.getEmail())||
         this.userService.businessExists(registerBusinessBindingModel.getBusinessName())){
 
-
                 redirectAttributes.addFlashAttribute("registerBusinessBindingModel", registerBusinessBindingModel);
                 redirectAttributes.addFlashAttribute("isExists", true);
                 return "redirect:/users/register-business";
@@ -123,7 +121,7 @@ public class UserController {
     @GetMapping("/login")
     public String showLogin(){
 
-        return "login";
+        return "login/login";
     }
 
     @PostMapping("/login-error")
@@ -134,7 +132,7 @@ public class UserController {
         modelAndView.addObject("bad_credentials", true);
         modelAndView.addObject("username", username);
 
-        modelAndView.setViewName("/login");
+        modelAndView.setViewName("login/login");
 
         return modelAndView;
     }
@@ -143,42 +141,50 @@ public class UserController {
     public String showAccountInfo(Model model){
         if(UserInterceptor.isUserLogged()) {
             model.addAttribute("client", this.userService.findCurrentUserAppClient());
-            return "account-info";
+            return "account/account-info";
         }
-        return "index";
+        return "home/index";
     }
 
     @GetMapping("/business-account-info")
     public String showBusinessAccountInfo(Model model){
         if(UserInterceptor.isUserLogged()) {
             model.addAttribute("business", this.userService.findCurrentUserBusinessOwner());
-            return "business-account-info";
+            return "account/business-account-info";
         }
-        return "index";
+        return "home/index";
     }
 
-
-    //CRUD
     @GetMapping("/update-user")
     public String showUpdateForm(Model model) {
         if (UserInterceptor.isUserLogged()) {
-            AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
-            UpdateClientBindingModel updateClientBindingModel = this.modelMapper.map(currentUserAppClient, UpdateClientBindingModel.class);
-            model.addAttribute("updateClientBindingModel", updateClientBindingModel);
-            model.addAttribute("dontMatch", false);
-            model.addAttribute("emptyGender", false);
-            model.addAttribute("isExists",false);
-            return "update-user";
+            if(!model.containsAttribute("updateClientBindingModel")) {
+                AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+                UpdateClientBindingModel updateClientBindingModel = this.modelMapper.map(currentUserAppClient, UpdateClientBindingModel.class);
+                model.addAttribute("updateClientBindingModel", updateClientBindingModel);
+                model.addAttribute("dontMatch", false);
+                model.addAttribute("emptyGender", false);
+                model.addAttribute("isExists", false);
+            }
+            return "account/update-user";
         }
         else {
-            return "index";
+            return "home/index";
         }
     }
 
         @PostMapping("/update-user")
         public String updateUser( @Valid UpdateClientBindingModel updateClientBindingModel,
                                   BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
             if (UserInterceptor.isUserLogged()) {
+                AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+                if(this.userService.emailExists(updateClientBindingModel.getEmail()) && (!updateClientBindingModel.getEmail().equals(currentUserAppClient.getEmail()))){
+                    redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
+                    redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateClientBindingModel", bindingResult);
+                    redirectAttributes.addFlashAttribute("isExists", true);
+                    return "redirect:/users/update-user";
+                }
                 if (bindingResult.hasErrors() || !(updateClientBindingModel.getPassword().equals(updateClientBindingModel.getConfirmPassword()))) {
                     redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
                     redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateClientBindingModel", bindingResult);
@@ -190,7 +196,6 @@ public class UserController {
 
 
                 else {
-                    AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
                     AppClient appClient = this.modelMapper.map(updateClientBindingModel, AppClient.class);
                     appClient.setId(currentUserAppClient.getId());
                     appClient.setUsername(currentUserAppClient.getUsername());
@@ -201,23 +206,25 @@ public class UserController {
                 }
             }
             else{
-                return "index";
+                return "home/index";
             }
     }
 
     @GetMapping("/update-business")
     public String showUpdateBusinessForm(Model model, HttpServletRequest request) {
         if (UserInterceptor.isUserLogged()) {
-            BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
-            UpdateBusinessBindingModel updateBusinessBindingModel = this.modelMapper.map(currentUserBusinessOwner, UpdateBusinessBindingModel.class);
-            request.getSession().setAttribute("userId", currentUserBusinessOwner.getId());
-            model.addAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
-            model.addAttribute("dontMatch", false);
-            model.addAttribute("isExists",false);
-            return "update-business";
+            if(!model.containsAttribute("updateBusinessBindingModel")) {
+                BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
+                UpdateBusinessBindingModel updateBusinessBindingModel = this.modelMapper.map(currentUserBusinessOwner, UpdateBusinessBindingModel.class);
+                request.getSession().setAttribute("userId", currentUserBusinessOwner.getId());
+                model.addAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
+                model.addAttribute("dontMatch", false);
+                model.addAttribute("isExists", false);
+            }
+            return "account/update-business";
         }
         else{
-            return "index";
+            return "home/index";
         }
     }
 
@@ -225,20 +232,30 @@ public class UserController {
     public String updateBusiness(@Valid UpdateBusinessBindingModel updateBusinessBindingModel ,
                                  BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         if (UserInterceptor.isUserLogged()) {
-            if (bindingResult.hasErrors() || !(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))||
-                    this.userService.businessExists(updateBusinessBindingModel.getBusinessName())) {
+            Long userId = (Long) request.getSession().getAttribute("userId");
+            UserEntity user = this.userService.findUserById(userId);
+            if(this.userService.emailExists(updateBusinessBindingModel.getEmail()) && (!updateBusinessBindingModel.getEmail().equals(user.getEmail()))){
                 redirectAttributes.addFlashAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
                 redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateBusinessBindingModel", bindingResult);
+                redirectAttributes.addFlashAttribute("isExists", true);
+                return "redirect:/users/update-business";
+            }
+            if (bindingResult.hasErrors() || !(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))||
+                    this.userService.businessNameExists(updateBusinessBindingModel.getBusinessName(), userId)) {
+                redirectAttributes.addFlashAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateBusinessBindingModel", bindingResult);
+                if (this.userService.businessNameExists(updateBusinessBindingModel.getBusinessName(), userId)){
+                    redirectAttributes.addFlashAttribute("isExists", true);
+                }
                 if (!(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))) {
-                    redirectAttributes.addAttribute("dontMatch", true);
+                    redirectAttributes.addFlashAttribute("dontMatch", true);
                 }
                 return "redirect:/users/update-business";
 
             }
 
             else {
-                Long userId = (Long) request.getSession().getAttribute("userId");
-                UserEntity user = this.userService.findUserById(userId);
+
                 BusinessOwner businessOwner = this.modelMapper.map(updateBusinessBindingModel, BusinessOwner.class);
                 businessOwner.setId(userId);
                 businessOwner.setUsername(user.getUsername());
@@ -249,7 +266,7 @@ public class UserController {
             }
         }
         else {
-            return "index";
+            return "home/index";
         }
     }
     @GetMapping("/deleteAppClient")
@@ -266,7 +283,7 @@ public class UserController {
             }
         }
         else {
-            return "index";
+            return "home/index";
         }
     }
     @GetMapping("/deleteBusinessOwner")
@@ -282,7 +299,7 @@ public class UserController {
             }
         }
         else {
-            return "index";
+            return "home/index";
         }
     }
 

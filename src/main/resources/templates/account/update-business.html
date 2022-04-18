@@ -6,6 +6,7 @@
 
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
 
 </header>
 
@@ -15,7 +16,7 @@
         Passwords don't match
     </div>
     <div th:marginheight="10px" th:if="${isExists}" class="errors" >
-        This email already exist.
+        This business name or email already exist.
     </div>
     <form method="Post"  th:object="${updateBusinessBindingModel}" th:action="@{/users/update-business}">
         <div class="row">
@@ -79,6 +80,10 @@
     </form>
 
 </div>
+
+<footer class="footer_hobbie_details">
+    &copy; Hobbie 2021. All rights reserved.
+</footer>
 
 <img class="blueImg2" src="/img/blueImg.png" alt="blueImg2">
 </body>

@@ -24,7 +24,7 @@ public class UpdateHobbyBindingModel {
 
 
     @Size(min = 3, max = 20, message = "Name must be between 3 and 20 symbols.")
-    @NotBlank(message = "Hobby name can not be empty.")
+    @NotNull(message = "Hobby name can not be empty.")
     public String getName() {
         return name;
     }
@@ -34,7 +34,7 @@ public class UpdateHobbyBindingModel {
     }
 
     @Size(min = 30,max = 1050 , message = "Description must be between 30 and 1050 symbols")
-    @NotBlank(message = "You need to have a description")
+    @NotNull(message = "You need to have a description")
     public String getDescription() {
         return description;
     }
@@ -80,6 +80,7 @@ public class UpdateHobbyBindingModel {
         this.location = location;
     }
 
+    @NotNull(message = "You have to choose profile picture")
     public MultipartFile getImg() {
         return img;
     }

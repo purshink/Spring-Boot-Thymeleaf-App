@@ -37,8 +37,8 @@ class HobbyControllerTest {
     @Test
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
     void showOffer_should_work() throws Exception {
-        this.mockMvc.perform(get("/hobbies/create_offer")).
-                andExpect(view().name("create_offer")).
+        this.mockMvc.perform(get("/hobbies/create-offer-page")).
+                andExpect(view().name("offer/create_offer")).
                 andExpect(status().isOk());
     }
 

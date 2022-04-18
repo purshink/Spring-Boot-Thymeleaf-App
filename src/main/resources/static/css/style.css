@@ -9,6 +9,7 @@
     /* border: 1px solid red; */
 
 }
+
 body {
     font-family: 'Poppins', sans-serif;
     border: 1px solid transparent;
@@ -49,19 +50,24 @@ h2{
     -webkit-text-fill-color: transparent;
 }
 
+ul {
+    list-style: none;
+}
+
 
 .logo-container, .nav-links, .cart{
     display:flex;
 }
 
 .logo {
-    font-weight: 400px;
+    color: #494969;
     margin: 1px;
 }
 
 .nav-links{
     justify-content: space-around;
     list-style: none;
+    border-bottom: gray;
 }
 
 .nav-link{
@@ -83,7 +89,7 @@ header{
     display: flex;
     width: 90%;
     margin: auto;
-    height: 10vh;
+    height: 11vh;
     align-items: center;
 }
 
@@ -99,8 +105,6 @@ nav {
 }
 
 .cart{
-
-    flex: 1;
     justify-content: flex-end;
 }
 
@@ -121,14 +125,89 @@ nav {
     flex: 1;
 }
 
-.cover img {
-    height: 60vh;
-    /* filter: drop-shadow(0px, 5px, 3px, black); */
+.drawing {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 100%;
+    color: #494969;
+    z-index: -1;
+    width: 72%;
+
 }
+
+@media all and  (min-width: 800px){
+    .cart {
+        flex: 1;
+    }
+
+}
+
+@media only screen and (max-width: 1024px) and (max-height: 1366px) {
+    .drawing{
+        position: absolute;
+        top: 10%;
+        right: 0px;
+        bottom: 0px;
+        height: 100%;
+        color: #494969;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+@media all and (max-width: 800px) {
+    .nav-link {
+        font-size: 13px;
+        padding-right: 2%;
+    }
+
+    form {
+        width: 90%;
+    }
+
+
+    .drawing {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        height: 100%;
+        color: #494969;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+@media all and (max-width: 650px) {
+    .cover img {
+        position: absolute;
+        top: 30%;
+        right: 0px;
+        bottom: 0px;
+        height: 82%;
+        color: #494969;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+@media all and (max-width: 280px) {
+    .cover_style {
+        position: absolute;
+        top: 8%;
+        right: 0px;
+        bottom: 0px;
+        height: 80%;
+        color: #494969;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
 
 .intro-text h1{
     font-size: 44px;
-    font-weight: 500px;
     background: linear-gradient(to right, #494969,#696989);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -138,6 +217,7 @@ nav {
     margin-top: 5px;
     font-size: 22px;
     color: #585772;
+    width: 50%;
 }
 
 .cta {
@@ -169,24 +249,90 @@ nav {
 }
 .cta_second_s {
     color: #c36cbb;
-    background: #fefefe;
     width: 150px;
     height: 50px;
     cursor: pointer ;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }
+@media screen and (min-width: 900px){
+    .nav_links_popup {
+        display: none;
+    }
+}
 
-.drawing{
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    height: 100%;
-    color: #494969;
-    z-index: -1;
-    width: 72%;
+@media screen and (max-width: 900px){
 
+    .account-cover{
+        display: none;
+    }
+    .cart{
+        position: absolute;
+        right: 20%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}
+
+@media all and (max-width: 900px) {
+    .menu_mobile {
+        height: 25px;
+        float: right;
+        padding-right: 20px;
+        font-size: 12px;
+        filter: invert(85%) sepia(3%) saturate(5839%) hue-rotate(183deg)
+        brightness(74%) contrast(95%);
+        color: rgb(135, 158, 187);
+        cursor: pointer;
+        font-weight: 200;
+        position: absolute;
+        top: 4%;
+        right: 10px;
+    }
+    .nav_links_popup {
+        list-style: none;
+        z-index: 2;
+        padding: 5px;
+        text-shadow: 0.1px 0px 0px rgb(241, 215, 167);
+    }
+
+    .popup_menu {
+        display: none;
+        z-index: 99 !important;
+        position: absolute;
+        padding: 5px;
+        background-color: white;
+        top: 6%;
+        right: 5%;
+        width: auto;
+        height: auto;
+        box-shadow: -2px 0px 33px 0px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav_links {
+        display: none;
+    }
+    .nav_link {
+        font-size: 12px;
+        line-height: 30px;
+    }
+}
+@media all and (min-width: 900px) {
+    .popup_menu {
+        display: none;
+    }
+
+    .menu_mobile {
+        display: none;
+    }
+}
+@media all and (max-width: 280px) {
+    .menu_mobile {
+        position: absolute;
+        top: 2%;
+    }
 }
 
 .blueImg{
@@ -212,22 +358,26 @@ nav {
 }
 
 .test{
-
     width: 90%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
     font-family: sans-serif;
+}
 
-
+.form-body{
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    font-family: sans-serif;
 }
 
 
 form {
     width: 50%;
-    position: relative;
-    height: 60px;
     border: none;
     margin-top: 20px;
 
@@ -335,7 +485,7 @@ input[type=checkbox] {
 
 input[type=checkbox] {
     width: 20px;
-    height: 2   0px;
+    height: 20px;
     margin-right: 8px;
     cursor: pointer;
     font-size: 17px;
@@ -450,20 +600,8 @@ input[type=checkbox]:checked:after {
 }
 
 
-.footer {
-    /*position:absolute;*/
-    bottom:0;
-    background:transparent;
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#3C000000,endColorstr=#3C000000);
-    zoom: 1;
-    margin: 0 auto;
-    width: 90%;
-    color: #494969;
-}
 /* home pages css */
 .menu {
-    grid-row: 1/span 2;
-    padding : 150px 800px 75px 250px;
     color: #494969;
 
 }
@@ -473,7 +611,8 @@ h3{
 }
 
 .classes{
-    width: 1000px;
+    width: 90%;
+    margin: auto;
 }
 
 .user_home{
@@ -536,9 +675,7 @@ h3{
 }
 .card_price{
     margin-left:auto;
-    padding: 5px, 20px;
-    /* background: linear-gradient(to right, #494969,#373757);
-    font-size: 16px; */
+    padding: 5px 20px;
 }
 
 .card:hover{
@@ -547,8 +684,21 @@ h3{
 
 @media only screen and (max-width: 1000px) {
     .card{grid-column-end: span 6;}
+
+    form {
+        width: 80%;
+    }
 }
 @media only screen and (max-width: 700px) {
+    .intro-text {
+        padding: 2%;
+    }
+    .intro-text h1{
+        font-size: 28px;
+    }
+    .intro-text p {
+        width: 90%;
+    }
     .user_home{
         grid-gap: 20px;
     }
@@ -580,12 +730,7 @@ h3{
     justify-content: center;
     text-align: center;
     color:  #5f5f79
-    /* background: linear-gradient(to right, #494969,#696989);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; */
 }
-
-/* errors class */
 
 .errors{
     font-size: 14px;
@@ -700,30 +845,39 @@ textarea{ font-family: 'Poppins', sans-serif;}
     align-items: center;
     margin-top: 30px;
 }
-.hobbie-container{
+.hobbie-container {
     padding: 60px;
     width: 70%;
     display: grid;
     grid-template-columns: 40% 60%;
-    grid-template-areas: "cover content";
+    grid-template-areas: "cover content"
+}
+
+.account-container {
+    padding: 60px;
+    width: 90%;
+
+}
+
+
+
+ .hobbie-details-container {
+    width: 80%;
+    background: white;
+    padding: 5%;
+    color: gray;
+    margin: auto;
     box-shadow: -2px 0px 33px 0px rgba(0,0,0,0.15);
-
-
 }
 
 .hobbie-cover{
     grid-area: cover;
     height: auto;
-    background-image: url(/img/coverImg.png);
     background-position: center center;
     background-size: cover;
 }
 .account-cover{
-    grid-area: cover;
-    height: auto;
-    background-image: url(/img/coverImg.png);
-    background-position: center center;
-    background-size: cover;
+  display: none;
 }
 
 .hobbie-content{
@@ -745,9 +899,9 @@ textarea{ font-family: 'Poppins', sans-serif;}
 }
 
 .account-content-body{
-    display: flex;
-    flex-direction: row;
-    margin-top: 90px;
+    background: white;
+    width: 70%;
+    margin: auto;
     padding-bottom: 130px;
     padding-top: 130px;
     padding-inline-start: 30px;
@@ -784,8 +938,10 @@ textarea{ font-family: 'Poppins', sans-serif;}
     padding-bottom: 10px;
 }
 
+p {padding-top: 10px}
+
 .hobbie-title{
-    font-size: 64px;
+    font-size: 40px;
     background: linear-gradient(to right, #494969,#696989);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -799,10 +955,8 @@ textarea{ font-family: 'Poppins', sans-serif;}
 
 .prix{
     margin: 50px 0px;
-    width: 45%;
     display: flex;
-    justify-content: space-between;
-    border-left: 4px solid rgb(255,177,33);
+    /*border-left: 4px solid rgb(255,177,33);*/
     background: linear-gradient(to right, #494969,#696989);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -810,13 +964,12 @@ textarea{ font-family: 'Poppins', sans-serif;}
 }
 
 .prix span{
-    padding-left: 10px;
+    padding-right: 20px;
 }
 
 .add-crt-edit{
     color: rgb(255,177,33);
-    left: 2px;
-    border-bottom: 1px solid rgb(177,177,177);
+    margin-right: 20px;
 
 }
 
@@ -845,13 +998,6 @@ b{
     padding: 0%;
 }
 
-.footer{
-
-    bottom : 0;
-    height : 40px;
-    margin-top : 40px;
-    margin-left: 5%;
-}
 
     .account-label p {
 
@@ -873,7 +1019,8 @@ b{
 
     .background{
         padding: 60px;
-        width: 1200px;
+        width: 90%;
+        margin: auto;
         box-shadow: -2px 0px 33px 0px rgba(0,0,0,0.15);
         background-color: #fefefe;
     }
@@ -884,3 +1031,53 @@ b{
         background-color: transparent;
         border: none;
     }
+    /*FOOTER*/
+
+.footer_hobbie_details {
+    background: transparent;
+    padding-top: 5%;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#3C000000,endColorstr=#3C000000);
+    zoom: 1;
+    margin: 0 auto;
+    width: 280px;
+    color: #494969;
+    padding-bottom: 15px;
+}
+
+.footer {
+    margin-top: 40px;
+    margin: 2% 5%;
+    bottom: 0px;
+    background: transparent;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#3C000000,endColorstr=#3C000000);
+    zoom: 1;
+    width: 90%;
+    color: #494969;
+    position: relative;
+    top: 43px;
+}
+
+
+.footer_cover {
+    position: absolute;
+    height: 40px;
+    margin-top: 40px;
+    margin-left: 5%;
+    bottom: 0px;
+    background: transparent;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#3C000000,endColorstr=#3C000000);
+    zoom: 1;
+    width: 90%;
+    color: #494969;
+}
+
+@media all and (max-width: 600px) {
+
+    .footer_hobbie_details {
+        font-size: 14px;
+        padding-left: 3%;
+    }
+}
+
+
+

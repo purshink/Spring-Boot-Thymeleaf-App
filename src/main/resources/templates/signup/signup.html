@@ -6,10 +6,11 @@
 
     <header>
         <div th:replace="fragments/fragments::logo"/></div>
-
-</header>
+        <div th:replace="fragments/fragments::navbar"/></div>
+        <div th:replace="fragments/fragments::menu_mobile"/></div>
+    </header>
      
- <div class="test">
+ <div class="form-body">
     <h2>Sign up</h2>
      <div th:marginheight="10px" th:if="${dontMatch}" class="errors" >
          Passwords don't match
@@ -101,28 +102,13 @@
                       <button id="button" class="button button2">Sign up</button>
                         </div>
     </form>
-
+     <footer class="footer">
+         &copy; Hobbie 2021. All rights reserved.
+     </footer>
  </div>
     <img class="blueImg2" src="/img/blueImg.png" alt="blueImg2">
 </body>
 <script>
-    $("#button").on('click', function (){
-
-
-        alert("Success")
-
-    });
-    $.ajax({
-        "url":'http://localhost:8080/users/singup',
-        "type":'POST',
-        "success":function(){
-
-            setTimeout(function () {
-
-            }, 800);
-        }
-    });
-
 
     function selectOnlyThis(id) {
         for (let i = 1; i <= 3; i++)

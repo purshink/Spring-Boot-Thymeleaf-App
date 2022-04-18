@@ -6,6 +6,7 @@
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
 </header>
 
 <main>
@@ -22,26 +23,19 @@
         <div class="classes" style="height: auto; overflow: hidden">
             <h3 class="mySticky bg-gray text-dark rounded">Hobby offers</h3>
             <div th:each="hobby : ${hobby_offers}" th:object="${hobby}" class="tow">
-<!--             <img hight="40px" width="40px" th:src="@{${hobby.profilePhotoImagePath}}" alt="hobby-photos" src=""/>-->
                 <span th:text="|*{name} - price per entry: *{price} CHF|"></span>
-
                 <a class="edit-offer" th:href="@{/hobbies/offer-details/{id}(id = *{id})}"> Edit</a>
-
                 </div>
             </div>
         </div>
-
-
+    </div>
 </main>
 <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
 <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
 <img class="blue" src="/img/blue.jpg" alt="blue">
-<footer class="footer bg-transparent  py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 text-white">
-            &copy; Hobbie 2021. All rights reserved.
-        </div>
-    </div>
+
+<footer class="footer_hobbie_details">
+    &copy; Hobbie 2021. All rights reserved.
 </footer>
 </body>
 </html>

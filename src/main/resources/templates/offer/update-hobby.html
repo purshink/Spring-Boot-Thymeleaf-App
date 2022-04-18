@@ -7,12 +7,13 @@
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
     <div th:replace="fragments/fragments::cart"/></div>
 </header>
 <main class="coBody">
     <div class="create_offer">
         <h2>Edit hobby offer</h2>
-        <form method="POST" th:object="${updateHobbyBindingModel}" th:action="@{/hobbies/update-hobby/{id}(id=*{id})}" enctype="multipart/form-data" >
+        <form method="POST" th:object="${updateHobbyBindingModel}" th:action="@{/hobbies/updated-offer/{id}(id=*{id})}" enctype="multipart/form-data" >
 
             <div class="row no-gutters">
                 <div class="form-field2">
@@ -43,7 +44,7 @@
                 <span class="content-name">Category</span>
                 <select class="form-test" th:field="*{category}"   id="category" name="category">
 
-                    <option value="">Select category</option>
+                    <option th:value="${null}" >Select category</option>
                     <option th:each="c : ${T(com.example.hobbie.model.entities.enums.CategoryNameEnum).values()}"
                             th:text="${c}"
                             th:value="${c}"
@@ -68,7 +69,7 @@
                 <span class="content-name">Location</span>
                 <select class="form-test" th:field="*{location}"   id="location" name="category">
 
-                    <option value="">Select location</option>
+                    <option th:value="${null}">Select location</option>
                     <option th:each="l : ${T(com.example.hobbie.model.entities.enums.LocationEnum).values()}"
                             th:text="${l}"
                             th:value="${l}"
@@ -101,8 +102,11 @@
                 <button class="button button2">Update</button>
             </div>
         </form>
-
     </div>
+
+    <footer class="footer_hobbie_details">
+        &copy; Hobbie 2021. All rights reserved.
+    </footer>
     <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
     <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
 </main>

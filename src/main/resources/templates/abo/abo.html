@@ -6,6 +6,7 @@
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
     <div th:replace="fragments/fragments::cart"/></div>
 </header>
 
@@ -34,7 +35,7 @@
             <br>
             <div class="classes" style="height: 30vh; overflow: auto">
                 <h3 class="mySticky bg-gray text-dark rounded">Entries</h3>
-                <form th:action="@{/update-entry/{id}(id = ${e.id})}" th:method="POST" class="entries" th:each="e : ${entries}" th:object="${e}">
+                <form th:action="@{/entry/{id}(id = ${e.id})}" th:method="POST" class="entries" th:each="e : ${entries}" th:object="${e}">
                     <span  th:if="${e.date} != null" th:text="|Entry date: |">Name: Abo:  Entries:</span>
                     <span th:if="${e.date} != null" ><span th:text="|${e.date}|"></span></span>
                     <th:block th:unless="${e.inProcess}" sec:authorize="hasRole('BUSINESS_USER')">
@@ -58,12 +59,9 @@
 <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
 <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
 <img class="blue" src="/img/blue.jpg" alt="blue">
-<footer class="footer bg-transparent  py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 text-white">
+
+        <footer class="footer_hobbie_details">
             &copy; Hobbie 2021. All rights reserved.
-        </div>
-    </div>
-</footer>
+        </footer>
 </body>
 </html>

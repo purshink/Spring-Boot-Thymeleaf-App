@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/fragments::head"></div>
+
+
+<body>
+<header>
+    <div th:if="${bad_credentials}" class="logo-container" >
+        <a href="/">  <img class="imgHeader" src="/img/logo.svg" alt="logo"></a>
+        <a href="/">  <h4 class="logo">obbie</h4></a>
+    </div>
+
+    <div th:replace="fragments/fragments::logo">
+    </div>
+    <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
+
+</header>
+
+ <div class="form-body">
+     <div class="loginh1"><h1 >Login</h1></div>
+     <div style="display:none">LOGIN_PAGE_IDENTIFIER</div>
+    <form class="login"  th:action="@{/users/login}"
+          method="POST">
+      <div th:if="${bad_credentials}" class="errors" >
+          This username and password combination does not exist.
+      </div>
+
+        <div class="row">
+            <div class="form-field">
+                 <div class="name-section">
+                        <input type="text" name="username" th:value="${username}" id="username"  required/>
+        <label id="name" class="label-name">
+            <span class="content-name">Username</span>
+        </label>
+    </div>
+    </div>
+    </div>
+        <div class="row">
+            <div class="form-field">
+                  <div class="name-section">
+                      <input type="password" id="password" name="password" required/>
+                      <label for="password" class="label-name">
+                          <span class="content-name">Password</span>
+                      </label>
+                  </div>
+            </div>
+        </div>
+                     
+        <div class="form-field">
+            <button class="button button2" type="submit">Login</button>
+        </div>
+    </form>
+ </div>
+
+<footer class="footer_cover">
+    &copy; Hobbie 2021. All rights reserved.
+</footer>
+
+<img class="blueImg2" src="/img/blueImg.png" alt="blueImg">
+</body>
+</html>

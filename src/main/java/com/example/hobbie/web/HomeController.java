@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -29,34 +30,33 @@ public class HomeController {
         this.userService = userService;
         this.aboService = aboService;
     }
-
-    public String showHome(){
-
-        return "index";
+    @RequestMapping("/")
+    public String showHome(HttpServletRequest request){
+        if (UserInterceptor.isUserLogged()) {
+            if (request.isUserInRole("ROLE_BUSINESS_USER")) {
+                return "redirect:/business_owner";
+            } else if (request.isUserInRole("ROLE_USER")) {
+                return "redirect:/user_home";
+            }
+            return "redirect:/";
+        }
+        return "home/index";
     }
 
     @GetMapping("/business_owner")
     public ModelAndView adminShow(@AuthenticationPrincipal UserDetails principal) {
         if (UserInterceptor.isUserLogged()) {
-            ModelAndView mav = new ModelAndView("business_owner");
+            ModelAndView mav = new ModelAndView("home/business_owner");
             mav.addObject("user", principal);
             mav.addObject("hobby_offers", hobbyService.getAllHobbyOffers());
             mav.addObject("abos", this.aboService.getAbosPerBusiness());
             return mav;
         }
         else{
-            ModelAndView mav = new ModelAndView("index");
+            ModelAndView mav = new ModelAndView("home/index");
             return mav;}
     }
 
-
-//    //TODO: IMPLEMENT /user as Admin page
-//    @GetMapping("/user")
-//    public ModelAndView userShow(@AuthenticationPrincipal UserDetails principal) {
-//        ModelAndView mav= new ModelAndView("user");
-//        mav.addObject("user", principal);
-//        return mav;
-//    }
 
     @GetMapping("/user_home")
     public ModelAndView userHomeShow(@AuthenticationPrincipal UserDetails principal) {
@@ -64,7 +64,7 @@ public class HomeController {
         if (UserInterceptor.isUserLogged()) {
             boolean isEmpty = false;
             boolean hasNoResults = false;
-            ModelAndView mav = new ModelAndView("user_home");
+            ModelAndView mav = new ModelAndView("home/user_home");
             mav.addObject("user", principal);
             AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
             List<HobbyCardViewModel> hobbyMatches = this.hobbyService.getHobbyMatches(currentUserAppClient);
@@ -82,7 +82,7 @@ public class HomeController {
             return mav;
         }
         else{
-            ModelAndView mav = new ModelAndView("index");
+            ModelAndView mav = new ModelAndView("home/index");
             return mav;
         }
     }

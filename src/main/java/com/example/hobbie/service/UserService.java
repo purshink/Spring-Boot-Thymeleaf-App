@@ -44,6 +44,10 @@ public interface UserService {
     void expireUserSessions();
 
     boolean businessExists(String businessName);
+
+    boolean emailExists(String email);
+
+    boolean businessNameExists(String businessName, Long userId);
 }
 
 

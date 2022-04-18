@@ -30,11 +30,13 @@ public class TestController {
     @GetMapping("/test")
     public String showTest(Model model){
         if (UserInterceptor.isUserLogged()) {
-            model.addAttribute("testBindingModel", new TestBindingModel());
-            return "test";
+            if(!model.containsAttribute("testBindingModel")) {
+                model.addAttribute("testBindingModel", new TestBindingModel());
+            }
+            return "test/test";
         }
         else{
-            return "index";
+            return "home/index";
         }
     }
 
@@ -44,17 +46,15 @@ public class TestController {
             if (bindingResult.hasErrors()) {
                 redirectAttributes.addFlashAttribute("testBindingModel", testBindingModel);
                 redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.testBindingModel", bindingResult);
-
-
                 return "redirect:/test";
             } else {
                 this.testService.saveTest(this.modelMapper.map(testBindingModel, TestServiceModel.class));
 
-                return "redirect:/default";
+                return "redirect:/";
             }
         }
         else {
-            return "index";
+            return "home/index";
         }
     }
 }

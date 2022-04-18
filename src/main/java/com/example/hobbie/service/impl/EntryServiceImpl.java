@@ -48,7 +48,6 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     public void saveUpdatedEntry(AppClient appClient, Long entryId) {
-//
         Optional<Entry> entry = this.entryRepository.findById(entryId);
         if(entry.isPresent()){
             try {

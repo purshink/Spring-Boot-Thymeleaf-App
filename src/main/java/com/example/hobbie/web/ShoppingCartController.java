@@ -26,7 +26,7 @@ public class ShoppingCartController {
 
     @GetMapping("/shoppingCart")
     public ModelAndView shoppingCart() {
-        ModelAndView modelAndView = new ModelAndView("/shoppingCart");
+        ModelAndView modelAndView = new ModelAndView("shopping/shoppingCart");
         modelAndView.addObject("abos", shoppingCartService.getAbosInCart());
         modelAndView.addObject("total", shoppingCartService.getTotal().toString());
         return modelAndView;
@@ -50,7 +50,7 @@ public class ShoppingCartController {
 
             shoppingCartService.checkout();
 
-        return "success";
+        return "shopping/success";
     }
 
 }

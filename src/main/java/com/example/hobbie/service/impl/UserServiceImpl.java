@@ -297,6 +297,18 @@ public class UserServiceImpl implements UserService {
             return username;
     }
 
+    @Override
+    public boolean emailExists(String email) {
+        Optional<UserEntity> byEmail = this.userRepository.findByEmail(email);
 
+        return byEmail.isPresent();
+    }
+
+    @Override
+    public boolean businessNameExists(String businessName, Long userId) {
+            Optional<BusinessOwner> byBusinessName = this.businessOwnerRepository.findByBusinessName(businessName);
+            Optional<BusinessOwner> byId = this.businessOwnerRepository.findById(userId);
+            return byBusinessName.isPresent() && !(byId.get().getBusinessName().equals(businessName));
+    }
 
 }

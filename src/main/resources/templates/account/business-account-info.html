@@ -6,18 +6,14 @@
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
     <div sec:authorize="hasRole('USER')" class="cart">
 
         <img class="imgHeader" src="/img/cart.svg" alt="cart">
 
     </div>
 </header>
-<main class="hobbie-main">
-    <div class="hobbie-container">
-        <div class="account-cover"></div>
-
-        <div class="hobbie-content">
-            <div class="account-content-body">
+            <main class="account-content-body">
 
                 <div th:object="${business}" class="account-label">
                     <span class="account-title"><b>Account info</b></span>
@@ -34,13 +30,10 @@
                     <div class="">
 
                         <span><a class="add-crt-edit" th:href="@{/users/update-business}">Edit</a></span>
-                        <span><a class="add-crt-edit"  th:href="@{/users/deleteBusinessOwner}">Delete profile</a></span>
+                        <span><a class="add-crt-edit"  th:href="@{/users/deleteBusinessOwner}">Delete</a></span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-</main>
+            </main>
 
 
 
@@ -48,12 +41,9 @@
 <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
 <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
 <img class="blue" src="/img/blue.jpg" alt="blue">
-<footer class="footer bg-transparent  py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 text-white">
-            &copy; Hobbie 2021. All rights reserved.
-        </div>
-    </div>
+
+<footer class="footer_hobbie_details">
+    &copy; Hobbie 2021. All rights reserved.
 </footer>
 </body>
 

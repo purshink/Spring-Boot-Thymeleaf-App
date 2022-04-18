@@ -14,6 +14,24 @@
             <sec:concurrency-control expired-url="/login" />
         </sec:session-management>
     <title>Hobbie</title>
+
+    <script>
+        function myFunction() {
+            const x = document.getElementById("click");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        function selectOnlyThis(id) {
+            for (let i = 1; i <= 3; i++)
+            {
+                document.getElementById("checkbox" + i).checked = false;
+            }
+            document.getElementById(id).checked = true;
+        }
+    </script>
 </head>
     <div th:fragment="logo" class="logo-container">
         <th:block sec:authorize="!isAuthenticated()">
@@ -28,29 +46,52 @@
     <nav th:fragment="navbar">
         <ul class="nav-links">
             <th:block sec:authorize="!isAuthenticated()">
-            <li><a class="nav-link" href="/users/register-business">Register your business</a></li>
+            <li><a class="nav-link" href="/users/register-business">MyBusiness</a></li>
             <li><a class="nav-link" href="/users/login">Login</a></li>
             </th:block>
-            <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/default">Home</a></li>
-            <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/hobbies/create_offer">Create new Hobby Offer</a></li>
-            <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/test">Take the test</a></li>
+            <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/">Home</a></li>
+            <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/hobbies/create-offer-page">NewOffer</a></li>
+            <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/test">Test</a></li>
             <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/users/account-info">Account</a></li>
             <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/users/business-account-info">Account</a></li>
-            <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/my-abos">My Abos</a></li>
+            <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/my-abos">MyHobbies</a></li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a href="javascript: document.logoutForm.submit()" role="menuitem" class="nav-link"> Logout</a>
-                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <a href="javascript: document.logoutForm1.submit()" role="menuitem" class="nav-link"> Logout</a>
+                <form name="logoutForm1" th:action="@{/logout}" method="post" th:hidden="true">
                     <input hidden type="submit" value="Sign Out"/>
                 </form>
             </li>
         </ul>
     </nav>
 
+
+
       <div th:fragment="cart" sec:authorize="hasRole('USER')" class="cart">
-
        <a href="/shoppingCart">  <img class="imgHeader" src="/img/cart.svg" alt="cart"></a>
-
-</div>
+         </div>
+    <div th:fragment="menu_mobile" >
+        <button onclick="myFunction()"><img class="menu_mobile" src="/img/Grid-05.svg" alt="menu"></button>
+        <nav>
+            <ul id="click" class="popup_menu">
+                <th:block sec:authorize="!isAuthenticated()">
+                    <li><a class="nav-link" href="/users/register-business">MyBusiness</a></li>
+                    <li><a class="nav-link" href="/users/login">Login</a></li>
+                </th:block>
+                <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/">Home</a></li>
+                <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/hobbies/create-offer-page">NewOffer</a></li>
+                <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/test">Test</a></li>
+                <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/users/account-info">Account</a></li>
+                <li sec:authorize="hasRole('BUSINESS_USER')"><a class="nav-link" href="/users/business-account-info">Account</a></li>
+                <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/my-abos">MyHobbies</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a href="javascript: document.logoutForm.submit()" role="menuitem" class="nav-link"> Logout</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </div>
 <body>
 </body>
 </html>

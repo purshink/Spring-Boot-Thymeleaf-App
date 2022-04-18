@@ -34,17 +34,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void addAboToCart(Hobby hobbieById) {
+    public void addAboToCart(Hobby hobby) {
 
         Abo abo = new Abo();
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
         abo.setClientId(currentUserAppClient.getId());
-        abo.setBusinessOwnerId(hobbieById.getBusinessOwner().getId());
-        abo.setHobbyId(hobbieById.getId());
-        abo.setName(hobbieById.getName());
+        abo.setBusinessOwnerId(hobby.getBusinessOwner().getId());
+        abo.setHobbyId(hobby.getId());
+        abo.setName(hobby.getName());
         abo.setClientName(currentUserAppClient.getFullName());
 
-        BigDecimal price = hobbieById.getPrice().multiply(new BigDecimal(5));
+        BigDecimal price = hobby.getPrice().multiply(new BigDecimal(5));
         price =  price.add(price.multiply(new BigDecimal("0.1")));
         price = price.setScale(2, RoundingMode.HALF_EVEN);
         abo.setAboPrice(price);

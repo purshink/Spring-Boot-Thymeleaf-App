@@ -32,7 +32,7 @@ class UserControllerTest {
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
     void showSignUp_should_work() throws Exception {
         this.mockMvc.perform(get("/users/signup")).
-                andExpect(view().name("signup")).
+                andExpect(view().name("signup/signup")).
                 andExpect(status().isOk());
     }
 
@@ -53,7 +53,7 @@ class UserControllerTest {
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
     void showRegisterBusiness_should_work() throws Exception {
         this.mockMvc.perform(get("/users/register-business")).
-                andExpect(view().name("register-business")).
+                andExpect(view().name("signup/register-business")).
                 andExpect(status().isOk());
     }
 
@@ -69,25 +69,5 @@ class UserControllerTest {
                         with(csrf())).
                 andExpect(status().is3xxRedirection());
     }
-//
-//    @Test
-//    void showLogin() {
-//    }
-//
-//    @Test
-//    void failedLogin() {
-//    }
-//
-//    @Test
-//    void showBusinessAccountInfo() {
-//    }
-//
-//    @Test
-//    void showUpdateForm() {
-//    }
-//
-//    @Test
-//    void updateUser() {
-//    }
 
 }

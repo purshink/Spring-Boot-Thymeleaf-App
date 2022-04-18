@@ -6,6 +6,7 @@
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
     <div th:replace="fragments/fragments::cart"/></div>
 
 </header>
@@ -36,7 +37,7 @@
 
     <section class="cards">
 
-        <a th:href="@{/hobbies/hobbie-details/{id}(id = *{id})}" th:each="hobby : ${hobby_matches}" th:object="${hobby}" class="card" method="POST">
+        <a th:href="@{/hobbies/hobby-details/{id}(id = *{id})}" th:each="hobby : ${hobby_matches}" th:object="${hobby}" class="card" >
             <div class="card_image-container">
                 <img  th:src="*{imgUrl}" alt="Hobby picture" />
             </div>
@@ -53,12 +54,9 @@
         </a>
     </section>
 </main>
-<footer class="footer bg-transparent  py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 text-white">
-            &copy; Hobbie 2021. All rights reserved.
-        </div>
-    </div>
+
+<footer class="footer_hobbie_details">
+    &copy; Hobbie 2021. All rights reserved.
 </footer>
 
 <img class="blueImg3" src="/img/blueImg.png" alt="blueImg3">

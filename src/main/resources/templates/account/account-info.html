@@ -6,36 +6,30 @@
 <header>
     <div th:replace="fragments/fragments::logo"/></div>
     <div th:replace="fragments/fragments::navbar"/></div>
+    <div th:replace="fragments/fragments::menu_mobile"/></div>
     <div th:replace="fragments/fragments::cart"/></div>
 </header>
-<main class="hobbie-main">
-    <div class="hobbie-container">
-        <div class="account-cover"></div>
 
-        <div class="hobbie-content">
-            <div class="account-content-body">
+            <main class="account-content-body">
 
                 <div th:object="${client}" class="account-label">
                     <span class="account-title"><b>Account info</b></span>
-                    <br></br>
+                    <br>
                     <p th:text="|Username:| +  ' ' + *{username}"> </p>
                     <p th:text="|Email:|  +    ' ' + *{email}"></p>
                     <p th:text="|Full Name:| + ' ' + *{fullName}"> </p>
                     <p th:text="|Gender: | +   ' ' + *{gender}"> </p>
                     <p>Change password: </p>
-                    <br></br>
+                    <br>
 
 
 
                     <div class="">
 
                         <span><a class="add-crt-edit" th:href="@{/users/update-user}">Edit</a></span>
-                        <span><a class="add-crt-edit"  th:href="@{/users/deleteAppClient}">Delete profile</a></span>
+                        <span><a class="add-crt-edit"  th:href="@{/users/deleteAppClient}">Delete </a></span>
                     </div>
                 </div>
-            </div>
-        </div>
-
 </main>
 
 
@@ -44,12 +38,9 @@
 <img class="blueImg3" src="/img/blueImg.png" alt="blueImg">
 <img class="blueImg4" src="/img/blueImg.png" alt="blueImg">
 <img class="blue" src="/img/blue.jpg" alt="blue">
-<footer class="footer bg-transparent  py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 text-white">
-            &copy; Hobbie 2021. All rights reserved.
-        </div>
-    </div>
+
+<footer class="footer_hobbie_details">
+    &copy; Hobbie 2021. All rights reserved.
 </footer>
 </body>
 

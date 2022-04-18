@@ -10,15 +10,13 @@ public class Hobby extends BaseEntity{
 
     private String name;
     private String description;
-    private Category category;
-//    private String profilePhoto;
+    private Category category;;
     private BusinessOwner businessOwner;
     private BigDecimal price;
     private Location location;
     private String imgUrl;
 
-    //TODO HOBBY ADDRESS
-    //TODO  HOBBY ENTRY DURTION
+
 
 
     public Hobby() {
@@ -85,22 +83,6 @@ public class Hobby extends BaseEntity{
         this.location = location;
     }
 
-    //    public String getProfilePhoto() {
-//        return profilePhoto;
-//    }
-//
-//    public void setProfilePhoto(String profilePhoto) {
-//        this.profilePhoto = profilePhoto;
-//    }
 
-//    @Transient()
-//    public String getProfilePhotoImagePath() {
-//        if (profilePhoto == null || id == null) return null;
-//
-//        return "/hobby-photos/" + id + "/" + profilePhoto;
-//    }
 
-//    public void setPhotos(String profilePhoto) {
-//        this.profilePhoto = profilePhoto;
-//    }
 }
