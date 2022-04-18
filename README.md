@@ -34,3 +34,9 @@ Navigate to:
 Login with: 
 <pre>user or business,
 password:topsecret</pre>
+
+* * * * *
+
+<b>Spring Mail</b>
+Make sure to specify a valid spring.mail.username and spring.mail.password in the application.properties file in order to be able to send Email confirmation for updating user-entries.
+IMPORTANT: if you decide not to specify mail credentials, you will get  javax.mail.AuthenticationFailedException on launching. The rest of the application should work normally despite this exception.
