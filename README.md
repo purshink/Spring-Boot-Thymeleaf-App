@@ -37,6 +37,11 @@ password:topsecret</pre>
 
 * * * * *
 
+<b>Database -</b>
+
+Make sure to specify spring.datasource.username and spring.datasource.password in the application.properties file.
+The databse will be created with the start of the application. 
+
 <b>Spring Mail</b>
 
 Make sure to specify a valid spring.mail.username and spring.mail.password in the application.properties file in order to be able to send Email confirmation for updating user-entries.
