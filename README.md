@@ -29,7 +29,7 @@ Run the project with:
 
 Navigate to:
 
-<pre>[http://localhost:8080](http://localhost:8080/)</pre>
+http://localhost:8080/
 
 Login with: 
 <pre>user or business,
