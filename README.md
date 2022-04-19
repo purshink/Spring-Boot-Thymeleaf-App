@@ -27,6 +27,10 @@ Run the project with:
 
 <pre>./mvnw clean spring-boot:run</pre>
 
+Or on Windows:
+
+<pre>mvnw.cmd clean spring-boot:run</pre>
+
 Navigate to:
 
 http://localhost:8080
