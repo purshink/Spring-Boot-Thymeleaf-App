@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "abos")
-public class Abo extends BaseEntity{
+public class Abo extends BaseEntity {
     private Long clientId;
     private Long businessOwnerId;
     private Long hobbyId;
@@ -53,6 +53,7 @@ public class Abo extends BaseEntity{
     public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
+
     @Column(nullable = false)
     public Long getBusinessOwnerId() {
         return businessOwnerId;

@@ -15,8 +15,7 @@ public class AboViewModel {
 
     public AboViewModel() {
     }
-        //TODO: AboViewModel
-    //TODO DELETE ABO
+
     public Long getId() {
         return id;
     }

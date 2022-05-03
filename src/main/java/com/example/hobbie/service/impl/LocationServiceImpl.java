@@ -22,12 +22,10 @@ public class LocationServiceImpl implements LocationService {
         this.locationRepository = locationRepository;
     }
 
-
-
     @Override
     public List<Location> initLocations() {
         List<Location> init = new ArrayList<>();
-        if(locationRepository.count() == 0) {
+        if (locationRepository.count() == 0) {
             Arrays.stream(LocationEnum.values()).forEach(locationEnum -> {
                 Location location = new Location(locationEnum);
                 this.locationRepository.save(location);
@@ -41,12 +39,10 @@ public class LocationServiceImpl implements LocationService {
     public Location getLocationByName(LocationEnum locationEnum) {
         Optional<Location> location = this.locationRepository.findByName(locationEnum);
 
-        if(location.isPresent()) {
+        if (location.isPresent()) {
             return location.get();
-        }
-        else {
+        } else {
             throw new NotFoundException("Location not found");
         }
-
     }
 }

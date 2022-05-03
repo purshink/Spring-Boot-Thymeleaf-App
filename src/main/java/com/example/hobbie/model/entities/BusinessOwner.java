@@ -9,9 +9,6 @@ public class BusinessOwner extends UserEntity {
     private String businessName;
     private String address;
     private List<Hobby> hobby_offers;
-    //TODO PHONE NUMBER
-    //TODO BankDetail bankDetails;
-
 
     public BusinessOwner(String username, String email, List<UserRoleEntity> roles, String password, String businessName, String address) {
         super(username, email, roles, password);
@@ -30,6 +27,7 @@ public class BusinessOwner extends UserEntity {
     public void setBusinessName(String businessName) {
         this.businessName = businessName;
     }
+
     @Column(nullable = false)
     public String getAddress() {
         return address;
@@ -47,6 +45,4 @@ public class BusinessOwner extends UserEntity {
     public void setHobby_offers(List<Hobby> hobby_offers) {
         this.hobby_offers = hobby_offers;
     }
-
-
 }

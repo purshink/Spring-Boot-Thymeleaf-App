@@ -4,17 +4,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.SmartView;
+import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Enumeration;
 
 @Component
 public class UserInterceptor implements HandlerInterceptor {
 
     Logger log = LoggerFactory.getLogger(UserInterceptor.class);
+
     public static boolean isUserLogged() {
         try {
             return !SecurityContextHolder.getContext().getAuthentication()
@@ -57,6 +60,7 @@ public class UserInterceptor implements HandlerInterceptor {
             }
         }
     }
+
     public static boolean isRedirectView(ModelAndView mv) {
         String viewName = mv.getViewName();
         if (viewName.startsWith("redirect:/")) {
@@ -66,6 +70,7 @@ public class UserInterceptor implements HandlerInterceptor {
         return (view != null && view instanceof SmartView
                 && ((SmartView) view).isRedirectView());
     }
+
     private void addToModelUserDetails(ModelAndView model) {
         log.info("=============== addToModelUserDetails =========================");
 

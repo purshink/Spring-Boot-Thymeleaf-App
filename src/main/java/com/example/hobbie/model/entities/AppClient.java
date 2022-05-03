@@ -1,7 +1,6 @@
 package com.example.hobbie.model.entities;
 
 import com.example.hobbie.model.entities.enums.GenderEnum;
-import com.sun.istack.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -13,7 +12,6 @@ import java.util.List;
 @Table(name = "app_clients")
 public class AppClient extends UserEntity implements Serializable {
     private String fullName;
-    //TODO PHONE NUMBER
     private GenderEnum gender;
     private Test testResults;
     private List<Hobby> hobby_matches;
@@ -37,6 +35,7 @@ public class AppClient extends UserEntity implements Serializable {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     public GenderEnum getGender() {

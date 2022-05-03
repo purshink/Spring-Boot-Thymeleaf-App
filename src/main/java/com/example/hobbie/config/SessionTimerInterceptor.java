@@ -26,7 +26,6 @@ public class SessionTimerInterceptor implements HandlerInterceptor {
     }
 
     public SessionTimerInterceptor() {
-
     }
 
 
@@ -38,7 +37,7 @@ public class SessionTimerInterceptor implements HandlerInterceptor {
         request.setAttribute("executionTime", startTime);
         if (UserInterceptor.isUserLogged()) {
             session = request.getSession();
-            log.info(String.format( "Time since last request in this session: %d ms",
+            log.info(String.format("Time since last request in this session: %d ms",
                     System.currentTimeMillis() - request.getSession().getLastAccessedTime()));
             if (System.currentTimeMillis() - session.getLastAccessedTime()
                     > MAX_INACTIVE_SESSION_TIME) {

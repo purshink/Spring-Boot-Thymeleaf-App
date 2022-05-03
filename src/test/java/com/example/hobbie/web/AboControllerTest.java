@@ -1,6 +1,5 @@
 package com.example.hobbie.web;
 
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,9 +22,6 @@ class AboControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-
-
 
     @Test
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
@@ -43,8 +38,7 @@ class AboControllerTest {
                 perform(get("/abo/{id}", 1L)).
                 andExpect(status().isOk());
     }
-
-
+    
     @Test
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
     void deleteAboThrows() throws Exception {

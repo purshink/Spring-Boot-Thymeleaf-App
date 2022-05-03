@@ -17,12 +17,9 @@ import java.util.List;
 @Service
 @Transactional
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-
-
     private final UserService userService;
     private final AboService aboService;
     private final EntryService entryService;
-
     private List<Abo> inCart = new ArrayList<>();
 
     @Autowired
@@ -30,12 +27,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         this.userService = userService;
         this.aboService = aboService;
         this.entryService = entryService;
-
     }
 
     @Override
     public void addAboToCart(Hobby hobby) {
-
         Abo abo = new Abo();
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
         abo.setClientId(currentUserAppClient.getId());
@@ -45,21 +40,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         abo.setClientName(currentUserAppClient.getFullName());
 
         BigDecimal price = hobby.getPrice().multiply(new BigDecimal(5));
-        price =  price.add(price.multiply(new BigDecimal("0.1")));
+        price = price.add(price.multiply(new BigDecimal("0.1")));
         price = price.setScale(2, RoundingMode.HALF_EVEN);
         abo.setAboPrice(price);
 
-
-        if(!inCart.contains(abo)){
+        if (!inCart.contains(abo)) {
             inCart.add(abo);
         }
     }
 
-
     @Override
     public void removeProductFromCart(Long hobbyId) {
         for (Abo abo : inCart) {
-            if(abo.getHobbyId().equals(hobbyId)){
+            if (abo.getHobbyId().equals(hobbyId)) {
                 inCart.remove(abo);
                 break;
             }
@@ -68,7 +61,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public BigDecimal getTotal() {
-
         return inCart.stream().map(Abo::getAboPrice).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
     }
 
@@ -79,7 +71,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void checkout() {
-
         List<Abo> abos = this.aboService.saveAbos(inCart);
         abos.forEach(this::fillEntries);
         this.aboService.updateAbosWithEntries(abos);
@@ -87,17 +78,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     private void fillEntries(Abo abo) {
-
-            List<Entry> aboEntries = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                Entry entry = new Entry();
-                entry.setAbo(abo);
-                aboEntries.add(entry);
-            }
-            List<Entry> entries = this.entryService.saveAboEntries(aboEntries);
-            abo.setEntries(entries);
-
+        List<Entry> aboEntries = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Entry entry = new Entry();
+            entry.setAbo(abo);
+            aboEntries.add(entry);
         }
+        List<Entry> entries = this.entryService.saveAboEntries(aboEntries);
+        abo.setEntries(entries);
+    }
 
     public UserService getUserService() {
         return userService;

@@ -1,14 +1,9 @@
 package com.example.hobbie.model.binding;
 
-import com.example.hobbie.model.entities.Category;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
-import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -17,10 +12,9 @@ public class HobbyBindingModel {
     private String name;
     private String description;
     private CategoryNameEnum category;
-    private BigDecimal price ;
+    private BigDecimal price;
     private LocationEnum location;
     private MultipartFile img;
-
 
     public HobbyBindingModel() {
     }
@@ -35,7 +29,7 @@ public class HobbyBindingModel {
         this.name = name;
     }
 
-    @Size(min = 30,max = 1050 , message = "Description must be between 30 and 1050 symbols")
+    @Size(min = 30, max = 1050, message = "Description must be between 30 and 1050 symbols")
     @NotNull(message = "You need to have a description")
     public String getDescription() {
         return description;
@@ -44,7 +38,6 @@ public class HobbyBindingModel {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     @NotNull(message = "You have to choose category")
     public CategoryNameEnum getCategory() {

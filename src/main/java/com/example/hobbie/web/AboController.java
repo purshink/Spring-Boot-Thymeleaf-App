@@ -40,13 +40,13 @@ public class AboController {
     public ModelAndView ShowAllAbos() {
         if (UserInterceptor.isUserLogged()) {
             ModelAndView mav = new ModelAndView("abo/my-abos");
-            mav.addObject("liked",this.hobbyService.findSavedHobbies(this.userService.findCurrentUserAppClient()    ));
+            mav.addObject("liked", this.hobbyService.findSavedHobbies(this.userService.findCurrentUserAppClient()));
             mav.addObject("abos", this.aboService.getUserAbos(this.userService.findCurrentUserAppClient().getId()));
             return mav;
-        }
-        else{
+        } else {
             ModelAndView mav = new ModelAndView("home/index");
-            return mav;}
+            return mav;
+        }
     }
 
     @GetMapping("/abo/{id}")
@@ -56,7 +56,7 @@ public class AboController {
             AboViewModel aboById = this.aboService.findAboById(id);
             model.addAttribute("aboDetails", aboById);
             List<EntryViewModel> aboEntries = this.entryService.getAboEntries(id);
-            model.addAttribute("entries",aboEntries);
+            model.addAttribute("entries", aboEntries);
             model.addAttribute("aboId", id);
             model.addAttribute("hobbyName", this.hobbyService.findHobbieById(aboById.getHobbyId()).getName());
             return "abo/abo";
@@ -65,11 +65,11 @@ public class AboController {
         }
     }
 
-    @GetMapping ("/confirm-update-entry/{id}")
-    public String confirmUpdateEntry(@PathVariable Long id)  {
-            Long aboId = this.aboService.findAboId(id);
-           this.entryService.confirmUpdatedEntry(id);
-            return "redirect:/abo/" + aboId;
+    @GetMapping("/confirm-update-entry/{id}")
+    public String confirmUpdateEntry(@PathVariable Long id) {
+        Long aboId = this.aboService.findAboId(id);
+        this.entryService.confirmUpdatedEntry(id);
+        return "redirect:/abo/" + aboId;
     }
 
     @PostMapping("/entry/{id}")
@@ -78,10 +78,9 @@ public class AboController {
             Long aboId = this.aboService.findAboId(id);
             Abo abo = this.aboService.findAbo(aboId);
             AppClient appClientById = this.userService.findAppClientById(abo.getClientId());
-            this.entryService.saveUpdatedEntry(appClientById,id);
+            this.entryService.saveUpdatedEntry(appClientById, id);
             return "redirect:/abo/" + aboId;
-        }
-        else{
+        } else {
             return "home/index";
         }
     }
@@ -91,10 +90,8 @@ public class AboController {
         if (UserInterceptor.isUserLogged()) {
             this.aboService.deleteAbo(id);
             return "redirect:/default";
-        }
-        else{
+        } else {
             return "home/index";
         }
     }
-
 }

@@ -10,14 +10,11 @@ import java.util.Optional;
 @Repository
 public interface AboRepository extends JpaRepository<Abo, Long> {
 
-
     List<Abo> findByClientId(Long id);
-
-
+    
     Optional<Abo> findByEntriesId(Long entryId);
 
     List<Abo> findByHobbyId(Long id);
 
     List<Abo> findAllByBusinessOwnerId(Long id);
-
 }

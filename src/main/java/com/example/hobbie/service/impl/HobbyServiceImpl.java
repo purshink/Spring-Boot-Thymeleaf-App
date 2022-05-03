@@ -1,8 +1,10 @@
 package com.example.hobbie.service.impl;
 
-
 import com.example.hobbie.handler.NotFoundException;
-import com.example.hobbie.model.entities.*;
+import com.example.hobbie.model.entities.AppClient;
+import com.example.hobbie.model.entities.BusinessOwner;
+import com.example.hobbie.model.entities.Hobby;
+import com.example.hobbie.model.entities.Location;
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import com.example.hobbie.model.repostiory.CategoryRepository;
@@ -12,14 +14,12 @@ import com.example.hobbie.model.service.UpdateHobbyServiceModel;
 import com.example.hobbie.service.*;
 import com.example.hobbie.view.HobbyCardViewModel;
 import com.example.hobbie.view.HobbyViewModel;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
-
 
 @Service
 @Transactional
@@ -56,12 +55,10 @@ public class HobbyServiceImpl implements HobbyService {
 
     @Override
     public Long createHobby(HobbyServiceModel hobbyServiceModel, String fileName) throws IOException {
-
         Hobby hobby = this.modelMapper.map(hobbyServiceModel, Hobby.class);
         hobby.setCategory(this.categoryService.findByName(hobbyServiceModel.getCategory()));
         hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
         hobby.setLocation(this.locationService.getLocationByName(hobbyServiceModel.getLocation()));
-
 
         MultipartFile img = hobbyServiceModel.getImg();
 
@@ -70,7 +67,6 @@ public class HobbyServiceImpl implements HobbyService {
 
         Hobby savedHobby = this.hobbyRepository.save(hobby);
         return savedHobby.getId();
-
     }
 
     @Override
@@ -93,41 +89,33 @@ public class HobbyServiceImpl implements HobbyService {
 
     @Override
     public void saveUpdatedHobby(UpdateHobbyServiceModel updateHobbyServiceModel, String fileName) throws IOException {
-
         Hobby hobby = this.modelMapper.map(updateHobbyServiceModel, Hobby.class);
         hobby.setCategory(this.categoryService.findByName(updateHobbyServiceModel.getCategory()));
         hobby.setLocation(this.locationService.getLocationByName(updateHobbyServiceModel.getLocation()));
         hobby.setBusinessOwner(this.userService.findCurrentUserBusinessOwner());
-
         MultipartFile img = updateHobbyServiceModel.getImg();
         String imageUrl = cloudinaryService.uploadImage(img);
         hobby.setImgUrl(imageUrl);
         this.hobbyRepository.save(hobby);
-
     }
 
     @Override
     public void deleteHobby(long id) {
-
         Optional<Hobby> byId = this.hobbyRepository.findById(id);
-        if(byId.isPresent()){
+        if (byId.isPresent()) {
             this.userService.findAndRemoveHobbyFromClientsRecords(byId.get());
-            this.aboService .findExcistingAbosWithHobbyId(id);
+            this.aboService.findExcistingAbosWithHobbyId(id);
             this.shoppingCartService.removeProductFromCart(id);
             this.hobbyRepository.deleteById(id);
-        }
-        else {
+        } else {
             throw new NotFoundException("Hobby does not exist");
         }
-
     }
 
     @Override
     public List<Hobby> initHobbyOffers() {
-
         List<Hobby> offers = new ArrayList<>();
         if (hobbyRepository.count() == 0) {
-
             //1
             Hobby climbing = new Hobby();
             climbing.setName("Climbing");
@@ -207,13 +195,13 @@ public class HobbyServiceImpl implements HobbyService {
             offers.add(painting);
             this.hobbyRepository.save(painting);
         }
-            return offers;
+        return offers;
     }
 
     @Override
     public List<Hobby> findHobbyMatches(AppClient currentUserAppClient) {
         List<Hobby> hobby_matches = new ArrayList<>();
-        if(currentUserAppClient.getTestResults() != null) {
+        if (currentUserAppClient.getTestResults() != null) {
             boolean isAdded = false;
             Random rand = new Random();
             LocationEnum location = currentUserAppClient.getTestResults().getLocation();
@@ -249,33 +237,30 @@ public class HobbyServiceImpl implements HobbyService {
                 }
             }
         }
-
-
-
         return hobby_matches;
     }
 
     @Override
     public List<HobbyCardViewModel> getHobbyMatches(AppClient currentAppClient) {
-     return   findHobbyMatches(currentAppClient)
+        return findHobbyMatches(currentAppClient)
                 .stream().map(hobby -> this.modelMapper.map(hobby, HobbyCardViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
     public void saveHobbyForClient(Hobby hobby) {
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
-        Optional<Hobby> hobbyById = this.hobbyRepository .findById(hobby.getId());
+        Optional<Hobby> hobbyById = this.hobbyRepository.findById(hobby.getId());
         List<Hobby> saved_hobbies = currentUserAppClient.getSaved_hobbies();
 
-            if(hobbyById.isPresent() && !(saved_hobbies.contains(hobbyById.get()))) {
-                saved_hobbies.add(hobbyById.get());
-            }
+        if (hobbyById.isPresent() && !(saved_hobbies.contains(hobbyById.get()))) {
+            saved_hobbies.add(hobbyById.get());
+        }
     }
 
     @Override
     public void removeHobbyForClient(Hobby hobby) {
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
-        Optional<Hobby> hobbyById = this.hobbyRepository .findById(hobby.getId());
+        Optional<Hobby> hobbyById = this.hobbyRepository.findById(hobby.getId());
         hobbyById.ifPresent(value -> currentUserAppClient.getSaved_hobbies().remove(value));
     }
 

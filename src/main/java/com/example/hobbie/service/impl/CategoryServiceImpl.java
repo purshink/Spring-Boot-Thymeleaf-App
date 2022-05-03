@@ -21,16 +21,14 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
-
-
+    
     @Override
     public Category findByName(CategoryNameEnum category) {
         Optional<Category> byName = this.categoryRepository.findByName(category);
 
-        if(byName.isPresent()){
+        if (byName.isPresent()) {
             return byName.get();
-        }
-        else{
+        } else {
             throw new NotFoundException("Category with this name not found");
         }
     }
@@ -38,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> initCategories() {
         List<Category> init = new ArrayList<>();
-        if(categoryRepository.count() == 0) {
+        if (categoryRepository.count() == 0) {
             Arrays.stream(CategoryNameEnum.values()).forEach(categoryNameEnum -> {
                 Category category = new Category(categoryNameEnum);
                 this.categoryRepository.save(category);

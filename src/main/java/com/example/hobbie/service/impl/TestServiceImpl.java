@@ -23,7 +23,6 @@ public class TestServiceImpl implements TestService {
     private final UserService userService;
     private final HobbyService hobbyService;
 
-
     @Autowired
     public TestServiceImpl(TestRepository testRepository, ModelMapper modelMapper, UserService userService, HobbyService hobbyService) {
         this.testRepository = testRepository;
@@ -38,7 +37,7 @@ public class TestServiceImpl implements TestService {
         AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
         test.setAppClient(currentUserAppClient);
         test.setLocation((testServiceModel.getLocation()));
-        if(currentUserAppClient.getTestResults() != null){
+        if (currentUserAppClient.getTestResults() != null) {
             test.setId(currentUserAppClient.getTestResults().getId());
         }
         this.testRepository.save(test);

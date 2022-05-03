@@ -31,8 +31,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
-
     private final UserService userService;
     private final HobbyService hobbyService;
     private final AboService aboService;
@@ -49,11 +47,11 @@ public class UserController {
     }
 
     @GetMapping("/signup")
-    public String showSignUp(Model model){
-        if(!model.containsAttribute("signUpBindingModel")){
+    public String showSignUp(Model model) {
+        if (!model.containsAttribute("signUpBindingModel")) {
             model.addAttribute("signUpBindingModel", new SignUpBindingModel());
-            model.addAttribute("isExists",false);
-            model.addAttribute("dontMatch",false);
+            model.addAttribute("isExists", false);
+            model.addAttribute("dontMatch", false);
             model.addAttribute("emptyGender", false);
         }
 
@@ -61,65 +59,58 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid SignUpBindingModel signUpBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        if (bindingResult.hasErrors() || !(signUpBindingModel.getPassword().equals(signUpBindingModel.getConfirmPassword()))||signUpBindingModel.getGender() == null){
+    public String signup(@Valid SignUpBindingModel signUpBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors() || !(signUpBindingModel.getPassword().equals(signUpBindingModel.getConfirmPassword())) || signUpBindingModel.getGender() == null) {
             redirectAttributes.addFlashAttribute("signUpBindingModel", signUpBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.signUpBindingModel", bindingResult);
-            if(!(signUpBindingModel.getPassword().equals(signUpBindingModel.getConfirmPassword()))){
+            if (!(signUpBindingModel.getPassword().equals(signUpBindingModel.getConfirmPassword()))) {
                 redirectAttributes.addFlashAttribute("dontMatch", true);
             }
-            if(signUpBindingModel.getGender() == null){
+            if (signUpBindingModel.getGender() == null) {
                 redirectAttributes.addFlashAttribute("emptyGender", true);
             }
             return "redirect:/users/signup";
+        } else if (this.userService.userExists(signUpBindingModel.getUsername(), signUpBindingModel.getEmail())) {
+            redirectAttributes.addFlashAttribute("signUpBindingModel", signUpBindingModel);
+            redirectAttributes.addFlashAttribute("isExists", true);
+            return "redirect:/users/signup";
         }
-
-        else if(this.userService.userExists(signUpBindingModel.getUsername(), signUpBindingModel.getEmail())) {
-
-
-                redirectAttributes.addFlashAttribute("signUpBindingModel", signUpBindingModel);
-                redirectAttributes.addFlashAttribute("isExists", true);
-                return "redirect:/users/signup";
-            }
-            this.userService.register(this.modelMapper.map(signUpBindingModel, SignUpServiceModel.class));
-            return "redirect:/users/login";
+        this.userService.register(this.modelMapper.map(signUpBindingModel, SignUpServiceModel.class));
+        return "redirect:/users/login";
     }
 
     @GetMapping("/register-business")
-    public String showRegisterBusiness(Model model){
-        if(!model.containsAttribute("registerBusinessBindingModel")){
+    public String showRegisterBusiness(Model model) {
+        if (!model.containsAttribute("registerBusinessBindingModel")) {
             model.addAttribute("registerBusinessBindingModel", new RegisterBusinessBindingModel());
-            model.addAttribute("isExists",false);
-            model.addAttribute("dontMatch",false);
+            model.addAttribute("isExists", false);
+            model.addAttribute("dontMatch", false);
         }
-
         return "signup/register-business";
     }
 
     @PostMapping("/register-business")
-    public String registerBusiness(@Valid RegisterBusinessBindingModel registerBusinessBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        if (bindingResult.hasErrors() || !(registerBusinessBindingModel.getPassword().equals(registerBusinessBindingModel.getConfirmPassword()))){
+    public String registerBusiness(@Valid RegisterBusinessBindingModel registerBusinessBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors() || !(registerBusinessBindingModel.getPassword().equals(registerBusinessBindingModel.getConfirmPassword()))) {
             redirectAttributes.addFlashAttribute("registerBusinessBindingModel", registerBusinessBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerBusinessBindingModel", bindingResult);
-            if(!(registerBusinessBindingModel.getPassword().equals(registerBusinessBindingModel.getConfirmPassword()))){
-                    redirectAttributes.addFlashAttribute("dontMatch", true);
+            if (!(registerBusinessBindingModel.getPassword().equals(registerBusinessBindingModel.getConfirmPassword()))) {
+                redirectAttributes.addFlashAttribute("dontMatch", true);
             }
             return "redirect:/users/register-business";
-        }
+        } else if (this.userService.userExists(registerBusinessBindingModel.getUsername(), registerBusinessBindingModel.getEmail()) ||
+                this.userService.businessExists(registerBusinessBindingModel.getBusinessName())) {
 
-        else if (this.userService.userExists(registerBusinessBindingModel.getUsername(), registerBusinessBindingModel.getEmail())||
-        this.userService.businessExists(registerBusinessBindingModel.getBusinessName())){
-
-                redirectAttributes.addFlashAttribute("registerBusinessBindingModel", registerBusinessBindingModel);
-                redirectAttributes.addFlashAttribute("isExists", true);
-                return "redirect:/users/register-business";
+            redirectAttributes.addFlashAttribute("registerBusinessBindingModel", registerBusinessBindingModel);
+            redirectAttributes.addFlashAttribute("isExists", true);
+            return "redirect:/users/register-business";
         }
         this.userService.registerBusiness(this.modelMapper.map(registerBusinessBindingModel, RegisterBusinessServiceModel.class));
         return "redirect:/users/login";
     }
 
     @GetMapping("/login")
-    public String showLogin(){
+    public String showLogin() {
 
         return "login/login";
     }
@@ -138,8 +129,8 @@ public class UserController {
     }
 
     @GetMapping("/account-info")
-    public String showAccountInfo(Model model){
-        if(UserInterceptor.isUserLogged()) {
+    public String showAccountInfo(Model model) {
+        if (UserInterceptor.isUserLogged()) {
             model.addAttribute("client", this.userService.findCurrentUserAppClient());
             return "account/account-info";
         }
@@ -147,8 +138,8 @@ public class UserController {
     }
 
     @GetMapping("/business-account-info")
-    public String showBusinessAccountInfo(Model model){
-        if(UserInterceptor.isUserLogged()) {
+    public String showBusinessAccountInfo(Model model) {
+        if (UserInterceptor.isUserLogged()) {
             model.addAttribute("business", this.userService.findCurrentUserBusinessOwner());
             return "account/business-account-info";
         }
@@ -158,7 +149,7 @@ public class UserController {
     @GetMapping("/update-user")
     public String showUpdateForm(Model model) {
         if (UserInterceptor.isUserLogged()) {
-            if(!model.containsAttribute("updateClientBindingModel")) {
+            if (!model.containsAttribute("updateClientBindingModel")) {
                 AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
                 UpdateClientBindingModel updateClientBindingModel = this.modelMapper.map(currentUserAppClient, UpdateClientBindingModel.class);
                 model.addAttribute("updateClientBindingModel", updateClientBindingModel);
@@ -167,53 +158,48 @@ public class UserController {
                 model.addAttribute("isExists", false);
             }
             return "account/update-user";
-        }
-        else {
+        } else {
             return "home/index";
         }
     }
 
-        @PostMapping("/update-user")
-        public String updateUser( @Valid UpdateClientBindingModel updateClientBindingModel,
-                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    @PostMapping("/update-user")
+    public String updateUser(@Valid UpdateClientBindingModel updateClientBindingModel,
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-            if (UserInterceptor.isUserLogged()) {
-                AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
-                if(this.userService.emailExists(updateClientBindingModel.getEmail()) && (!updateClientBindingModel.getEmail().equals(currentUserAppClient.getEmail()))){
-                    redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
-                    redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateClientBindingModel", bindingResult);
-                    redirectAttributes.addFlashAttribute("isExists", true);
-                    return "redirect:/users/update-user";
-                }
-                if (bindingResult.hasErrors() || !(updateClientBindingModel.getPassword().equals(updateClientBindingModel.getConfirmPassword()))) {
-                    redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
-                    redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateClientBindingModel", bindingResult);
-                    if (!(updateClientBindingModel.getPassword().equals(updateClientBindingModel.getConfirmPassword()))) {
-                        redirectAttributes.addFlashAttribute("dontMatch", true);
-                    }
-                    return "redirect:/users/update-user";
-                }
-
-
-                else {
-                    AppClient appClient = this.modelMapper.map(updateClientBindingModel, AppClient.class);
-                    appClient.setId(currentUserAppClient.getId());
-                    appClient.setUsername(currentUserAppClient.getUsername());
-                    appClient.setPassword(this.passwordEncoder.encode(updateClientBindingModel.getPassword()));
-                    appClient.setRoles(currentUserAppClient.getRoles());
-                    this.userService.saveUpdatedUserClient(appClient);
-                    return "redirect:/users/account-info";
-                }
+        if (UserInterceptor.isUserLogged()) {
+            AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
+            if (this.userService.emailExists(updateClientBindingModel.getEmail()) && (!updateClientBindingModel.getEmail().equals(currentUserAppClient.getEmail()))) {
+                redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateClientBindingModel", bindingResult);
+                redirectAttributes.addFlashAttribute("isExists", true);
+                return "redirect:/users/update-user";
             }
-            else{
-                return "home/index";
+            if (bindingResult.hasErrors() || !(updateClientBindingModel.getPassword().equals(updateClientBindingModel.getConfirmPassword()))) {
+                redirectAttributes.addFlashAttribute("updateClientBindingModel", updateClientBindingModel);
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateClientBindingModel", bindingResult);
+                if (!(updateClientBindingModel.getPassword().equals(updateClientBindingModel.getConfirmPassword()))) {
+                    redirectAttributes.addFlashAttribute("dontMatch", true);
+                }
+                return "redirect:/users/update-user";
+            } else {
+                AppClient appClient = this.modelMapper.map(updateClientBindingModel, AppClient.class);
+                appClient.setId(currentUserAppClient.getId());
+                appClient.setUsername(currentUserAppClient.getUsername());
+                appClient.setPassword(this.passwordEncoder.encode(updateClientBindingModel.getPassword()));
+                appClient.setRoles(currentUserAppClient.getRoles());
+                this.userService.saveUpdatedUserClient(appClient);
+                return "redirect:/users/account-info";
             }
+        } else {
+            return "home/index";
+        }
     }
 
     @GetMapping("/update-business")
     public String showUpdateBusinessForm(Model model, HttpServletRequest request) {
         if (UserInterceptor.isUserLogged()) {
-            if(!model.containsAttribute("updateBusinessBindingModel")) {
+            if (!model.containsAttribute("updateBusinessBindingModel")) {
                 BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
                 UpdateBusinessBindingModel updateBusinessBindingModel = this.modelMapper.map(currentUserBusinessOwner, UpdateBusinessBindingModel.class);
                 request.getSession().setAttribute("userId", currentUserBusinessOwner.getId());
@@ -222,29 +208,28 @@ public class UserController {
                 model.addAttribute("isExists", false);
             }
             return "account/update-business";
-        }
-        else{
+        } else {
             return "home/index";
         }
     }
 
     @PostMapping("/update-business")
-    public String updateBusiness(@Valid UpdateBusinessBindingModel updateBusinessBindingModel ,
+    public String updateBusiness(@Valid UpdateBusinessBindingModel updateBusinessBindingModel,
                                  BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         if (UserInterceptor.isUserLogged()) {
             Long userId = (Long) request.getSession().getAttribute("userId");
             UserEntity user = this.userService.findUserById(userId);
-            if(this.userService.emailExists(updateBusinessBindingModel.getEmail()) && (!updateBusinessBindingModel.getEmail().equals(user.getEmail()))){
+            if (this.userService.emailExists(updateBusinessBindingModel.getEmail()) && (!updateBusinessBindingModel.getEmail().equals(user.getEmail()))) {
                 redirectAttributes.addFlashAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
                 redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateBusinessBindingModel", bindingResult);
                 redirectAttributes.addFlashAttribute("isExists", true);
                 return "redirect:/users/update-business";
             }
-            if (bindingResult.hasErrors() || !(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))||
+            if (bindingResult.hasErrors() || !(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword())) ||
                     this.userService.businessNameExists(updateBusinessBindingModel.getBusinessName(), userId)) {
                 redirectAttributes.addFlashAttribute("updateBusinessBindingModel", updateBusinessBindingModel);
                 redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateBusinessBindingModel", bindingResult);
-                if (this.userService.businessNameExists(updateBusinessBindingModel.getBusinessName(), userId)){
+                if (this.userService.businessNameExists(updateBusinessBindingModel.getBusinessName(), userId)) {
                     redirectAttributes.addFlashAttribute("isExists", true);
                 }
                 if (!(updateBusinessBindingModel.getPassword().equals(updateBusinessBindingModel.getConfirmPassword()))) {
@@ -252,9 +237,7 @@ public class UserController {
                 }
                 return "redirect:/users/update-business";
 
-            }
-
-            else {
+            } else {
 
                 BusinessOwner businessOwner = this.modelMapper.map(updateBusinessBindingModel, BusinessOwner.class);
                 businessOwner.setId(userId);
@@ -264,41 +247,37 @@ public class UserController {
                 this.userService.saveUpdatedUser(businessOwner);
                 return "redirect:/users/business-account-info";
             }
-        }
-        else {
+        } else {
             return "home/index";
         }
     }
+
     @GetMapping("/deleteAppClient")
-    public String deleteAppClient(){
+    public String deleteAppClient() {
         if (UserInterceptor.isUserLogged()) {
             AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
-            if(aboService.getExcistingAbosForClient(currentUserAppClient.getId()).isEmpty()) {
+            if (aboService.getExcistingAbosForClient(currentUserAppClient.getId()).isEmpty()) {
                 this.userService.deleteAppClient(currentUserAppClient.getId());
                 return "redirect:/";
-            }
-
-            else {
+            } else {
                 throw new FailToDeleteException("Failed to delete user. You have existing Abos.");
             }
-        }
-        else {
+        } else {
             return "home/index";
         }
     }
+
     @GetMapping("/deleteBusinessOwner")
     public String deleteBusinessOwner() {
         if (UserInterceptor.isUserLogged()) {
             BusinessOwner currentUserBusinessOwner = this.userService.findCurrentUserBusinessOwner();
-            if(this.aboService.getAbosPerBusiness().isEmpty() && this.hobbyService.getAllHobbyOffers().isEmpty()) {
+            if (this.aboService.getAbosPerBusiness().isEmpty() && this.hobbyService.getAllHobbyOffers().isEmpty()) {
                 this.userService.deleteBusinessOwner(currentUserBusinessOwner.getId());
                 return "redirect:/";
-            }
-            else {
+            } else {
                 throw new FailToDeleteException("Failed to delete user. You have existing clients or offers.");
             }
-        }
-        else {
+        } else {
             return "home/index";
         }
     }

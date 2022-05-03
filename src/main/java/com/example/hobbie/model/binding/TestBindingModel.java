@@ -28,6 +28,7 @@ public class TestBindingModel {
     public void setCategoryOne(CategoryNameEnum categoryOne) {
         this.categoryOne = categoryOne;
     }
+
     @NotNull(message = "You have to choose an answer")
     public CategoryNameEnum getCategoryTwo() {
         return categoryTwo;
@@ -36,6 +37,7 @@ public class TestBindingModel {
     public void setCategoryTwo(CategoryNameEnum categoryTwo) {
         this.categoryTwo = categoryTwo;
     }
+
     @NotNull(message = "You have to choose an answer")
     public CategoryNameEnum getCategoryThree() {
         return categoryThree;
@@ -44,6 +46,7 @@ public class TestBindingModel {
     public void setCategoryThree(CategoryNameEnum categoryThree) {
         this.categoryThree = categoryThree;
     }
+
     @NotNull(message = "You have to choose an answer")
     public CategoryNameEnum getCategoryFour() {
         return categoryFour;
@@ -52,6 +55,7 @@ public class TestBindingModel {
     public void setCategoryFour(CategoryNameEnum categoryFour) {
         this.categoryFour = categoryFour;
     }
+
     @NotNull(message = "You have to choose an answer")
     public CategoryNameEnum getCategoryFive() {
         return categoryFive;
@@ -60,6 +64,7 @@ public class TestBindingModel {
     public void setCategoryFive(CategoryNameEnum categoryFive) {
         this.categoryFive = categoryFive;
     }
+
     @NotNull(message = "You have to choose an answer")
     public CategoryNameEnum getCategorySix() {
         return categorySix;
@@ -68,6 +73,7 @@ public class TestBindingModel {
     public void setCategorySix(CategoryNameEnum categorySix) {
         this.categorySix = categorySix;
     }
+
     @NotNull(message = "You have to choose an answer")
     public CategoryNameEnum getCategorySeven() {
         return categorySeven;
@@ -76,6 +82,7 @@ public class TestBindingModel {
     public void setCategorySeven(CategoryNameEnum categorySeven) {
         this.categorySeven = categorySeven;
     }
+
     @NotNull(message = "You have to choose a location")
     public LocationEnum getLocation() {
         return location;

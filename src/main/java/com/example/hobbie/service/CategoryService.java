@@ -9,5 +9,4 @@ public interface CategoryService {
     Category findByName(CategoryNameEnum category);
 
     List<Category> initCategories();
-
 }

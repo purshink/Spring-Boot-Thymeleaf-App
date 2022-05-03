@@ -8,15 +8,18 @@ import com.example.hobbie.model.service.RegisterBusinessServiceModel;
 import com.example.hobbie.model.service.SignUpServiceModel;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserService {
     List<UserEntity> seedUsersAndUserRoles();
 
     AppClient register(SignUpServiceModel signUpServiceModel);
+
     BusinessOwner findCurrentUserBusinessOwner();
+
     AppClient findCurrentUserAppClient();
+
     String findCurrentUsername();
+
     BusinessOwner registerBusiness(RegisterBusinessServiceModel map);
 
     BusinessOwner saveUpdatedUser(BusinessOwner businessOwner);
@@ -29,7 +32,6 @@ public interface UserService {
 
     BusinessOwner findBusinessOwnerById(Long id);
 
-
     UserEntity findUserByUsername(String username);
 
     boolean userExists(String username, String email);
@@ -41,6 +43,7 @@ public interface UserService {
     AppClient findAppClientById(Long clientId);
 
     void findAndRemoveHobbyFromClientsRecords(Hobby hobby);
+
     void expireUserSessions();
 
     boolean businessExists(String businessName);

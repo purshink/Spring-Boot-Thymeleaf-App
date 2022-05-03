@@ -1,7 +1,5 @@
 package com.example.hobbie.init;
 
-
-
 import com.example.hobbie.service.CategoryService;
 import com.example.hobbie.service.HobbyService;
 import com.example.hobbie.service.LocationService;
@@ -32,10 +30,7 @@ public class DBInit implements CommandLineRunner {
         this.userService.seedUsersAndUserRoles();
         this.categoryService.initCategories();
         this.locationService.initLocations();
-
-        //TODO PHOTOS??
         this.hobbyService.initHobbyOffers();
-
     }
 
 }

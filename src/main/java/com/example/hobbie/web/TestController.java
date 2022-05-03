@@ -17,7 +17,6 @@ import javax.validation.Valid;
 
 @Controller
 public class TestController {
-
     private final TestService testService;
     private final ModelMapper modelMapper;
 
@@ -28,20 +27,19 @@ public class TestController {
     }
 
     @GetMapping("/test")
-    public String showTest(Model model){
+    public String showTest(Model model) {
         if (UserInterceptor.isUserLogged()) {
-            if(!model.containsAttribute("testBindingModel")) {
+            if (!model.containsAttribute("testBindingModel")) {
                 model.addAttribute("testBindingModel", new TestBindingModel());
             }
             return "test/test";
-        }
-        else{
+        } else {
             return "home/index";
         }
     }
 
     @PostMapping("/test")
-    public String saveTestResults(@Valid TestBindingModel testBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String saveTestResults(@Valid TestBindingModel testBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (UserInterceptor.isUserLogged()) {
             if (bindingResult.hasErrors()) {
                 redirectAttributes.addFlashAttribute("testBindingModel", testBindingModel);
@@ -52,8 +50,7 @@ public class TestController {
 
                 return "redirect:/";
             }
-        }
-        else {
+        } else {
             return "home/index";
         }
     }

@@ -1,7 +1,6 @@
 package com.example.hobbie.web;
 
 import com.example.hobbie.model.entities.enums.CategoryNameEnum;
-import com.example.hobbie.model.entities.enums.GenderEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,8 +24,6 @@ class TestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
-
     @Test
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
     void showTest_should_work() throws Exception {
@@ -35,7 +31,6 @@ class TestControllerTest {
                 andExpect(view().name("test/test")).
                 andExpect(status().isOk());
     }
-
 
     @Test
     @WithMockUser(value = "user", roles = {"USER", "ADMIN"})
@@ -51,6 +46,5 @@ class TestControllerTest {
                 .param("location", LocationEnum.ZURICH.name())
                 .with(csrf())).
                 andExpect(status().is3xxRedirection());
-
     }
 }

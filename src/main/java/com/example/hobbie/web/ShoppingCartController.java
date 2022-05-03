@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ShoppingCartController {
-
     private final ShoppingCartService shoppingCartService;
     private final HobbyService hobbyService;
     private final AboService aboService;
@@ -47,10 +46,8 @@ public class ShoppingCartController {
 
     @GetMapping("/shoppingCart/checkout")
     public String checkout() {
-
-            shoppingCartService.checkout();
+        shoppingCartService.checkout();
 
         return "shopping/success";
     }
-
 }

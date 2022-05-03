@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "locations")
-public class Location extends BaseEntity{
+public class Location extends BaseEntity {
 
     private LocationEnum name;
 

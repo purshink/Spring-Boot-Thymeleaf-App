@@ -4,8 +4,6 @@ import com.example.hobbie.model.entities.enums.CategoryNameEnum;
 import com.example.hobbie.model.entities.enums.LocationEnum;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -22,7 +20,6 @@ public class UpdateHobbyBindingModel {
     public UpdateHobbyBindingModel() {
     }
 
-
     @Size(min = 3, max = 20, message = "Name must be between 3 and 20 symbols.")
     @NotNull(message = "Hobby name can not be empty.")
     public String getName() {
@@ -33,7 +30,7 @@ public class UpdateHobbyBindingModel {
         this.name = name;
     }
 
-    @Size(min = 30,max = 1050 , message = "Description must be between 30 and 1050 symbols")
+    @Size(min = 30, max = 1050, message = "Description must be between 30 and 1050 symbols")
     @NotNull(message = "You need to have a description")
     public String getDescription() {
         return description;

@@ -10,7 +10,9 @@ public interface ShoppingCartService {
     void addAboToCart(Hobby hobieById);
 
     void removeProductFromCart(Long hobbyId);
+
     BigDecimal getTotal();
+
     List<Abo> getAbosInCart();
 
     void checkout();

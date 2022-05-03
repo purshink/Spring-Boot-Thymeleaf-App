@@ -30,8 +30,9 @@ public class HomeController {
         this.userService = userService;
         this.aboService = aboService;
     }
+
     @RequestMapping("/")
-    public String showHome(HttpServletRequest request){
+    public String showHome(HttpServletRequest request) {
         if (UserInterceptor.isUserLogged()) {
             if (request.isUserInRole("ROLE_BUSINESS_USER")) {
                 return "redirect:/business_owner";
@@ -51,16 +52,14 @@ public class HomeController {
             mav.addObject("hobby_offers", hobbyService.getAllHobbyOffers());
             mav.addObject("abos", this.aboService.getAbosPerBusiness());
             return mav;
-        }
-        else{
+        } else {
             ModelAndView mav = new ModelAndView("home/index");
-            return mav;}
+            return mav;
+        }
     }
-
 
     @GetMapping("/user_home")
     public ModelAndView userHomeShow(@AuthenticationPrincipal UserDetails principal) {
-
         if (UserInterceptor.isUserLogged()) {
             boolean isEmpty = false;
             boolean hasNoResults = false;
@@ -68,20 +67,18 @@ public class HomeController {
             mav.addObject("user", principal);
             AppClient currentUserAppClient = this.userService.findCurrentUserAppClient();
             List<HobbyCardViewModel> hobbyMatches = this.hobbyService.getHobbyMatches(currentUserAppClient);
-            if(currentUserAppClient.getTestResults() == null){
+            if (currentUserAppClient.getTestResults() == null) {
                 hasNoResults = true;
-            }
-            else if(hobbyMatches.isEmpty()){
+            } else if (hobbyMatches.isEmpty()) {
                 isEmpty = true;
             }
 
-                mav.addObject("hobby_matches", hobbyMatches);
-                mav.addObject("hasNoMatches", isEmpty);
-                mav.addObject("hasNoResults", hasNoResults);
+            mav.addObject("hobby_matches", hobbyMatches);
+            mav.addObject("hasNoMatches", isEmpty);
+            mav.addObject("hasNoResults", hasNoResults);
 
             return mav;
-        }
-        else{
+        } else {
             ModelAndView mav = new ModelAndView("home/index");
             return mav;
         }

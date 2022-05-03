@@ -2,22 +2,19 @@ package com.example.hobbie.model.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "hobbies")
-public class Hobby extends BaseEntity{
+public class Hobby extends BaseEntity {
 
     private String name;
     private String description;
-    private Category category;;
+    private Category category;
+    ;
     private BusinessOwner businessOwner;
     private BigDecimal price;
     private Location location;
     private String imgUrl;
-
-
-
 
     public Hobby() {
     }
@@ -39,6 +36,7 @@ public class Hobby extends BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
+
     @Column(columnDefinition = "TEXT")
     public String getDescription() {
         return description;
@@ -47,6 +45,7 @@ public class Hobby extends BaseEntity{
     public void setDescription(String description) {
         this.description = description;
     }
+
     @ManyToOne(fetch = FetchType.EAGER)
     public Category getCategory() {
         return category;
@@ -82,7 +81,4 @@ public class Hobby extends BaseEntity{
     public void setLocation(Location location) {
         this.location = location;
     }
-
-
-
 }
